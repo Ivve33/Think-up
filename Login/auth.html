@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Think-Up | Login</title>
+
+  <link rel="stylesheet" href="auth.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Top Navbar (consistent with Home style) -->
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <a class="logo" href="../Home/homePage.html">Think-<span>Up</span></a>
+
+      <nav class="nav-links">
+        <a href="../Home/homePage.html">Home</a>
+        <a href="../Home/homePage.html#about">About</a>
+        <a href="#" class="btn-text" id="toLoginLink">Login</a>
+        <a href="#" class="btn-solid" id="toSignupLink">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-shell">
+    <section class="auth-card" aria-label="Authentication">
+      <div class="auth-header">
+        <div class="badge">Elevating Saudi Education</div>
+        <h1>Welcome to <span>Think-Up</span></h1>
+        <p>Sign in to continue — or create an account in seconds.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs" role="tablist" aria-label="Authentication Tabs">
+        <button class="tab is-active" id="loginTab" type="button" role="tab" aria-selected="true">
+          Login
+        </button>
+        <button class="tab" id="signupTab" type="button" role="tab" aria-selected="false">
+          Sign Up
+        </button>
+      </div>
+
+      <!-- Forms -->
+      <div class="forms">
+
+        <!-- LOGIN FORM -->
+        <form class="form is-visible" id="loginForm" autocomplete="on">
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" placeholder="name@university.edu" required />
+          </div>
+
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <div class="password-wrap">
+              <input id="loginPassword" name="password" type="password" placeholder="••••••••" required />
+              <button class="eye" type="button" id="toggleLoginPw" aria-label="Show password">Show</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="check">
+              <input type="checkbox" />
+              <span>Remember me</span>
+            </label>
+
+            <a class="link" href="#" aria-label="Forgot password">Forgot password?</a>
+          </div>
+
+          <button class="btn-primary" type="submit">Login</button>
+
+          <div class="divider"><span>or</span></div>
+
+          <button class="btn-ghost" type="button">Continue with Google</button>
+
+          <p class="hint">
+            Don’t have an account?
+            <a class="link" href="#" id="goSignupInline">Create one</a>
+          </p>
+
+          <!-- Temporary (for next step): we'll connect this to Firebase later -->
+          <p class="tiny-note">
+            * For now this UI only. Next step: Firebase Auth + redirect to Home.
+          </p>
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form class="form" id="signupForm" autocomplete="on">
+          <div class="grid-2">
+            <div class="field">
+              <label for="firstName">First name</label>
+              <input id="firstName" name="firstName" type="text" placeholder="Osama" required />
+            </div>
+
+            <div class="field">
+              <label for="lastName">Last name</label>
+              <input id="lastName" name="lastName" type="text" placeholder="Alghamdi" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="signupEmail">Email</label>
+            <input id="signupEmail" name="email" type="email" placeholder="name@university.edu" required />
+          </div>
+
+          <div class="field">
+            <label for="signupPassword">Password</label>
+            <div class="password-wrap">
+              <input id="signupPassword" name="password" type="password" placeholder="At least 8 characters" required minlength="8" />
+              <button class="eye" type="button" id="toggleSignupPw" aria-label="Show password">Show</button>
+            </div>
+            <div class="helper">
+              Use 8+ characters. Mix letters & numbers for better security.
+            </div>
+          </div>
+
+          <label class="check terms">
+            <input type="checkbox" required />
+            <span>I agree to the <a class="link" href="#">Terms</a> and <a class="link" href="#">Privacy Policy</a>.</span>
+          </label>
+
+          <button class="btn-primary" type="submit">Create Account</button>
+
+          <p class="hint">
+            Already have an account?
+            <a class="link" href="#" id="goLoginInline">Login</a>
+          </p>
+
+          <p class="tiny-note">
+            * Next step: Connect signup to Firebase then redirect.
+          </p>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- Right-side preview to match "premium" feel -->
+    <aside class="side-preview" aria-label="Preview">
+      <div class="preview-card">
+        <div class="mock-header">Data Structures Study</div>
+        <div class="mock-line"></div>
+        <div class="mock-content">
+          <strong>Key Points:</strong>
+          <ul>
+            <li>Time Complexity analysis</li>
+            <li>Linked List vs Arrays</li>
+            <li>Big-O examples in exams</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quote">
+        <div class="quote-badge">AI Summary</div>
+        <p>
+          “Stop worrying about taking notes.
+          Focus on learning — we’ll summarize the rest.”
+        </p>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Tiny inline JS فقط للتبديل بين Login/SignUp وإظهار كلمة المرور (بدون ملف JS منفصل) -->
+  <script>
+    const loginTab = document.getElementById("loginTab");
+    const signupTab = document.getElementById("signupTab");
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+
+    const toLoginLink = document.getElementById("toLoginLink");
+    const toSignupLink = document.getElementById("toSignupLink");
+    const goSignupInline = document.getElementById("goSignupInline");
+    const goLoginInline = document.getElementById("goLoginInline");
+
+    function showLogin() {
+      loginTab.classList.add("is-active");
+      signupTab.classList.remove("is-active");
+      loginTab.setAttribute("aria-selected", "true");
+      signupTab.setAttribute("aria-selected", "false");
+
+      loginForm.classList.add("is-visible");
+      signupForm.classList.remove("is-visible");
+    }
+
+    function showSignup() {
+      signupTab.classList.add("is-active");
+      loginTab.classList.remove("is-active");
+      signupTab.setAttribute("aria-selected", "true");
+      loginTab.setAttribute("aria-selected", "false");
+
+      signupForm.classList.add("is-visible");
+      loginForm.classList.remove("is-visible");
+    }
+
+    loginTab.addEventListener("click", showLogin);
+    signupTab.addEventListener("click", showSignup);
+    toLoginLink.addEventListener("click", (e) => { e.preventDefault(); showLogin(); });
+    toSignupLink.addEventListener("click", (e) => { e.preventDefault(); showSignup(); });
+    goSignupInline.addEventListener("click", (e) => { e.preventDefault(); showSignup(); });
+    goLoginInline.addEventListener("click", (e) => { e.preventDefault(); showLogin(); });
+
+    // password toggles
+    function togglePw(inputId, btnId) {
+      const input = document.getElementById(inputId);
+      const btn = document.getElementById(btnId);
+      btn.addEventListener("click", () => {
+        const isPw = input.type === "password";
+        input.type = isPw ? "text" : "password";
+        btn.textContent = isPw ? "Hide" : "Show";
+      });
+    }
+    togglePw("loginPassword", "toggleLoginPw");
+    togglePw("signupPassword", "toggleSignupPw");
+
+  </script>
+  <script type="module" src="auth.js"></script>
+
+</body>
+</html>
