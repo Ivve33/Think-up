@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Think-Up | Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <a class="logo" href="../Home/homePage.html">Think-<span>Up</span></a>
+
+      <div class="nav-right">
+        <span class="pill">Signed in as: <b id="userLabel">Student</b></span>
+        <a class="btn btn-outline" href="../Home/homePage.html">Back to Home</a>
+        <button class="profile" id="profileBtn" type="button" aria-label="Profile">
+          <span>👤</span>
+          <small id="notifDot" class="hidden">!</small>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge">Your Central Hub</div>
+        <h1>Welcome back, <span id="userName">Student</span></h1>
+        <p class="muted">
+          Manage sessions, upload recordings (offline), and access your summaries instantly.
+        </p>
+      </div>
+
+      <div class="hero-side">
+        <div class="stats-card">
+          <div class="stats-title">Today at a glance</div>
+          <div class="stats-row">
+            <div class="mini">
+              <b id="statUpcoming">0</b>
+              <span>Upcoming sessions</span>
+            </div>
+            <div class="mini">
+              <b id="statSummaries">0</b>
+              <span>My summaries</span>
+            </div>
+          </div>
+          <div class="stats-row">
+            <div class="mini">
+              <b id="statLive">0</b>
+              <span>Live now</span>
+            </div>
+            <div class="mini">
+              <b id="statOffline">0</b>
+              <span>Offline uploads</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="container grid">
+
+      <!-- LEFT COLUMN -->
+      <section class="stack">
+
+        <!-- QUICK ACTIONS -->
+        <div class="card">
+          <div class="subhead">
+            <div>
+              <h2>Quick Actions</h2>
+              <p>Start your next step in seconds.</p>
+            </div>
+          </div>
+
+          <div class="actions">
+            <a class="action" href="#" id="exploreBtn">
+              <div class="tag">🎓 Explore</div>
+              <h3>Explore Universities</h3>
+              <p>Browse universities, majors, and courses in your Saudi network.</p>
+              <div class="go">Open <span>→</span></div>
+            </a>
+
+            <button class="action action-upload" id="uploadBtn" type="button">
+              <div class="tag">⏺ Offline</div>
+              <h3>Upload Recording</h3>
+              <p>Select an audio file now. We’ll process it later (offline-ready).</p>
+              <div class="go">Choose file <span>→</span></div>
+              <input id="fileInput" type="file" accept="audio/*" hidden />
+            </button>
+          </div>
+
+          <div class="note">
+            <span class="dot"></span>
+            <div>
+              <b>Offline mode:</b> uploads are stored locally for now.
+              Later we’ll sync them to Firebase Storage.
+            </div>
+          </div>
+        </div>
+
+        <!-- UPCOMING SESSIONS -->
+        <div class="card">
+          <div class="subhead">
+            <div>
+              <h2>Upcoming Sessions</h2>
+              <p>Booked sessions with a live countdown.</p>
+            </div>
+            <span class="pill pill-soft">Next in: <b id="nextCountdown">—</b></span>
+          </div>
+
+          <div id="upcomingList" class="session-grid">
+            <!-- injected by JS -->
+          </div>
+        </div>
+
+        <!-- HISTORY / SUMMARIES -->
+        <div class="card">
+          <div class="subhead">
+            <div>
+              <h2>History / My Summaries</h2>
+              <p>Previously recorded sessions for quick access.</p>
+            </div>
+            <button class="btn btn-solid" id="newSummaryBtn" type="button">New Summary</button>
+          </div>
+
+          <div class="history" id="historyList">
+            <!-- injected by JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <aside class="stack">
+
+        <!-- LIVE INDICATOR -->
+        <div class="card live-card">
+          <div class="subhead">
+            <div>
+              <h2>Live Indicator</h2>
+              <p>Live sessions for followed subjects appear here.</p>
+            </div>
+            <span class="pill pill-live" id="liveCountPill">Live: <b id="liveCount">0</b></span>
+          </div>
+
+          <div id="liveList" class="live-list">
+            <!-- injected by JS -->
+          </div>
+
+          <div class="empty" id="liveEmpty">
+            <div class="empty-icon">📡</div>
+            <b>No live sessions right now</b>
+            <p class="muted">Follow a subject to get live alerts here.</p>
+          </div>
+        </div>
+
+        <!-- SMALL PREVIEW CARD (theme match) -->
+        <div class="preview-card">
+          <div class="mock-header">AI Summary Preview</div>
+          <div class="mock-line"></div>
+          <div class="mock-content">
+            <strong>Key Points:</strong>
+            <ul>
+              <li>Time Complexity analysis</li>
+              <li>Linked List vs Arrays</li>
+              <li>Big-O examples in exams</li>
+            </ul>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 Think-Up. Proudly serving Saudi students.</p>
+    </div>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
