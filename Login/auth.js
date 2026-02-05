@@ -2,7 +2,8 @@
 import { auth } from "../Core/firebase.js";
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  updateProfile // <-- 1. تمت إضافة دالة تحديث البروفايل
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 /* =======================
@@ -16,48 +17,71 @@ const loginPassword = document.getElementById("loginPassword");
    SIGN UP ELEMENTS
 ======================= */
 const signupForm = document.getElementById("signupForm");
+// تأكد أن هذه المعرفات (IDs) موجودة في ملف HTML كما اتفقنا
+const firstNameInput = document.getElementById("firstName"); 
+const lastNameInput = document.getElementById("lastName");
 const signupEmail = document.getElementById("signupEmail");
 const signupPassword = document.getElementById("signupPassword");
 
 /* =======================
-   LOGIN
+   LOGIN LOGIC
 ======================= */
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const email = loginEmail.value.trim();
-  const password = loginPassword.value;
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value;
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
 
-    // نجاح تسجيل الدخول
-    window.location.href = "../Home/homePage.html";
-  } catch (err) {
-    alert(prettyAuthError(err));
-    console.error(err);
-  }
-});
+      // توجيه للداشبورد مباشرة بعد الدخول
+      window.location.href = "../dashboard/dashboard.html";
+    } catch (err) {
+      alert(prettyAuthError(err));
+      console.error(err);
+    }
+  });
+}
 
 /* =======================
-   SIGN UP
+   SIGN UP LOGIC (التعديل الأساسي هنا)
 ======================= */
-signupForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (signupForm) {
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const email = signupEmail.value.trim();
-  const password = signupPassword.value;
+    // 1. جلب القيم من الحقول الجديدة
+    const fName = firstNameInput.value.trim();
+    const lName = lastNameInput.value.trim();
+    const email = signupEmail.value.trim();
+    const password = signupPassword.value;
 
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    // دمج الاسم ليكون ثنائياً
+    const fullName = `${fName} ${lName}`;
 
-    // نجاح إنشاء الحساب
-    window.location.href = "../Home/homePage.html";
-  } catch (err) {
-    alert(prettyAuthError(err));
-    console.error(err);
-  }
-});
+    try {
+      // 2. إنشاء الحساب
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // 3. تحديث اسم المستخدم في فايربيس فوراً
+      await updateProfile(user, {
+        displayName: fullName
+      });
+
+      console.log("تم إنشاء الحساب وحفظ الاسم:", fullName);
+
+      // 4. التوجيه لصفحة الداشبورد لرؤية الاسم
+      window.location.href = "../dashboard/dashboard.html";
+      
+    } catch (err) {
+      alert(prettyAuthError(err));
+      console.error(err);
+    }
+  });
+}
 
 /* =======================
    ERROR HANDLING
@@ -83,5 +107,5 @@ function prettyAuthError(err) {
   if (code.includes("auth/too-many-requests"))
     return "محاولات كثيرة. حاول لاحقًا.";
 
-  return "حدث خطأ غير متوقع.";
+  return "حدث خطأ غير متوقع: " + code;
 }

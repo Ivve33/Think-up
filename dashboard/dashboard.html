@@ -10,7 +10,6 @@
 </head>
 
 <body>
-  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-wrap">
       <a class="logo" href="../Home/homePage.html">Think-<span>Up</span></a>
@@ -26,14 +25,13 @@
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="container hero-grid">
       <div>
         <div class="badge">Your Central Hub</div>
         <h1>Welcome back, <span id="userName">Student</span></h1>
         <p class="muted">
-          Manage sessions, upload recordings (offline), and access your summaries instantly.
+          Manage sessions and access your summaries instantly.
         </p>
       </div>
 
@@ -55,24 +53,17 @@
               <b id="statLive">0</b>
               <span>Live now</span>
             </div>
-            <div class="mini">
-              <b id="statOffline">0</b>
-              <span>Offline uploads</span>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MAIN -->
   <main class="main">
     <div class="container grid">
 
-      <!-- LEFT COLUMN -->
       <section class="stack">
 
-        <!-- QUICK ACTIONS -->
         <div class="card">
           <div class="subhead">
             <div>
@@ -82,32 +73,15 @@
           </div>
 
           <div class="actions">
-            <a class="action" href="#" id="exploreBtn">
+            <a class="action" href="#" id="exploreBtn" style="width: 100%;">
               <div class="tag">🎓 Explore</div>
               <h3>Explore Universities</h3>
               <p>Browse universities, majors, and courses in your Saudi network.</p>
               <div class="go">Open <span>→</span></div>
             </a>
-
-            <button class="action action-upload" id="uploadBtn" type="button">
-              <div class="tag">⏺ Offline</div>
-              <h3>Upload Recording</h3>
-              <p>Select an audio file now. We’ll process it later (offline-ready).</p>
-              <div class="go">Choose file <span>→</span></div>
-              <input id="fileInput" type="file" accept="audio/*" hidden />
-            </button>
-          </div>
-
-          <div class="note">
-            <span class="dot"></span>
-            <div>
-              <b>Offline mode:</b> uploads are stored locally for now.
-              Later we’ll sync them to Firebase Storage.
-            </div>
           </div>
         </div>
 
-        <!-- UPCOMING SESSIONS -->
         <div class="card">
           <div class="subhead">
             <div>
@@ -118,11 +92,9 @@
           </div>
 
           <div id="upcomingList" class="session-grid">
-            <!-- injected by JS -->
-          </div>
+            </div>
         </div>
 
-        <!-- HISTORY / SUMMARIES -->
         <div class="card">
           <div class="subhead">
             <div>
@@ -133,16 +105,13 @@
           </div>
 
           <div class="history" id="historyList">
-            <!-- injected by JS -->
-          </div>
+            </div>
         </div>
 
       </section>
 
-      <!-- RIGHT COLUMN -->
       <aside class="stack">
 
-        <!-- LIVE INDICATOR -->
         <div class="card live-card">
           <div class="subhead">
             <div>
@@ -153,8 +122,7 @@
           </div>
 
           <div id="liveList" class="live-list">
-            <!-- injected by JS -->
-          </div>
+            </div>
 
           <div class="empty" id="liveEmpty">
             <div class="empty-icon">📡</div>
@@ -163,7 +131,6 @@
           </div>
         </div>
 
-        <!-- SMALL PREVIEW CARD (theme match) -->
         <div class="preview-card">
           <div class="mock-header">AI Summary Preview</div>
           <div class="mock-line"></div>
@@ -188,6 +155,6 @@
     </div>
   </footer>
 
-  <script src="dashboard.js"></script>
+  <script type="module" src="dashboard.js"></script>
 </body>
 </html>
