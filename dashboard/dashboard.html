@@ -16,7 +16,9 @@
 
       <div class="nav-right">
         <span class="pill">Signed in as: <b id="userLabel">Student</b></span>
-        <a class="btn btn-outline" href="../Home/homePage.html">Back to Home</a>
+        
+        <button class="btn btn-outline" id="logoutBtn">Log Out</button>
+
         <button class="profile" id="profileBtn" type="button" aria-label="Profile">
           <span>👤</span>
           <small id="notifDot" class="hidden">!</small>
@@ -73,7 +75,7 @@
           </div>
 
           <div class="actions">
-            <a class="action" href="#" id="exploreBtn" style="width: 100%;">
+            <a class="action" href="../Explore/explore.html" id="exploreBtn" style="width: 100%;">
               <div class="tag">🎓 Explore</div>
               <h3>Explore Universities</h3>
               <p>Browse universities, majors, and courses in your Saudi network.</p>
@@ -91,8 +93,7 @@
             <span class="pill pill-soft">Next in: <b id="nextCountdown">—</b></span>
           </div>
 
-          <div id="upcomingList" class="session-grid">
-            </div>
+          <div id="upcomingList" class="session-grid"></div>
         </div>
 
         <div class="card">
@@ -104,8 +105,7 @@
             <button class="btn btn-solid" id="newSummaryBtn" type="button">New Summary</button>
           </div>
 
-          <div class="history" id="historyList">
-            </div>
+          <div class="history" id="historyList"></div>
         </div>
 
       </section>
@@ -121,8 +121,7 @@
             <span class="pill pill-live" id="liveCountPill">Live: <b id="liveCount">0</b></span>
           </div>
 
-          <div id="liveList" class="live-list">
-            </div>
+          <div id="liveList" class="live-list"></div>
 
           <div class="empty" id="liveEmpty">
             <div class="empty-icon">📡</div>

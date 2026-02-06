@@ -1,49 +1,47 @@
-// Dsahbored/dashboard.js
+// Dashboard/dashboard.js
 
-// 1. استيراد أدوات الفايربيس الضرورية
+// 1. استيراد أدوات الفايربيس
 import { auth } from "../Core/firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
-// 2. تعريف عناصر HTML التي سنغير نصوصها
-const userNameElement = document.getElementById("userName");   // "Welcome back, [Name]"
-const userLabelElement = document.getElementById("userLabel"); // "Signed in as: [Name]"
-const logoutBtn = document.querySelector(".btn-outline");      // زر الخروج (Back to Home)
+// 2. تعريف العناصر (استخدمنا ID لزر الخروج لضمان الدقة)
+const userNameElement = document.getElementById("userName");   
+const userLabelElement = document.getElementById("userLabel"); 
+const logoutBtn = document.getElementById("logoutBtn"); // ✅ تم التعديل لاستخدام ID
 
-// 3. مراقب حالة تسجيل الدخول (أهم دالة)
+// 3. مراقب حالة تسجيل الدخول
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // --- حالة: المستخدم مسجل دخول ---
+        // --- المستخدم مسجل دخول ---
         console.log("User is signed in:", user.email);
 
-        // محاولة جلب الاسم، إذا لم يوجد نستخدم الاسم الموجود في الإيميل قبل علامة @
-        // مثال: student@gmail.com -> سيظهر الاسم Student
         let displayName = user.displayName;
-        
         if (!displayName) {
             displayName = user.email.split('@')[0];
         }
 
-        // تحديث النصوص في الواجهة
-        userNameElement.textContent = displayName;
-        userLabelElement.textContent = displayName;
+        // تحديث النصوص
+        if(userNameElement) userNameElement.textContent = displayName;
+        if(userLabelElement) userLabelElement.textContent = displayName; // أو "Student"
 
     } else {
-        // --- حالة: المستخدم غير مسجل ---
-        // توجيهه فوراً لصفحة الدخول للحماية
+        // --- المستخدم غير مسجل ---
+        // طرده لصفحة الدخول فوراً
         window.location.href = "../Login/auth.html";
     }
 });
 
-// 4. (اختياري) تفعيل زر الخروج الفعلي
-// حالياً الزر في الـ HTML يوجه لـ Home، لكن الأفضل برمجياً نسوي SignOut
+// 4. برمجة زر الخروج
 if (logoutBtn) {
     logoutBtn.addEventListener("click", async (e) => {
-        e.preventDefault(); // منع الانتقال المباشر
+        e.preventDefault(); 
         try {
-            await signOut(auth);
-            window.location.href = "../index.html"; // أو صفحة الهبوط
+            await signOut(auth); // أمر الخروج من فايربيس
+            // ✅ توجيه للصفحة الرئيسية الصحيحة
+            window.location.href = "../Home/homePage.html"; 
         } catch (error) {
             console.error("Error signing out:", error);
+            alert("حدث خطأ أثناء تسجيل الخروج");
         }
     });
 }

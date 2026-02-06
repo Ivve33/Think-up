@@ -1,6 +1,7 @@
-// core/firebase.js
+// Core/firebase.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"; // 1. استيراد المكتبة
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtT_1OOTx6s_BRPteYMFt8ubf1EvQLj_s",
@@ -12,6 +13,8 @@ const firebaseConfig = {
   measurementId: "G-HWQSKL58GE"
 };
 
-
 const app = initializeApp(firebaseConfig);
+
+// 2. تفعيل قاعدة البيانات وتصديرها
 export const auth = getAuth(app);
+export const db = getFirestore(app); // هذا السطر كان ناقص وهو سبب التعليق

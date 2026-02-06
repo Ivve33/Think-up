@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Think-Up | Explore Universities</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="explore.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container nav-container">
+       <a href="../Home/homePage.html" class="logo">Think-<span>Up</span></a>
+       <nav class="nav-links">
+          <a href="../Home/homePage.html" class="nav-link">Home</a>
+          <a id="dynamicBackBtn" href="../Home/homePage.html" class="btn-solid">Back to Home</a>
+       </nav>
+    </div>
+  </header>
+
+  <section class="hero-dark">
+    <div class="container text-center">
+       <div class="badge">Select Your Path</div>
+       <h1>Explore <span>Universities</span></h1>
+       <p>Search through our network of Saudi universities and colleges.</p>
+       
+       <div class="search-container">
+          <input type="text" id="searchInput" class="search-input" placeholder="Search for university (e.g. Jeddah)...">
+          <span class="search-icon">🔍</span>
+       </div>
+    </div>
+  </section>
+
+  <main class="container" style="margin-top: 60px; margin-bottom: 80px;">
+    <div class="uni-grid" id="universitiesGrid">
+       <div class="loader">
+          <div class="spinner"></div>
+          <span>Finding universities...</span>
+       </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Think-Up. Proudly serving Saudi students.</p>
+  </footer>
+
+  <script type="module" src="explore.js"></script>
+
+</body>
+</html>

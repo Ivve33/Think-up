@@ -1,0 +1,138 @@
+:root {
+    --indigo: #212842;
+    --indigo-dark: #1a1f36;
+    --cream: #F0E7D5;
+    --accent: #D4AF37; /* الذهبي */
+    --white: #ffffff;
+    --text: #212842;
+    --text-muted: #64748b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Lexend', sans-serif;
+    background-color: var(--cream);
+    color: var(--text);
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
+.text-center { text-align: center; }
+
+/* Navbar Styling */
+.navbar { padding: 20px 0; background: var(--cream); position: sticky; top: 0; z-index: 100; }
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.6rem; font-weight: 700; color: var(--indigo); text-decoration: none; }
+.logo span { color: var(--accent); }
+
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-link { text-decoration: none; color: var(--text); font-weight: 500; transition: 0.3s; }
+.nav-link:hover { color: var(--accent); }
+
+/* زر الرجوع - تحسينات للتأكد من ظهوره */
+.btn-solid { 
+    background: var(--indigo); 
+    color: #fff !important; /* لون النص أبيض إجباري */
+    padding: 10px 24px; 
+    border-radius: 12px; 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+.btn-solid:hover { 
+    background: var(--indigo-dark); 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(33, 40, 66, 0.2);
+}
+
+/* Hero Section - إضافة تدرج لوني */
+.hero-dark {
+    background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-dark) 100%);
+    color: var(--cream);
+    padding: 70px 0 90px;
+    border-radius: 0 0 60px 60px;
+    margin-bottom: 50px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+.hero-dark h1 { font-size: 3rem; margin: 15px 0 10px; }
+.hero-dark span { color: var(--accent); }
+.badge { display: inline-block; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.2); }
+.hero-dark p { opacity: 0.8; font-weight: 300; margin-bottom: 30px; font-size: 1.1rem; }
+
+/* Search Bar - تحسين الظل */
+.search-container { max-width: 600px; margin: 0 auto; position: relative; }
+.search-input {
+    width: 100%; padding: 18px 25px; padding-right: 50px;
+    border-radius: 20px; border: 2px solid transparent;
+    background: var(--cream); color: var(--indigo);
+    font-family: inherit; font-size: 1rem; outline: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2); transition: 0.3s;
+}
+.search-input:focus { border-color: var(--accent); transform: translateY(-3px); }
+.search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--indigo); opacity: 0.6; }
+
+/* Universities Grid */
+.uni-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+
+/* University Card - التصميم الفخم */
+.uni-card {
+    background: var(--indigo);
+    color: var(--cream);
+    padding: 35px 25px;
+    border-radius: 24px;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    text-decoration: none;
+    border: 1px solid rgba(212, 175, 55, 0.2); /* إطار ذهبي خفيف */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+/* تأثير التوهج عند التحويم */
+.uni-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+    box-shadow: 0 20px 40px rgba(33, 40, 66, 0.3);
+    background: linear-gradient(180deg, var(--indigo) 0%, #2a3352 100%);
+}
+
+.logo-container {
+    width: 110px; height: 110px;
+    background: var(--white);
+    border-radius: 50%;
+    padding: 20px; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border: 3px solid transparent;
+    transition: 0.3s;
+}
+.uni-card:hover .logo-container { border-color: var(--accent); }
+
+.uni-logo { width: 100%; height: 100%; object-fit: contain; }
+.uni-name { font-size: 1.5rem; margin-bottom: 5px; color: var(--white); font-weight: 700; }
+.uni-location { opacity: 0.7; font-size: 0.95rem; margin-bottom: 25px; }
+
+/* زر الاجراء داخل الكرت */
+.card-action { 
+    margin-top: auto; 
+    color: var(--accent); 
+    font-weight: 600; 
+    font-size: 0.9rem; 
+    padding: 8px 20px;
+    border-radius: 50px;
+    background: rgba(212, 175, 55, 0.1);
+    transition: 0.3s;
+}
+.uni-card:hover .card-action { background: var(--accent); color: var(--indigo); }
+
+/* Footer & Loader */
+.footer { text-align: center; padding: 50px 0; opacity: 0.6; margin-top: 60px; }
+.loader { grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted); }
+.spinner {
+    width: 40px; height: 40px; border: 4px solid #ddd;
+    border-top-color: var(--indigo); border-radius: 50%;
+    margin: 0 auto 15px; animation: spin 1s linear infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }

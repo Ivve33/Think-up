@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>University Details | Think-Up</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="university-details.css">
+</head>
+<body>
+
+  <!-- Navbar (Same structure as explore.html) -->
+  <header class="navbar">
+    <div class="container nav-container">
+       <a href="../Home/homePage.html" class="logo">Think-<span>Up</span></a>
+       <nav>
+          <a id="dynamicBackBtn" href="../Explore/explore.html" class="btn-solid">← Back to Explore</a>
+       </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section (Same base as explore.html) -->
+  <section class="hero-dark">
+    <div class="container text-center">
+       <div class="uni-brand-box">
+          <img id="uniLogo" src="" alt="University Logo" class="uni-logo-img">
+       </div>
+       
+       <div class="uni-info">
+          <div class="badge">Selected Campus</div>
+          <h1 id="uniName">Loading...</h1>
+          <p id="uniLocation" class="location">📍 ...</p>
+       </div>
+       
+       <div class="search-container">
+          <input type="text" id="searchCollegesInput" class="search-input" placeholder="Search colleges & majors...">
+          <span class="search-icon">🔍</span>
+       </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" style="margin-top: 60px; margin-bottom: 80px;">
+    
+    <div class="tabs">
+       <button class="tab-btn active" data-target="colleges">Colleges & Majors</button>
+       <button class="tab-btn" data-target="about">About</button>
+    </div>
+
+    <div id="colleges" class="tab-content active">
+       <div class="section-header">
+          <h2>Select Your College</h2>
+          <p>Choose your faculty to browse available majors.</p>
+       </div>
+
+       <div id="collegesGrid" class="colleges-grid">
+          <div class="loader">
+             <div class="spinner"></div>
+             <span>Fetching colleges...</span>
+          </div>
+       </div>
+    </div>
+
+    <div id="about" class="tab-content">
+       <div class="empty-state">
+          <h3>About this University</h3>
+          <p>Information provided by the AI Agent will appear here.</p>
+       </div>
+    </div>
+
+  </main>
+
+  <!-- Majors Modal -->
+  <div id="majorsModal" class="modal">
+    <div class="modal-content">
+       <span class="close-modal" id="closeModal">&times;</span>
+       <div class="modal-header">
+          <div class="modal-icon" id="modalIcon">🎓</div>
+          <h2 id="modalCollegeName">College Name</h2>
+          <p>Select your major to continue</p>
+       </div>
+       <div class="majors-list" id="majorsList">
+          <!-- Majors will be injected here -->
+       </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 Think-Up. Proudly serving Saudi students.</p>
+  </footer>
+
+  <script type="module" src="university-details.js"></script>
+
+</body>
+</html>
