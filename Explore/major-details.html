@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Majors | Think-Up</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="major-details.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../Home/homePage.html" class="logo">Think-<span>Up</span></a>
+      <nav>
+        <a id="backBtn" href="#" class="btn-solid">← Back to University</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero-dark">
+    <div class="container text-center">
+
+      <div class="college-brand-box">
+        <div id="collegeIcon" class="college-icon-inner">🎓</div>
+      </div>
+
+      <div class="badge">Select Your Major</div>
+      <h1 id="collegeName">Loading...</h1>
+      <p id="uniNameSub" class="location">...</p>
+
+      <div class="search-container">
+        <input type="text" id="searchMajorsInput" class="search-input" placeholder="Search majors...">
+        <span class="search-icon">🔍</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" style="margin-top: 60px; margin-bottom: 80px;">
+
+    <div class="section-header">
+      <h2>Choose Your Specialization</h2>
+      <p>Select a major to explore its full curriculum.</p>
+    </div>
+
+    <div id="majorsGrid" class="majors-grid">
+      <div class="loader">
+        <div class="spinner"></div>
+        <span>Loading majors...</span>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Think-Up. Proudly serving Saudi students.</p>
+  </footer>
+
+  <script type="module" src="major-details.js"></script>
+
+</body>
+</html>

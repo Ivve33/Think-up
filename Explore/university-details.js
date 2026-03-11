@@ -141,8 +141,7 @@ function renderColleges(colleges) {
 
         // لاحظ التغيير في ترتيب الـ HTML هنا ليطابق التصميم الجديد
         const card = `
-            <div class="college-card" onclick="openMajorsModal('${college.id}', '${college.name}', '${iconValue}')">
-                
+<div class="college-card" onclick="window.location.href='major-details.html?uniId=${uniId}&collegeId=${college.id}'">                
                 <div class="college-icon-box">
                     ${iconContent}
                 </div>
