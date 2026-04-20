@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session Summary | Think-Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../CSS/session-summary.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-wrap">
+      <a href="#" class="logo">Think<span>-Up</span></a>
+
+      <div class="nav-right">
+        <div class="pill pill-soft">AI Session Summary</div>
+        <a href="course-sessions.html" class="btn btn-outline">Back to Sessions</a>
+        <div class="profile">
+          OA
+          <small>4</small>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="badge">Generated After Session End</div>
+
+        <div class="course-head">
+          <div class="course-icon">📘</div>
+
+          <div>
+            <div class="hero-tags">
+              <span class="pill pill-live">CCCS 211</span>
+              <span class="pill pill-soft">Java Programming</span>
+            </div>
+
+            <h1>Session <span>AI Summary</span></h1>
+            <p>
+              Review the most important discussion points, questions, terms, and follow-up actions
+              generated from the session recording and transcript.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="stats-card">
+          <div class="stats-title">Session Overview</div>
+
+          <div class="stats-row">
+            <div class="mini">
+              <b>Apr 20, 2026</b>
+              <span>Date</span>
+            </div>
+
+            <div class="mini">
+              <b>60 min</b>
+              <span>Duration</span>
+            </div>
+
+            <div class="mini">
+              <b>4</b>
+              <span>Participants</span>
+            </div>
+
+            <div class="mini">
+              <b>Ready</b>
+              <span>AI Status</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <div class="container summary-layout">
+      <div class="main-stack">
+
+        <!-- Header Summary Card -->
+        <section class="card">
+          <div class="subhead">
+            <div>
+              <h2>Session Header</h2>
+              <p>Basic session information generated from the room metadata.</p>
+            </div>
+
+            <div class="badge-live">AI Generated</div>
+          </div>
+
+          <div class="session-header-grid">
+            <div class="info-item">
+              <span>Course</span>
+              <b>CCCS 211 — Java Programming</b>
+            </div>
+
+            <div class="info-item">
+              <span>Date</span>
+              <b>Monday, April 20, 2026</b>
+            </div>
+
+            <div class="info-item">
+              <span>Time</span>
+              <b>2:00 PM - 3:00 PM</b>
+            </div>
+
+            <div class="info-item">
+              <span>Duration</span>
+              <b>60 Minutes</b>
+            </div>
+          </div>
+        </section>
+
+        <!-- Participants -->
+        <section class="card">
+          <div class="subhead">
+            <div>
+              <h2>Participants Summary</h2>
+              <p>Host, participant count, and academic backgrounds.</p>
+            </div>
+
+            <div class="pill">4 Joined</div>
+          </div>
+
+          <div class="participants-summary">
+            <div class="participant-summary-card host-card">
+              <div class="avatar">OA</div>
+              <div>
+                <span>Host</span>
+                <b>Osama Alghamdi</b>
+                <small>Computer Science</small>
+              </div>
+            </div>
+
+            <div class="participant-stats-grid">
+              <div class="info-item">
+                <span>Total Participants</span>
+                <b>4 Students</b>
+              </div>
+
+              <div class="info-item">
+                <span>Majors Represented</span>
+                <b>Computer Science, Software Engineering, Information Systems</b>
+              </div>
+            </div>
+          </div>
+
+          <div class="participants-list">
+            <div class="participant-chip">Osama Alghamdi — Computer Science</div>
+            <div class="participant-chip">Amir Khaled — Software Engineering</div>
+            <div class="participant-chip">Reem Hassan — Information Systems</div>
+            <div class="participant-chip">Lama Nasser — Computer Science</div>
+          </div>
+        </section>
+
+        <!-- AI Summary Sections -->
+        <section class="summary-sections-grid">
+          <article class="card summary-card">
+            <div class="section-title-row">
+              <h2>📌 Key Points</h2>
+              <div class="pill">Main Discussion</div>
+            </div>
+
+            <ul class="summary-list">
+              <li>The group reviewed Java loop structures and compared <b>for</b>, <b>while</b>, and <b>do-while</b> usage.</li>
+              <li>The host explained common mistakes in array indexing and off-by-one loop conditions.</li>
+              <li>Participants discussed how to break down object-oriented programming concepts into classes, attributes, and methods.</li>
+              <li>The session also covered cleaner variable naming and method organization for lab assignments.</li>
+            </ul>
+          </article>
+
+          <article class="card summary-card">
+            <div class="section-title-row">
+              <h2>❓ Questions & Answers</h2>
+              <div class="pill">Captured Q&A</div>
+            </div>
+
+            <div class="qa-list">
+              <div class="qa-item">
+                <b>Q: When should we use a while loop instead of a for loop?</b>
+                <p>A: Use a while loop when the number of iterations is not known in advance and depends on a condition.</p>
+              </div>
+
+              <div class="qa-item">
+                <b>Q: Why do array errors happen so often in labs?</b>
+                <p>A: Most issues come from incorrect starting index assumptions and accessing elements outside array bounds.</p>
+              </div>
+
+              <div class="qa-item">
+                <b>Q: What makes a Java class design cleaner?</b>
+                <p>A: Clear naming, single responsibility, and separating logic into small readable methods.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card summary-card">
+            <div class="section-title-row">
+              <h2>📚 Important Terms</h2>
+              <div class="pill">Keywords</div>
+            </div>
+
+            <div class="terms-wrap">
+              <span class="term-chip">Loop Condition</span>
+              <span class="term-chip">Array Index</span>
+              <span class="term-chip">Out of Bounds</span>
+              <span class="term-chip">Object-Oriented Programming</span>
+              <span class="term-chip">Class</span>
+              <span class="term-chip">Method</span>
+              <span class="term-chip">Variable Scope</span>
+              <span class="term-chip">Refactoring</span>
+            </div>
+          </article>
+
+          <article class="card summary-card">
+            <div class="section-title-row">
+              <h2>✅ Action Items</h2>
+              <div class="pill">Follow-up</div>
+            </div>
+
+            <ul class="summary-list check-list">
+              <li>Review loop examples from the Java lecture slides.</li>
+              <li>Practice at least three array exercises before the next session.</li>
+              <li>Refactor Lab 3 code using clearer method names.</li>
+              <li>Prepare one OOP design question to discuss in the next meeting.</li>
+            </ul>
+          </article>
+        </section>
+
+        <!-- Transcript -->
+        <section class="card">
+          <div class="subhead">
+            <div>
+              <h2>Transcript</h2>
+              <p>Optional full transcript generated from the recording.</p>
+            </div>
+
+            <button class="btn btn-outline" id="toggleTranscriptBtn">Show Transcript</button>
+          </div>
+
+          <div class="transcript-box hidden" id="transcriptBox">
+            <p><b>Host:</b> Today we’ll review loops, arrays, and some common Java errors from the lab.</p>
+            <p><b>Participant 1:</b> I keep mixing up the loop condition and stopping point.</p>
+            <p><b>Host:</b> That usually causes off-by-one issues, especially when working with arrays.</p>
+            <p><b>Participant 2:</b> Can we also review how classes should be structured for the assignment?</p>
+            <p><b>Host:</b> Yes, let’s connect that with single responsibility and method clarity.</p>
+            <p><b>Participant 3:</b> The naming part made more sense after the examples.</p>
+          </div>
+        </section>
+
+        <!-- Rating -->
+        <section class="card">
+          <div class="subhead">
+            <div>
+              <h2>Rate This Session</h2>
+              <p>Optional quick feedback from 1 to 5 stars.</p>
+            </div>
+
+            <div class="pill" id="ratingStatus">Not rated yet</div>
+          </div>
+
+          <div class="rating-wrap" id="ratingWrap">
+            <button class="star-btn" data-value="1">★</button>
+            <button class="star-btn" data-value="2">★</button>
+            <button class="star-btn" data-value="3">★</button>
+            <button class="star-btn" data-value="4">★</button>
+            <button class="star-btn" data-value="5">★</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- Side Actions -->
+      <aside class="side-stack">
+        <section class="card side-action-card">
+          <div class="subhead">
+            <div>
+              <h2>Actions</h2>
+              <p>Download, share, or re-watch the session.</p>
+            </div>
+          </div>
+
+          <div class="side-actions">
+            <button class="btn btn-solid action-btn" id="downloadPdfBtn">Download PDF</button>
+            <button class="btn btn-outline action-btn" id="shareSummaryBtn">Share with Participants</button>
+            <button class="btn btn-outline action-btn" id="rewatchBtn">Re-watch Recording</button>
+          </div>
+
+          <div class="note">
+            <div class="dot"></div>
+            <div>
+              Summary text is stored in Firestore, while recording media can be stored in Firebase Storage or removed after summarization.
+            </div>
+          </div>
+        </section>
+
+        <section class="card side-action-card">
+          <div class="subhead">
+            <div>
+              <h2>AI Source</h2>
+              <p>Summary generation pipeline overview.</p>
+            </div>
+          </div>
+
+          <div class="pipeline-list">
+            <div class="pipeline-item">
+              <b>1. Recording captured</b>
+              <span>Audio/video stored temporarily during session.</span>
+            </div>
+
+            <div class="pipeline-item">
+              <b>2. Transcript generated</b>
+              <span>Speech converted into text after the meeting ends.</span>
+            </div>
+
+            <div class="pipeline-item">
+              <b>3. AI summary created</b>
+              <span>Key points, terms, Q&A, and action items extracted.</span>
+            </div>
+
+            <div class="pipeline-item">
+              <b>4. Summary displayed</b>
+              <span>Participants can review and share the final output.</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="shareModal">
+    <div class="session-modal">
+      <button class="modal-close" id="closeShareModalBtn">×</button>
+
+      <div class="badge-live">Share Summary</div>
+
+      <h3>Share with Participants</h3>
+      <p class="modal-sub">Use the generated summary link below.</p>
+
+      <div class="share-link-box" id="shareLinkBox">
+        https://think-up.app/session-summary?id=session-demo-001
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-solid" id="copyShareLinkBtn">Copy Link</button>
+        <button class="btn btn-outline" id="closeShareBtn2">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../JS/session-summary.js"></script>
+</body>
+</html>

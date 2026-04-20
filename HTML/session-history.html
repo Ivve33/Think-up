@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Sessions | Think-Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../CSS/session-history.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-wrap">
+      <a href="#" class="logo">Think<span>-Up</span></a>
+
+      <div class="nav-right">
+        <div class="pill pill-soft">Session History</div>
+        <a href="course-sessions.html" class="btn btn-outline">Browse Sessions</a>
+        <div class="profile">
+          OA
+          <small>5</small>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="badge">Personal Dashboard</div>
+
+        <div class="hero-head">
+          <div class="course-icon">🗂️</div>
+
+          <div>
+            <div class="hero-tags">
+              <span class="pill pill-live">My Sessions</span>
+              <span class="pill pill-soft">Upcoming • Past • Hosted</span>
+            </div>
+
+            <h1>Track all your <span>study sessions</span></h1>
+            <p>
+              Review your upcoming rooms, completed study sessions, and the sessions you hosted.
+              Open the lobby, view summaries, or manage hosted meetings from one place.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="stats-card">
+          <div class="stats-title">Quick Stats</div>
+
+          <div class="stats-row">
+            <div class="mini">
+              <b id="totalSessionsStat">12</b>
+              <span>Total Sessions</span>
+            </div>
+
+            <div class="mini">
+              <b id="hoursStudiedStat">18.5</b>
+              <span>Hours Studied</span>
+            </div>
+
+            <div class="mini">
+              <b id="upcomingCountStat">4</b>
+              <span>Upcoming</span>
+            </div>
+
+            <div class="mini">
+              <b id="hostedCountStat">5</b>
+              <span>Hosted</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <div class="container history-layout">
+      <section class="card">
+        <div class="subhead">
+          <div>
+            <h2>My Sessions</h2>
+            <p>
+              Filter by tab, search by course, and sort by date.
+            </p>
+          </div>
+
+          <div class="pill" id="resultsCountPill">0 Results</div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-row" id="tabsRow">
+          <button class="tab-btn active" data-tab="upcoming">Upcoming</button>
+          <button class="tab-btn" data-tab="past">Past</button>
+          <button class="tab-btn" data-tab="hosted">Hosted</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-row">
+          <div class="search-wrap">
+            <label for="courseSearch">Search by course</label>
+            <input
+              type="text"
+              id="courseSearch"
+              placeholder="Search by course name or code..."
+            />
+          </div>
+
+          <div class="sort-wrap">
+            <label for="sortOrder">Sort</label>
+            <select id="sortOrder">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="list-stack" id="sessionsList">
+        <!-- cards injected by JS -->
+      </section>
+
+      <section class="card empty-state hidden" id="emptyState">
+        <div class="empty-icon">📭</div>
+        <h3>No sessions found</h3>
+        <p>Try changing the tab, search text, or sort option.</p>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="actionModal">
+    <div class="session-modal">
+      <button class="modal-close" id="closeModalBtn">×</button>
+
+      <div class="badge-live" id="modalBadge">Action</div>
+
+      <h3 id="modalTitle">Session Action</h3>
+      <p class="modal-sub" id="modalText">This action is currently a UI preview.</p>
+
+      <div class="modal-actions">
+        <button class="btn btn-solid" id="confirmActionBtn">Confirm</button>
+        <button class="btn btn-outline" id="closeModalBtn2">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../JS/session-history.js"></script>
+</body>
+</html>
+

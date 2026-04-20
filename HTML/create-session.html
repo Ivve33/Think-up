@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Session | Think-Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../CSS/create-session.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-wrap">
+      <a href="#" class="logo">Think<span>-Up</span></a>
+
+      <div class="nav-right">
+        <div class="pill pill-soft">Create Session</div>
+        <a href="course-sessions.html" class="btn btn-outline">Back to Schedule</a>
+        <div class="profile">
+          OA
+          <small>3</small>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="badge">Session Setup</div>
+
+        <div class="hero-head">
+          <div class="course-icon">☕</div>
+
+          <div>
+            <div class="hero-tags">
+              <span class="pill pill-live">CCCS 211</span>
+              <span class="pill pill-soft">Java Programming</span>
+            </div>
+
+            <h1>Create a <span>Study Session</span></h1>
+            <p>
+              Set your date, time, duration, and visibility. Public sessions appear in the weekly schedule,
+              while private sessions generate an invite link only.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="stats-card">
+          <div class="stats-title">Session Rules</div>
+
+          <div class="rules-list">
+            <div class="rule-item">
+              <b>Future only</b>
+              <span>You cannot create a session before the current time.</span>
+            </div>
+
+            <div class="rule-item">
+              <b>No overlap</b>
+              <span>The selected time must not conflict with another session by the same user.</span>
+            </div>
+
+            <div class="rule-item">
+              <b>Visibility</b>
+              <span>Public appears in the course schedule, private uses an invite link.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <div class="container form-layout">
+      <section class="card form-card">
+        <div class="subhead">
+          <div>
+            <h2>Session Details</h2>
+            <p>
+              Fill in the required information below to create your new session room.
+            </p>
+          </div>
+
+          <div class="pill" id="statusPill">Ready to create</div>
+        </div>
+
+        <form id="createSessionForm" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="sessionDate">Date</label>
+              <input type="date" id="sessionDate" name="sessionDate" required />
+              <small class="field-hint">Choose the session day.</small>
+            </div>
+
+            <div class="field">
+              <label for="startTime">Start Time</label>
+              <select id="startTime" name="startTime" required>
+                <option value="">Select a start time</option>
+              </select>
+              <small class="field-hint">15-minute intervals.</small>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Duration</label>
+            <div class="radio-grid" id="durationGroup">
+              <label class="option-card">
+                <input type="radio" name="duration" value="30" required />
+                <span>30 min</span>
+              </label>
+
+              <label class="option-card">
+                <input type="radio" name="duration" value="60" />
+                <span>60 min</span>
+              </label>
+
+              <label class="option-card">
+                <input type="radio" name="duration" value="90" />
+                <span>90 min</span>
+              </label>
+
+              <label class="option-card">
+                <input type="radio" name="duration" value="120" />
+                <span>120 min</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="slider-head">
+              <label for="maxParticipants">Max Participants</label>
+              <div class="slider-value"><span id="participantsValue">3</span> participants</div>
+            </div>
+
+            <input
+              type="range"
+              id="maxParticipants"
+              name="maxParticipants"
+              min="3"
+              max="5"
+              step="1"
+              value="3"
+            />
+            <small class="field-hint">Allowed range: 3 to 5.</small>
+          </div>
+
+          <div class="field">
+            <label>Visibility</label>
+            <div class="visibility-switch" id="visibilitySwitch">
+              <button type="button" class="visibility-btn active" data-visibility="public">
+                Public
+                <small>Visible in weekly schedule</small>
+              </button>
+
+              <button type="button" class="visibility-btn" data-visibility="private">
+                Private
+                <small>Invite link only</small>
+              </button>
+            </div>
+
+            <input type="hidden" id="visibility" name="visibility" value="public" />
+          </div>
+
+          <div class="field">
+            <label for="topicNotes">Topic / Notes <span class="muted">(Optional)</span></label>
+            <textarea
+              id="topicNotes"
+              name="topicNotes"
+              rows="4"
+              placeholder="Examples: Lab 4 review, OOP recap, Midterm practice questions..."
+            ></textarea>
+          </div>
+
+          <div class="consent-box">
+            <label class="consent-label">
+              <input type="checkbox" id="hostConsent" name="hostConsent" required />
+              <span>
+                I understand that I am responsible for hosting the session respectfully,
+                starting on time, and managing participation.
+              </span>
+            </label>
+          </div>
+
+          <div class="error-box hidden" id="errorBox"></div>
+
+          <div class="submit-row">
+            <button type="submit" class="btn btn-solid btn-lg">Create Session</button>
+            <a href="course-sessions.html" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card preview-card">
+        <div class="preview-top">
+          <div class="preview-label">Preview</div>
+          <div class="preview-badge" id="previewVisibility">Public</div>
+        </div>
+
+        <h3 id="previewTitle">Java Programming Session</h3>
+        <p id="previewSubtitle">Set your session information to preview it here.</p>
+
+        <div class="preview-list">
+          <div class="preview-item">
+            <span>Date</span>
+            <b id="previewDate">—</b>
+          </div>
+
+          <div class="preview-item">
+            <span>Time</span>
+            <b id="previewTime">—</b>
+          </div>
+
+          <div class="preview-item">
+            <span>Duration</span>
+            <b id="previewDuration">—</b>
+          </div>
+
+          <div class="preview-item">
+            <span>Participants</span>
+            <b id="previewParticipants">3</b>
+          </div>
+        </div>
+
+        <div class="note">
+          <div class="dot"></div>
+          <div>
+            Public sessions redirect directly to the room. Private sessions also show an invite link modal.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="inviteModal">
+    <div class="session-modal invite-modal">
+      <button class="modal-close" id="closeInviteModalBtn">×</button>
+
+      <div class="badge-live">Private Session Created</div>
+
+      <h3>Invite Link Ready</h3>
+      <p class="modal-sub">
+        Share this invite link with your selected participants.
+      </p>
+
+      <div class="invite-link-box" id="inviteLinkBox">
+        https://think-up.app/invite/session-demo-001
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-solid" id="copyInviteBtn">Copy Link</button>
+        <a href="session-room.html?id=session-demo-001" class="btn btn-outline">Go to Lobby</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../JS/create-session.js"></script>
+</body>
+</html>

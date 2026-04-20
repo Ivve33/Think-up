@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Sessions | Think-Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../CSS/course-sessions.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-wrap">
+      <a href="#" class="logo">Think<span>-Up</span></a>
+
+      <div class="nav-right">
+        <div class="pill pill-soft">Course Sessions</div>
+        <a href="#" class="btn btn-outline">Back to Courses</a>
+        <div class="profile">
+          OA
+          <small>3</small>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="badge">Weekly Public Schedule</div>
+
+        <div class="course-head">
+          <div class="course-icon">☕</div>
+
+          <div class="course-text">
+            <div class="course-tags">
+              <span class="pill pill-live">CCCS 211</span>
+              <span class="pill pill-soft">Java Programming</span>
+            </div>
+
+            <h1>Find or create <span>study sessions</span></h1>
+            <p>
+              Explore public sessions for Java Programming by day and time.
+              Join an open room, view details, or create a new session in an empty slot.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="stats-card">
+          <div class="stats-title">Quick Stats</div>
+
+          <div class="stats-row">
+            <div class="mini">
+              <b>4</b>
+              <span>Live</span>
+            </div>
+
+            <div class="mini">
+              <b>11</b>
+              <span>Open</span>
+            </div>
+
+            <div class="mini">
+              <b>3</b>
+              <span>Full</span>
+            </div>
+
+            <div class="mini">
+              <b>18</b>
+              <span>Total Today</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <div class="container page-stack">
+      <section class="card">
+        <div class="subhead">
+          <div>
+            <h2>Weekly Course Sessions</h2>
+            <p>
+              Public sessions for <b>CCCS211</b>. Click a session to view details, or choose an empty slot to create one.
+            </p>
+          </div>
+
+          <div class="tools-wrap">
+            <div class="pill" id="currentTimeLabel">Now: --:--</div>
+
+            <label class="filter-pill">
+              <input type="checkbox" id="upcomingOnlyToggle" />
+              <span>Upcoming only</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="day-selector" id="daySelector">
+          <button class="day-btn" data-day="sat">Sat</button>
+          <button class="day-btn" data-day="sun">Sun</button>
+          <button class="day-btn" data-day="mon">Mon</button>
+          <button class="day-btn" data-day="tue">Tue</button>
+          <button class="day-btn" data-day="wed">Wed</button>
+          <button class="day-btn" data-day="thu">Thu</button>
+          <button class="day-btn" data-day="fri">Fri</button>
+        </div>
+      </section>
+
+      <section class="card timeline-card">
+        <div class="subhead">
+          <div>
+            <h2 id="selectedDayTitle">Today's Sessions</h2>
+            <p>
+              14 hourly buckets from 8 AM to 9 PM. Multiple sessions can appear inside the same hour.
+            </p>
+          </div>
+
+          <div class="legend">
+            <span class="legend-item"><i class="legend-dot live"></i> Live</span>
+            <span class="legend-item"><i class="legend-dot open"></i> Open</span>
+            <span class="legend-item"><i class="legend-dot full"></i> Full</span>
+          </div>
+        </div>
+
+        <div class="timeline-wrapper">
+          <div class="timeline-grid" id="timelineGrid">
+            <div class="time-row" data-hour="8">
+              <div class="time-label">8:00 AM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <a class="empty-slot" href="create-session.html?time=08:00&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="9">
+              <div class="time-label">9:00 AM</div>
+              <div class="time-slot">
+                <div class="slot-inner multi-session">
+                  <button
+                    class="session-chip open session-trigger"
+                    data-title="Java Basics Review"
+                    data-time="9:00 AM - 10:00 AM"
+                    data-host="Abdullah Alahmadi"
+                    data-seats="5 / 8"
+                    data-status="Open"
+                    data-type="Beginner Review"
+                  >
+                    <span class="chip-top">Java Basics Review</span>
+                    <span class="chip-meta">Open • 5/8 • Abdullah</span>
+                  </button>
+
+                  <button
+                    class="session-chip full session-trigger"
+                    data-title="Lab 3 Practice Session"
+                    data-time="9:30 AM - 10:30 AM"
+                    data-host="Osama Alghamdi"
+                    data-seats="8 / 8"
+                    data-status="Full"
+                    data-type="Coding Practice"
+                  >
+                    <span class="chip-top">Lab 3 Practice</span>
+                    <span class="chip-meta">Full • 8/8 • Osama</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="10">
+              <div class="time-label">10:00 AM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <button
+                    class="session-chip live session-trigger"
+                    data-title="OOP Concepts Live Room"
+                    data-time="10:00 AM - 11:00 AM"
+                    data-host="Sara Mohammed"
+                    data-seats="7 / 10"
+                    data-status="Live"
+                    data-type="Live Collaboration"
+                  >
+                    <span class="chip-top">OOP Concepts Live Room</span>
+                    <span class="chip-meta">Live • 7/10 • Sara</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="11">
+              <div class="time-label">11:00 AM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <a class="empty-slot" href="create-session.html?time=11:00&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="12">
+              <div class="time-label">12:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <button
+                    class="session-chip open session-trigger"
+                    data-title="Arrays & Loops Session"
+                    data-time="12:00 PM - 1:00 PM"
+                    data-host="Faisal Ahmed"
+                    data-seats="3 / 6"
+                    data-status="Open"
+                    data-type="Problem Solving"
+                  >
+                    <span class="chip-top">Arrays & Loops Session</span>
+                    <span class="chip-meta">Open • 3/6 • Faisal</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="13">
+              <div class="time-label">1:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <a class="empty-slot" href="create-session.html?time=13:00&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="14">
+              <div class="time-label">2:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner multi-session">
+                  <button
+                    class="session-chip open session-trigger"
+                    data-title="Midterm Revision"
+                    data-time="2:00 PM - 3:00 PM"
+                    data-host="Amir Khaled"
+                    data-seats="4 / 12"
+                    data-status="Open"
+                    data-type="Exam Prep"
+                  >
+                    <span class="chip-top">Midterm Revision</span>
+                    <span class="chip-meta">Open • 4/12 • Amir</span>
+                  </button>
+
+                  <button
+                    class="session-chip live session-trigger"
+                    data-title="Debugging Java Errors"
+                    data-time="2:15 PM - 3:15 PM"
+                    data-host="Mona Ali"
+                    data-seats="6 / 8"
+                    data-status="Live"
+                    data-type="Live Help"
+                  >
+                    <span class="chip-top">Debugging Java Errors</span>
+                    <span class="chip-meta">Live • 6/8 • Mona</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="15">
+              <div class="time-label">3:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <a class="empty-slot" href="create-session.html?time=15:00&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="16">
+              <div class="time-label">4:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <button
+                    class="session-chip full session-trigger"
+                    data-title="Past Paper Solving"
+                    data-time="4:00 PM - 5:00 PM"
+                    data-host="Noor Saeed"
+                    data-seats="10 / 10"
+                    data-status="Full"
+                    data-type="Exam Simulation"
+                  >
+                    <span class="chip-top">Past Paper Solving</span>
+                    <span class="chip-meta">Full • 10/10 • Noor</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="17">
+              <div class="time-label">5:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <a class="empty-slot" href="create-session.html?time=17:00&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="18">
+              <div class="time-label">6:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <button
+                    class="session-chip open session-trigger"
+                    data-title="Methods & Classes Discussion"
+                    data-time="6:00 PM - 7:00 PM"
+                    data-host="Lama Nasser"
+                    data-seats="2 / 7"
+                    data-status="Open"
+                    data-type="Discussion"
+                  >
+                    <span class="chip-top">Methods & Classes Discussion</span>
+                    <span class="chip-meta">Open • 2/7 • Lama</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="19">
+              <div class="time-label">7:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <a class="empty-slot" href="create-session.html?time=19:00&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="20">
+              <div class="time-label">8:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <button
+                    class="session-chip live session-trigger"
+                    data-title="Night Coding Sprint"
+                    data-time="8:00 PM - 9:00 PM"
+                    data-host="Reem Hassan"
+                    data-seats="9 / 12"
+                    data-status="Live"
+                    data-type="Group Coding"
+                  >
+                    <span class="chip-top">Night Coding Sprint</span>
+                    <span class="chip-meta">Live • 9/12 • Reem</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="time-row" data-hour="21">
+              <div class="time-label">9:00 PM</div>
+              <div class="time-slot">
+                <div class="slot-inner">
+                  <a class="empty-slot" href="create-session.html?time=21:00&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="now-indicator" id="nowIndicator">
+              <span class="now-pill">Now</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="sessionModal">
+    <div class="session-modal">
+      <button class="modal-close" id="closeModalBtn">×</button>
+
+      <div class="badge-live" id="modalStatus">Open</div>
+
+      <h3 id="modalTitle">Session Title</h3>
+      <p class="modal-sub" id="modalType">Session Type</p>
+
+      <div class="modal-info-list">
+        <div class="modal-info-item">
+          <span>Time</span>
+          <b id="modalTime">--</b>
+        </div>
+
+        <div class="modal-info-item">
+          <span>Host</span>
+          <b id="modalHost">--</b>
+        </div>
+
+        <div class="modal-info-item">
+          <span>Seats</span>
+          <b id="modalSeats">--</b>
+        </div>
+
+        <div class="modal-info-item">
+          <span>Course</span>
+          <b>CCCS 211</b>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <a href="#" class="btn btn-solid">Join Session</a>
+        <button class="btn btn-outline" id="closeModalBtn2">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../JS/course-sessions.js"></script>
+</body>
+</html>
