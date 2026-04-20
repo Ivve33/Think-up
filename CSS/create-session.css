@@ -451,7 +451,23 @@ input[type="range"]{
   transition:.22s;
   font-weight:900;
 }
+.single-duration-box{
+  display:block;
+}
 
+.fixed-duration-card{
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:18px;
+  background: var(--indigo);
+  color: var(--cream);
+  border:1px solid var(--indigo);
+  font-weight:800;
+  max-width:220px;
+  box-shadow: 0 14px 28px rgba(33,40,66,0.16);
+}
 .visibility-btn small{
   display:block;
   font-size:.82rem;

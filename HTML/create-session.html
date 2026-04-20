@@ -110,29 +110,13 @@
           </div>
 
           <div class="field">
-            <label>Duration</label>
-            <div class="radio-grid" id="durationGroup">
-              <label class="option-card">
-                <input type="radio" name="duration" value="30" required />
-                <span>30 min</span>
-              </label>
-
-              <label class="option-card">
-                <input type="radio" name="duration" value="60" />
-                <span>60 min</span>
-              </label>
-
-              <label class="option-card">
-                <input type="radio" name="duration" value="90" />
-                <span>90 min</span>
-              </label>
-
-              <label class="option-card">
-                <input type="radio" name="duration" value="120" />
-                <span>120 min</span>
-              </label>
-            </div>
-          </div>
+<div class="field">
+  <label>Duration</label>
+  <div class="single-duration-box">
+    <input type="hidden" name="duration" value="60" />
+    <div class="fixed-duration-card">60 min</div>
+  </div>
+</div>
 
           <div class="field">
             <div class="slider-head">

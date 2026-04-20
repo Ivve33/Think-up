@@ -402,7 +402,7 @@ input{
 }
 
 .legend-dot.live{
-  background: var(--accent);
+  background: var(--danger);
 }
 
 .legend-dot.open{
@@ -470,6 +470,11 @@ input{
   gap:10px;
 }
 
+.slot-inner.multi-session > *{
+  flex:1 1 calc(33.333% - 10px);
+  min-width:220px;
+}
+
 .empty-slot{
   width:100%;
   min-height:68px;
@@ -488,6 +493,10 @@ input{
   transform: translateY(-1px);
   background: rgba(212,175,55,0.10);
   border-color: rgba(212,175,55,0.35);
+}
+
+.compact-empty{
+  min-height:68px;
 }
 
 .empty-plus{
@@ -522,8 +531,8 @@ input{
 }
 
 .session-chip.live{
-  background: rgba(212,175,55,0.14);
-  border:1px solid rgba(212,175,55,0.35);
+  background: rgba(216,76,76,0.12);
+  border:1px solid rgba(216,76,76,0.35);
   color: var(--indigo);
 }
 
@@ -729,5 +738,10 @@ input{
 
   .modal-info-list{
     grid-template-columns: 1fr;
+  }
+
+  .slot-inner.multi-session > *{
+    flex:1 1 100%;
+    min-width:100%;
   }
 }

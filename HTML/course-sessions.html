@@ -59,22 +59,22 @@
 
           <div class="stats-row">
             <div class="mini">
-              <b>4</b>
+              <b>3</b>
               <span>Live</span>
             </div>
 
             <div class="mini">
-              <b>11</b>
+              <b>8</b>
               <span>Open</span>
             </div>
 
             <div class="mini">
-              <b>3</b>
+              <b>2</b>
               <span>Full</span>
             </div>
 
             <div class="mini">
-              <b>18</b>
+              <b>13</b>
               <span>Total Today</span>
             </div>
           </div>
@@ -120,7 +120,7 @@
           <div>
             <h2 id="selectedDayTitle">Today's Sessions</h2>
             <p>
-              14 hourly buckets from 8 AM to 9 PM. Multiple sessions can appear inside the same hour.
+              14 hourly buckets from 8 AM to 9 PM. Each hour supports up to 3 sessions only.
             </p>
           </div>
 
@@ -133,6 +133,8 @@
 
         <div class="timeline-wrapper">
           <div class="timeline-grid" id="timelineGrid">
+
+            <!-- 8 AM -->
             <div class="time-row" data-hour="8">
               <div class="time-label">8:00 AM</div>
               <div class="time-slot">
@@ -145,6 +147,7 @@
               </div>
             </div>
 
+            <!-- 9 AM - عنده 2 جلسات + مكان ثالث -->
             <div class="time-row" data-hour="9">
               <div class="time-label">9:00 AM</div>
               <div class="time-slot">
@@ -154,30 +157,36 @@
                     data-title="Java Basics Review"
                     data-time="9:00 AM - 10:00 AM"
                     data-host="Abdullah Alahmadi"
-                    data-seats="5 / 8"
+                    data-seats="3 / 5"
                     data-status="Open"
                     data-type="Beginner Review"
                   >
                     <span class="chip-top">Java Basics Review</span>
-                    <span class="chip-meta">Open • 5/8 • Abdullah</span>
+                    <span class="chip-meta">Open • 3/5 • Abdullah</span>
                   </button>
 
                   <button
                     class="session-chip full session-trigger"
                     data-title="Lab 3 Practice Session"
-                    data-time="9:30 AM - 10:30 AM"
+                    data-time="9:15 AM - 10:15 AM"
                     data-host="Osama Alghamdi"
-                    data-seats="8 / 8"
+                    data-seats="5 / 5"
                     data-status="Full"
                     data-type="Coding Practice"
                   >
                     <span class="chip-top">Lab 3 Practice</span>
-                    <span class="chip-meta">Full • 8/8 • Osama</span>
+                    <span class="chip-meta">Full • 5/5 • Osama</span>
                   </button>
+
+                  <a class="empty-slot compact-empty" href="create-session.html?time=09:30&day=sunday">
+                    <span class="empty-plus">＋</span>
+                    <span>Create Session</span>
+                  </a>
                 </div>
               </div>
             </div>
 
+            <!-- 10 AM -->
             <div class="time-row" data-hour="10">
               <div class="time-label">10:00 AM</div>
               <div class="time-slot">
@@ -187,17 +196,18 @@
                     data-title="OOP Concepts Live Room"
                     data-time="10:00 AM - 11:00 AM"
                     data-host="Sara Mohammed"
-                    data-seats="7 / 10"
+                    data-seats="4 / 5"
                     data-status="Live"
                     data-type="Live Collaboration"
                   >
                     <span class="chip-top">OOP Concepts Live Room</span>
-                    <span class="chip-meta">Live • 7/10 • Sara</span>
+                    <span class="chip-meta">Live • 4/5 • Sara</span>
                   </button>
                 </div>
               </div>
             </div>
 
+            <!-- 11 AM -->
             <div class="time-row" data-hour="11">
               <div class="time-label">11:00 AM</div>
               <div class="time-slot">
@@ -210,6 +220,7 @@
               </div>
             </div>
 
+            <!-- 12 PM -->
             <div class="time-row" data-hour="12">
               <div class="time-label">12:00 PM</div>
               <div class="time-slot">
@@ -219,17 +230,18 @@
                     data-title="Arrays & Loops Session"
                     data-time="12:00 PM - 1:00 PM"
                     data-host="Faisal Ahmed"
-                    data-seats="3 / 6"
+                    data-seats="3 / 5"
                     data-status="Open"
                     data-type="Problem Solving"
                   >
                     <span class="chip-top">Arrays & Loops Session</span>
-                    <span class="chip-meta">Open • 3/6 • Faisal</span>
+                    <span class="chip-meta">Open • 3/5 • Faisal</span>
                   </button>
                 </div>
               </div>
             </div>
 
+            <!-- 1 PM -->
             <div class="time-row" data-hour="13">
               <div class="time-label">1:00 PM</div>
               <div class="time-slot">
@@ -242,6 +254,7 @@
               </div>
             </div>
 
+            <!-- 2 PM - مكتمل 3 جلسات، ما فيه Create -->
             <div class="time-row" data-hour="14">
               <div class="time-label">2:00 PM</div>
               <div class="time-slot">
@@ -251,12 +264,12 @@
                     data-title="Midterm Revision"
                     data-time="2:00 PM - 3:00 PM"
                     data-host="Amir Khaled"
-                    data-seats="4 / 12"
+                    data-seats="3 / 5"
                     data-status="Open"
                     data-type="Exam Prep"
                   >
                     <span class="chip-top">Midterm Revision</span>
-                    <span class="chip-meta">Open • 4/12 • Amir</span>
+                    <span class="chip-meta">Open • 3/5 • Amir</span>
                   </button>
 
                   <button
@@ -264,17 +277,31 @@
                     data-title="Debugging Java Errors"
                     data-time="2:15 PM - 3:15 PM"
                     data-host="Mona Ali"
-                    data-seats="6 / 8"
+                    data-seats="5 / 5"
                     data-status="Live"
                     data-type="Live Help"
                   >
                     <span class="chip-top">Debugging Java Errors</span>
-                    <span class="chip-meta">Live • 6/8 • Mona</span>
+                    <span class="chip-meta">Live • 5/5 • Mona</span>
+                  </button>
+
+                  <button
+                    class="session-chip full session-trigger"
+                    data-title="Quiz Practice Group"
+                    data-time="2:30 PM - 3:30 PM"
+                    data-host="Lama Nasser"
+                    data-seats="5 / 5"
+                    data-status="Full"
+                    data-type="Quiz Practice"
+                  >
+                    <span class="chip-top">Quiz Practice Group</span>
+                    <span class="chip-meta">Full • 5/5 • Lama</span>
                   </button>
                 </div>
               </div>
             </div>
 
+            <!-- 3 PM -->
             <div class="time-row" data-hour="15">
               <div class="time-label">3:00 PM</div>
               <div class="time-slot">
@@ -287,6 +314,7 @@
               </div>
             </div>
 
+            <!-- 4 PM -->
             <div class="time-row" data-hour="16">
               <div class="time-label">4:00 PM</div>
               <div class="time-slot">
@@ -296,17 +324,18 @@
                     data-title="Past Paper Solving"
                     data-time="4:00 PM - 5:00 PM"
                     data-host="Noor Saeed"
-                    data-seats="10 / 10"
+                    data-seats="5 / 5"
                     data-status="Full"
                     data-type="Exam Simulation"
                   >
                     <span class="chip-top">Past Paper Solving</span>
-                    <span class="chip-meta">Full • 10/10 • Noor</span>
+                    <span class="chip-meta">Full • 5/5 • Noor</span>
                   </button>
                 </div>
               </div>
             </div>
 
+            <!-- 5 PM -->
             <div class="time-row" data-hour="17">
               <div class="time-label">5:00 PM</div>
               <div class="time-slot">
@@ -319,6 +348,7 @@
               </div>
             </div>
 
+            <!-- 6 PM -->
             <div class="time-row" data-hour="18">
               <div class="time-label">6:00 PM</div>
               <div class="time-slot">
@@ -328,17 +358,18 @@
                     data-title="Methods & Classes Discussion"
                     data-time="6:00 PM - 7:00 PM"
                     data-host="Lama Nasser"
-                    data-seats="2 / 7"
+                    data-seats="4 / 5"
                     data-status="Open"
                     data-type="Discussion"
                   >
                     <span class="chip-top">Methods & Classes Discussion</span>
-                    <span class="chip-meta">Open • 2/7 • Lama</span>
+                    <span class="chip-meta">Open • 4/5 • Lama</span>
                   </button>
                 </div>
               </div>
             </div>
 
+            <!-- 7 PM -->
             <div class="time-row" data-hour="19">
               <div class="time-label">7:00 PM</div>
               <div class="time-slot">
@@ -351,6 +382,7 @@
               </div>
             </div>
 
+            <!-- 8 PM -->
             <div class="time-row" data-hour="20">
               <div class="time-label">8:00 PM</div>
               <div class="time-slot">
@@ -360,17 +392,18 @@
                     data-title="Night Coding Sprint"
                     data-time="8:00 PM - 9:00 PM"
                     data-host="Reem Hassan"
-                    data-seats="9 / 12"
+                    data-seats="5 / 5"
                     data-status="Live"
                     data-type="Group Coding"
                   >
                     <span class="chip-top">Night Coding Sprint</span>
-                    <span class="chip-meta">Live • 9/12 • Reem</span>
+                    <span class="chip-meta">Live • 5/5 • Reem</span>
                   </button>
                 </div>
               </div>
             </div>
 
+            <!-- 9 PM -->
             <div class="time-row" data-hour="21">
               <div class="time-label">9:00 PM</div>
               <div class="time-slot">

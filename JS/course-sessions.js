@@ -53,6 +53,11 @@ function activateCurrentDay() {
       btn.classList.add("active");
     }
   });
+
+  if (!document.querySelector(".day-btn.active")) {
+    const mondayBtn = document.querySelector('.day-btn[data-day="mon"]');
+    if (mondayBtn) mondayBtn.classList.add("active");
+  }
 }
 
 function bindDayButtons() {
@@ -65,7 +70,7 @@ function bindDayButtons() {
       applyUpcomingFilter();
       positionNowIndicator();
 
-      // لو تبغى إعادة تحميل حقيقية لليوم:
+      // لو تبغى إعادة تحميل حقيقية:
       // window.location.href = `course-sessions.html?day=${btn.dataset.day}`;
     });
   });
@@ -85,6 +90,17 @@ function bindModal() {
       modalSeats.textContent = btn.dataset.seats;
       modalStatus.textContent = btn.dataset.status;
       modalType.textContent = btn.dataset.type;
+
+      if (btn.dataset.status.toLowerCase() === "live") {
+        modalStatus.style.background = "rgba(216,76,76,0.12)";
+        modalStatus.style.borderColor = "rgba(216,76,76,0.35)";
+      } else if (btn.dataset.status.toLowerCase() === "full") {
+        modalStatus.style.background = "rgba(33,40,66,0.08)";
+        modalStatus.style.borderColor = "rgba(33,40,66,0.12)";
+      } else {
+        modalStatus.style.background = "rgba(212,175,55,0.12)";
+        modalStatus.style.borderColor = "rgba(212,175,55,0.35)";
+      }
 
       sessionModal.classList.remove("hidden");
     });
@@ -117,8 +133,9 @@ function updateSelectedDayTitle() {
 }
 
 function updateCurrentTimeLabel() {
-  let hour = now.getHours();
-  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const liveNow = new Date();
+  let hour = liveNow.getHours();
+  const minutes = String(liveNow.getMinutes()).padStart(2, "0");
   let period = "AM";
 
   if (hour === 0) {
@@ -134,10 +151,13 @@ function updateCurrentTimeLabel() {
 }
 
 function markPastHours() {
+  const liveNow = new Date();
+  const liveHour = liveNow.getHours();
+
   timeRows.forEach((row) => {
     const rowHour = Number(row.dataset.hour);
 
-    if (rowHour < currentHour && currentDayIsSelected()) {
+    if (rowHour < liveHour && currentDayIsSelected()) {
       row.classList.add("past");
     } else {
       row.classList.remove("past");
@@ -146,13 +166,15 @@ function markPastHours() {
 }
 
 function applyUpcomingFilter() {
+  const liveNow = new Date();
+  const liveHour = liveNow.getHours();
   const showUpcomingOnly = upcomingOnlyToggle.checked;
 
   timeRows.forEach((row) => {
     const rowHour = Number(row.dataset.hour);
     row.classList.remove("hidden-row");
 
-    if (showUpcomingOnly && currentDayIsSelected() && rowHour < currentHour) {
+    if (showUpcomingOnly && currentDayIsSelected() && rowHour < liveHour) {
       row.classList.add("hidden-row");
     }
   });
@@ -171,7 +193,11 @@ function positionNowIndicator() {
     return;
   }
 
-  const currentRow = document.querySelector(`.time-row[data-hour="${currentHour}"]`);
+  const liveNow = new Date();
+  const liveHour = liveNow.getHours();
+  const liveMinutes = liveNow.getMinutes();
+
+  const currentRow = document.querySelector(`.time-row[data-hour="${liveHour}"]`);
 
   if (!currentRow) {
     nowIndicator.style.display = "none";
@@ -183,9 +209,16 @@ function positionNowIndicator() {
   const slotRect = slot.getBoundingClientRect();
   const rowRect = currentRow.getBoundingClientRect();
 
-  const progress = currentMinutes / 60;
+  const progress = liveMinutes / 60;
   const topOffset = (rowRect.top - gridRect.top) + (slotRect.height * progress);
 
   nowIndicator.style.display = "block";
   nowIndicator.style.top = `${topOffset}px`;
 }
+
+setInterval(() => {
+  updateCurrentTimeLabel();
+  markPastHours();
+  applyUpcomingFilter();
+  positionNowIndicator();
+}, 60000);
