@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Think-Up login page — a collaborative study platform for university students in Saudi Arabia." />
   <title>Think-Up | Login</title>
 
-  <link rel="stylesheet" href="auth.css" />
+  <link rel="stylesheet" href="../CSS/auth.css" />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -13,9 +14,9 @@
   <!-- Top Navbar (consistent with Home style) -->
   <header class="navbar">
     <div class="container nav-wrap">
-      <a class="logo" href="../Home/homePage.html">Think-<span>Up</span></a>
+      <a class="logo" href="../Home/homePage.html" aria-label="Think-Up home">Think-<span>Up</span></a>
 
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Main navigation">
         <a href="../Home/homePage.html">Home</a>
         <a href="../Home/homePage.html#about">About</a>
         <a href="#" class="btn-text" id="toLoginLink">Login</a>
@@ -112,7 +113,7 @@
               <button class="eye" type="button" id="toggleSignupPw" aria-label="Show password">Show</button>
             </div>
             <div class="helper">
-              Use 8+ characters. Mix letters & numbers for better security.
+              Use 8+ characters. Mix letters &amp; numbers for better security.
             </div>
           </div>
 
@@ -161,60 +162,16 @@
     </aside>
   </main>
 
-  <!-- Tiny inline JS فقط للتبديل بين Login/SignUp وإظهار كلمة المرور (بدون ملف JS منفصل) -->
-  <script>
-    const loginTab = document.getElementById("loginTab");
-    const signupTab = document.getElementById("signupTab");
-    const loginForm = document.getElementById("loginForm");
-    const signupForm = document.getElementById("signupForm");
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Think-Up &mdash; University of Jeddah, College of Computer Science and Engineering.</p>
+    </div>
+  </footer>
 
-    const toLoginLink = document.getElementById("toLoginLink");
-    const toSignupLink = document.getElementById("toSignupLink");
-    const goSignupInline = document.getElementById("goSignupInline");
-    const goLoginInline = document.getElementById("goLoginInline");
-
-    function showLogin() {
-      loginTab.classList.add("is-active");
-      signupTab.classList.remove("is-active");
-      loginTab.setAttribute("aria-selected", "true");
-      signupTab.setAttribute("aria-selected", "false");
-
-      loginForm.classList.add("is-visible");
-      signupForm.classList.remove("is-visible");
-    }
-
-    function showSignup() {
-      signupTab.classList.add("is-active");
-      loginTab.classList.remove("is-active");
-      signupTab.setAttribute("aria-selected", "true");
-      loginTab.setAttribute("aria-selected", "false");
-
-      signupForm.classList.add("is-visible");
-      loginForm.classList.remove("is-visible");
-    }
-
-    loginTab.addEventListener("click", showLogin);
-    signupTab.addEventListener("click", showSignup);
-    toLoginLink.addEventListener("click", (e) => { e.preventDefault(); showLogin(); });
-    toSignupLink.addEventListener("click", (e) => { e.preventDefault(); showSignup(); });
-    goSignupInline.addEventListener("click", (e) => { e.preventDefault(); showSignup(); });
-    goLoginInline.addEventListener("click", (e) => { e.preventDefault(); showLogin(); });
-
-    // password toggles
-    function togglePw(inputId, btnId) {
-      const input = document.getElementById(inputId);
-      const btn = document.getElementById(btnId);
-      btn.addEventListener("click", () => {
-        const isPw = input.type === "password";
-        input.type = isPw ? "text" : "password";
-        btn.textContent = isPw ? "Hide" : "Show";
-      });
-    }
-    togglePw("loginPassword", "toggleLoginPw");
-    togglePw("signupPassword", "toggleSignupPw");
-
-  </script>
-  <script type="module" src="auth.js"></script>
+  <!-- Scripts (external — no inline JS) -->
+<script type="module" src="../JS/authUI.js"></script>
+  <script type="module" src="../JS/auth.js"></script>
 
 </body>
 </html>

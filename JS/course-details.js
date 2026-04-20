@@ -1,76 +1,82 @@
+// JS/course-details.js
+
 import { db, auth } from "../Core/firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 // ===== URL PARAMS =====
 const params = new URLSearchParams(window.location.search);
-const uniId     = params.get("uniId");
+const uniId = params.get("uniId");
 const collegeId = params.get("collegeId");
-const majorId   = params.get("majorId");
+const majorId = params.get("majorId");
 
 // ===== DOM =====
-const levelsContainer  = document.getElementById("levelsContainer");
+const levelsContainer = document.getElementById("levelsContainer");
 const electivesSection = document.getElementById("electivesSection");
-const electivesGrid    = document.getElementById("electivesGrid");
-const quickJump        = document.getElementById("quickJump");
-const searchInput      = document.getElementById("searchInput");
-const backBtn          = document.getElementById("backBtn");
-const majorBadge       = document.getElementById("majorBadge");
-const heroTitle        = document.getElementById("heroTitle");
+const electivesGrid = document.getElementById("electivesGrid");
+const quickJump = document.getElementById("quickJump");
+const searchInput = document.getElementById("searchInput");
+const backBtn = document.getElementById("backBtn");
+const majorBadge = document.getElementById("majorBadge");
+const heroTitle = document.getElementById("heroTitle");
 
 // ===== BACK BUTTON =====
 onAuthStateChanged(auth, (user) => {
   if (user) {
     backBtn.href = `major-details.html?uniId=${uniId}&collegeId=${collegeId}`;
   } else {
-    backBtn.href = "../Home/homePage.html";
+    backBtn.href = "homePage.html";
   }
 });
 
 // ===== TYPE HELPERS =====
 const typeLabel = {
   university_required: "University",
-  college_required:    "College",
-  major_required:      "Major",
-  major_elective:      "Elective",
-  free_elective:       "Free",
+  college_required: "College",
+  major_required: "Major",
+  major_elective: "Elective",
+  free_elective: "Free"
 };
 
 const typeClass = {
   university_required: "type-university",
-  college_required:    "type-college",
-  major_required:      "type-major",
-  major_elective:      "type-elective",
-  free_elective:       "type-free",
+  college_required: "type-college",
+  major_required: "type-major",
+  major_elective: "type-elective",
+  free_elective: "type-free"
 };
 
 // ===== RENDER COURSE CARD =====
 function renderCourseCard(item, courseData) {
-
   // Slot card (elective/free placeholder)
   if (item.isSlot) {
     const label = item.type === "major_elective" ? "⚡ Elective Slot" : "📖 Free Elective Slot";
     return `
       <div class="course-card slot-card">
         <div class="slot-label">${label}</div>
-        <div class="course-credits" style="justify-content:center; margin-top:8px;">
+        <div class="course-credits">
           <span>${item.credits}</span> Credit Hours
         </div>
       </div>`;
   }
 
-  const code    = courseData?.code    || item.courseCode;
-  const nameAr  = courseData?.name_en || item.courseCode;
-  const nameEn  = courseData?.name_ar || "";
+  const code = courseData?.code || item.courseCode;
+  const nameAr = courseData?.name_en || item.courseCode;
+  const nameEn = courseData?.name_ar || "";
   const credits = courseData?.credits ?? "-";
   const prereqs = item.prerequisites?.length ? item.prerequisites.join(", ") : "-";
-  const type    = item.type || "major_required";
+  const type = item.type || "major_required";
 
   return `
     <div class="course-card">
       <div class="course-card-top">
         <div class="course-code">${code}</div>
-        <div class="course-type-badge ${typeClass[type] || 'type-major'}">
+        <div class="course-type-badge ${typeClass[type] || "type-major"}">
           ${typeLabel[type] || type}
         </div>
       </div>
@@ -88,39 +94,41 @@ function renderCourseCard(item, courseData) {
 // ===== MAIN FETCH & RENDER =====
 async function init() {
   if (!uniId || !collegeId || !majorId) {
-    levelsContainer.innerHTML = `<p style="text-align:center;color:red;">Missing URL parameters.</p>`;
+    levelsContainer.innerHTML = `<p class="error-msg">Missing URL parameters.</p>`;
     return;
   }
 
   try {
     // 1. جيب بيانات التخصص (curriculum)
-    const majorRef  = doc(db, "universities", uniId, "colleges", collegeId, "majors", majorId);
+    const majorRef = doc(db, "universities", uniId, "colleges", collegeId, "majors", majorId);
     const majorSnap = await getDoc(majorRef);
 
     if (!majorSnap.exists()) {
-      levelsContainer.innerHTML = `<p style="text-align:center;color:red;">Major not found.</p>`;
+      levelsContainer.innerHTML = `<p class="error-msg">Major not found.</p>`;
       return;
     }
 
-    const majorData  = majorSnap.data();
+    const majorData = majorSnap.data();
     const curriculum = majorData.curriculum || [];
 
     // اسم التخصص في الهيرو
     majorBadge.textContent = majorData.name_en || majorId;
-    heroTitle.textContent  = majorData.name_en  || "Courses";
+    heroTitle.textContent = majorData.name_en || "Courses";
     document.title = `Think-Up | ${majorData.name_en || majorId}`;
 
     // 2. جيب كل المواد من الكتالوج مرة وحدة
     const coursesSnap = await getDocs(collection(db, "universities", uniId, "courses"));
-    const coursesMap  = {};
-    coursesSnap.forEach(d => { coursesMap[d.id] = d.data(); });
+    const coursesMap = {};
+    coursesSnap.forEach((d) => {
+      coursesMap[d.id] = d.data();
+    });
 
     // 3. قسّم الـ curriculum
-    const levelMap   = {};  // level => [items]
+    const levelMap = {}; // level => [items]
     const electivePool = []; // level === null
-    let   summerItem  = null;
+    let summerItem = null;
 
-    curriculum.forEach(item => {
+    curriculum.forEach((item) => {
       if (item.level === null) {
         electivePool.push(item);
       } else if (item.level === 0) {
@@ -131,12 +139,12 @@ async function init() {
       }
     });
 
-    const sortedLevels = Object.keys(levelMap).map(Number).sort((a,b) => a - b);
+    const sortedLevels = Object.keys(levelMap).map(Number).sort((a, b) => a - b);
 
     // 4. بنِ الـ Quick Jump
-    sortedLevels.forEach(lvl => {
+    sortedLevels.forEach((lvl) => {
       const btn = document.createElement("a");
-      btn.className  = "jump-btn";
+      btn.className = "jump-btn";
       btn.textContent = `Lvl ${lvl}`;
       btn.href = `#level-${lvl}`;
       quickJump.appendChild(btn);
@@ -144,7 +152,7 @@ async function init() {
 
     if (summerItem) {
       const btn = document.createElement("a");
-      btn.className  = "jump-btn";
+      btn.className = "jump-btn";
       btn.textContent = "Summer";
       btn.href = "#summer";
       quickJump.appendChild(btn);
@@ -152,7 +160,7 @@ async function init() {
 
     if (electivePool.length) {
       const btn = document.createElement("a");
-      btn.className  = "jump-btn";
+      btn.className = "jump-btn";
       btn.textContent = "Electives";
       btn.href = "#electives";
       quickJump.appendChild(btn);
@@ -161,9 +169,9 @@ async function init() {
     // 5. ارسم الـ levels
     levelsContainer.innerHTML = "";
 
-    sortedLevels.forEach(lvl => {
-      const items     = levelMap[lvl];
-      const totalHrs  = items.reduce((sum, i) => {
+    sortedLevels.forEach((lvl) => {
+      const items = levelMap[lvl];
+      const totalHrs = items.reduce((sum, i) => {
         if (i.isSlot) return sum + (i.credits || 0);
         return sum + (coursesMap[i.courseCode]?.credits || 0);
       }, 0);
@@ -182,7 +190,7 @@ async function init() {
           <div class="level-divider"></div>
         </div>
         <div class="courses-grid">
-          ${items.map(item => renderCourseCard(item, coursesMap[item.courseCode])).join("")}
+          ${items.map((item) => renderCourseCard(item, coursesMap[item.courseCode])).join("")}
         </div>`;
 
       levelsContainer.appendChild(section);
@@ -207,22 +215,22 @@ async function init() {
     // 7. Electives Pool
     if (electivePool.length) {
       electivesSection.id = "electives";
-      electivesSection.style.display = "block";
+      electivesSection.classList.remove("is-hidden");
       electivesGrid.innerHTML = electivePool
-        .map(item => renderCourseCard(item, coursesMap[item.courseCode]))
+        .map((item) => renderCourseCard(item, coursesMap[item.courseCode]))
         .join("");
     }
 
   } catch (err) {
     console.error("Error:", err);
-    levelsContainer.innerHTML = `<p style="text-align:center;color:red;">Connection Error.</p>`;
+    levelsContainer.innerHTML = `<p class="error-msg">Connection Error.</p>`;
   }
 }
 
 // ===== SEARCH =====
 searchInput.addEventListener("input", (e) => {
   const term = e.target.value.toLowerCase().trim();
-  document.querySelectorAll(".course-card:not(.slot-card)").forEach(card => {
+  document.querySelectorAll(".course-card:not(.slot-card)").forEach((card) => {
     const text = card.textContent.toLowerCase();
     card.style.display = text.includes(term) ? "" : "none";
   });

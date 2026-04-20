@@ -1,9 +1,9 @@
-// Login/auth.js
+// JS/auth.js
 import { auth } from "../Core/firebase.js";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  updateProfile // <-- 1. تمت إضافة دالة تحديث البروفايل
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 /* =======================
@@ -17,8 +17,7 @@ const loginPassword = document.getElementById("loginPassword");
    SIGN UP ELEMENTS
 ======================= */
 const signupForm = document.getElementById("signupForm");
-// تأكد أن هذه المعرفات (IDs) موجودة في ملف HTML كما اتفقنا
-const firstNameInput = document.getElementById("firstName"); 
+const firstNameInput = document.getElementById("firstName");
 const lastNameInput = document.getElementById("lastName");
 const signupEmail = document.getElementById("signupEmail");
 const signupPassword = document.getElementById("signupPassword");
@@ -35,9 +34,7 @@ if (loginForm) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-
-      // توجيه للداشبورد مباشرة بعد الدخول
-      window.location.href = "../dashboard/dashboard.html";
+      window.location.href = "../HTML/dashboard.html";
     } catch (err) {
       alert(prettyAuthError(err));
       console.error(err);
@@ -46,36 +43,30 @@ if (loginForm) {
 }
 
 /* =======================
-   SIGN UP LOGIC (التعديل الأساسي هنا)
+   SIGN UP LOGIC
 ======================= */
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // 1. جلب القيم من الحقول الجديدة
     const fName = firstNameInput.value.trim();
     const lName = lastNameInput.value.trim();
     const email = signupEmail.value.trim();
     const password = signupPassword.value;
 
-    // دمج الاسم ليكون ثنائياً
     const fullName = `${fName} ${lName}`;
 
     try {
-      // 2. إنشاء الحساب
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 3. تحديث اسم المستخدم في فايربيس فوراً
       await updateProfile(user, {
         displayName: fullName
       });
 
       console.log("تم إنشاء الحساب وحفظ الاسم:", fullName);
+      window.location.href = "../HTML/dashboard.html";
 
-      // 4. التوجيه لصفحة الداشبورد لرؤية الاسم
-      window.location.href = "../dashboard/dashboard.html";
-      
     } catch (err) {
       alert(prettyAuthError(err));
       console.error(err);

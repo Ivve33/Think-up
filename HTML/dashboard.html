@@ -2,26 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Think-Up dashboard — manage your study sessions, summaries, and live subject alerts." />
   <title>Think-Up | Dashboard</title>
 
-  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <header class="navbar">
     <div class="container nav-wrap">
-      <a class="logo" href="../Home/homePage.html">Think-<span>Up</span></a>
+      <a class="logo" href="homePage.html" aria-label="Think-Up home">Think-<span>Up</span></a>
 
       <div class="nav-right">
         <span class="pill">Signed in as: <b id="userLabel">Student</b></span>
-        
-        <button class="btn btn-outline" id="logoutBtn">Log Out</button>
+
+        <button class="btn btn-outline" id="logoutBtn" type="button">Log Out</button>
 
         <button class="profile" id="profileBtn" type="button" aria-label="Profile">
-          <span>👤</span>
-          <small id="notifDot" class="hidden">!</small>
+          <span aria-hidden="true">👤</span>
+          <small id="notifDot" class="hidden" aria-hidden="true">!</small>
         </button>
       </div>
     </div>
@@ -37,7 +38,7 @@
         </p>
       </div>
 
-      <div class="hero-side">
+      <aside class="hero-side" aria-label="Today at a glance">
         <div class="stats-card">
           <div class="stats-title">Today at a glance</div>
           <div class="stats-row">
@@ -57,7 +58,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </aside>
     </div>
   </section>
 
@@ -66,7 +67,7 @@
 
       <section class="stack">
 
-        <div class="card">
+        <article class="card">
           <div class="subhead">
             <div>
               <h2>Quick Actions</h2>
@@ -75,16 +76,16 @@
           </div>
 
           <div class="actions">
-            <a class="action" href="../Explore/explore.html" id="exploreBtn" style="width: 100%;">
-              <div class="tag">🎓 Explore</div>
+             <a class="action action-full" href="explore.html" id="exploreBtn">
+                <div class="tag" aria-hidden="true">🎓 Explore</div>
               <h3>Explore Universities</h3>
               <p>Browse universities, majors, and courses in your Saudi network.</p>
-              <div class="go">Open <span>→</span></div>
+              <div class="go">Open <span aria-hidden="true">→</span></div>
             </a>
           </div>
-        </div>
+        </article>
 
-        <div class="card">
+        <article class="card">
           <div class="subhead">
             <div>
               <h2>Upcoming Sessions</h2>
@@ -94,9 +95,9 @@
           </div>
 
           <div id="upcomingList" class="session-grid"></div>
-        </div>
+        </article>
 
-        <div class="card">
+        <article class="card">
           <div class="subhead">
             <div>
               <h2>History / My Summaries</h2>
@@ -106,13 +107,13 @@
           </div>
 
           <div class="history" id="historyList"></div>
-        </div>
+        </article>
 
       </section>
 
-      <aside class="stack">
+      <aside class="stack" aria-label="Live sessions and AI preview">
 
-        <div class="card live-card">
+        <article class="card live-card">
           <div class="subhead">
             <div>
               <h2>Live Indicator</h2>
@@ -124,13 +125,13 @@
           <div id="liveList" class="live-list"></div>
 
           <div class="empty" id="liveEmpty">
-            <div class="empty-icon">📡</div>
+            <div class="empty-icon" aria-hidden="true">📡</div>
             <b>No live sessions right now</b>
             <p class="muted">Follow a subject to get live alerts here.</p>
           </div>
-        </div>
+        </article>
 
-        <div class="preview-card">
+        <div class="preview-card" aria-label="AI summary preview">
           <div class="mock-header">AI Summary Preview</div>
           <div class="mock-line"></div>
           <div class="mock-content">
@@ -150,10 +151,10 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2026 Think-Up. Proudly serving Saudi students.</p>
+      <p>&copy; 2026 Think-Up. Proudly serving Saudi students.</p>
     </div>
   </footer>
 
-  <script type="module" src="dashboard.js"></script>
+  <script type="module" src="../JS/dashboard.js"></script>
 </body>
 </html>

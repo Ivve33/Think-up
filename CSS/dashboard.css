@@ -63,6 +63,8 @@ a{color:inherit;text-decoration:none}
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 14px 30px rgba(33,40,66,.18);
   position: relative;
+  border: none;
+  cursor: pointer;
 }
 .profile small{
   position:absolute;bottom:-8px;right:-8px;
@@ -184,6 +186,7 @@ a{color:inherit;text-decoration:none}
   overflow: hidden;
 }
 .action:hover{transform: translateY(-2px)}
+.action-full{grid-column: 1 / -1;}
 .action-upload{cursor:pointer}
 .action .tag{
   display:inline-flex;align-items:center;gap:8px;
@@ -342,7 +345,7 @@ a{color:inherit;text-decoration:none}
 .mock-content li{margin:8px 0}
 
 /* Footer */
-.footer{padding: 40px 0; opacity:.7}
+.footer{padding: 40px 0; opacity:.7; border-top: 1px solid rgba(33,40,66,0.08)}
 .footer-inner{display:flex;justify-content:center}
 
 /* Responsive */
@@ -351,4 +354,5 @@ a{color:inherit;text-decoration:none}
   .hero-side{justify-content:flex-start}
   .grid{grid-template-columns: 1fr; margin-top: 14px}
   .actions{grid-template-columns: 1fr}
+  .hero h1{font-size: 2rem}
 }
