@@ -1,3 +1,19 @@
+import { db } from "../Core/firebase.js";
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const params = new URLSearchParams(window.location.search);
+const uniId = params.get("uniId");
+const collegeId = params.get("collegeId");
+const majorId = params.get("majorId");
+const courseCode = params.get("courseCode");
+
+const courseCodeEl = document.getElementById("courseCode");
+const courseNameEl = document.getElementById("courseName");
+const heroTitle = document.getElementById("heroTitle");
+
 const dayButtons = document.querySelectorAll(".day-btn");
 const selectedDayTitle = document.getElementById("selectedDayTitle");
 const currentTimeLabel = document.getElementById("currentTimeLabel");
@@ -30,13 +46,12 @@ const labelMap = {
 };
 
 const now = new Date();
-const currentHour = now.getHours();
-const currentMinutes = now.getMinutes();
 const currentDayKey = orderedDays[now.getDay()];
 
-init();
+document.addEventListener("DOMContentLoaded", init);
 
-function init() {
+async function init() {
+  await loadCourseData();
   activateCurrentDay();
   updateSelectedDayTitle();
   updateCurrentTimeLabel();
@@ -45,6 +60,34 @@ function init() {
   positionNowIndicator();
   bindDayButtons();
   bindModal();
+}
+
+async function loadCourseData() {
+  if (!uniId || !courseCode) return;
+
+  try {
+    const coursesRef = collection(db, "universities", uniId, "courses");
+    const snap = await getDocs(coursesRef);
+
+    let foundCourse = null;
+
+    snap.forEach((docItem) => {
+      const data = docItem.data();
+
+      if (docItem.id === courseCode || data.code === courseCode) {
+        foundCourse = data;
+      }
+    });
+
+    if (!foundCourse) return;
+
+    if (courseCodeEl) courseCodeEl.textContent = foundCourse.code || courseCode;
+    if (courseNameEl) courseNameEl.textContent = foundCourse.name_en || "Course";
+if (heroTitle) {
+  heroTitle.innerHTML = `Find or create <span>study sessions</span>`;
+}  } catch (err) {
+    console.error("Error loading course:", err);
+  }
 }
 
 function activateCurrentDay() {
@@ -69,9 +112,6 @@ function bindDayButtons() {
       updateSelectedDayTitle();
       applyUpcomingFilter();
       positionNowIndicator();
-
-      // لو تبغى إعادة تحميل حقيقية:
-      // window.location.href = `course-sessions.html?day=${btn.dataset.day}`;
     });
   });
 
@@ -90,17 +130,6 @@ function bindModal() {
       modalSeats.textContent = btn.dataset.seats;
       modalStatus.textContent = btn.dataset.status;
       modalType.textContent = btn.dataset.type;
-
-      if (btn.dataset.status.toLowerCase() === "live") {
-        modalStatus.style.background = "rgba(216,76,76,0.12)";
-        modalStatus.style.borderColor = "rgba(216,76,76,0.35)";
-      } else if (btn.dataset.status.toLowerCase() === "full") {
-        modalStatus.style.background = "rgba(33,40,66,0.08)";
-        modalStatus.style.borderColor = "rgba(33,40,66,0.12)";
-      } else {
-        modalStatus.style.background = "rgba(212,175,55,0.12)";
-        modalStatus.style.borderColor = "rgba(212,175,55,0.35)";
-      }
 
       sessionModal.classList.remove("hidden");
     });
@@ -125,11 +154,9 @@ function updateSelectedDayTitle() {
   const activeKey = activeBtn.dataset.day;
   const activeLabel = labelMap[activeKey];
 
-  if (activeKey === currentDayKey) {
-    selectedDayTitle.textContent = "Today's Sessions";
-  } else {
-    selectedDayTitle.textContent = `${activeLabel} Sessions`;
-  }
+  selectedDayTitle.textContent = activeKey === currentDayKey
+    ? "Today's Sessions"
+    : `${activeLabel} Sessions`;
 }
 
 function updateCurrentTimeLabel() {
@@ -138,11 +165,9 @@ function updateCurrentTimeLabel() {
   const minutes = String(liveNow.getMinutes()).padStart(2, "0");
   let period = "AM";
 
-  if (hour === 0) {
-    hour = 12;
-  } else if (hour === 12) {
-    period = "PM";
-  } else if (hour > 12) {
+  if (hour === 0) hour = 12;
+  else if (hour === 12) period = "PM";
+  else if (hour > 12) {
     hour -= 12;
     period = "PM";
   }

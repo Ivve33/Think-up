@@ -20,16 +20,16 @@ const closeInviteModalBtn = document.getElementById("closeInviteModalBtn");
 const copyInviteBtn = document.getElementById("copyInviteBtn");
 const inviteLinkBox = document.getElementById("inviteLinkBox");
 
-const durationInputs = document.querySelectorAll('input[name="duration"]');
-
 const userExistingSessions = [
   { date: "2026-04-21", start: "10:00", end: "11:00" },
-  { date: "2026-04-21", start: "15:30", end: "17:00" }
+  { date: "2026-04-21", start: "15:30", end: "16:30" }
 ];
 
-init();
+document.addEventListener("DOMContentLoaded", init);
 
 function init() {
+  if (!createSessionForm) return;
+
   generateTimeOptions();
   setMinDate();
   hydrateFromQuery();
@@ -47,10 +47,6 @@ function bindEvents() {
   sessionDateInput.addEventListener("change", updatePreview);
   startTimeSelect.addEventListener("change", updatePreview);
 
-  durationInputs.forEach((input) => {
-    input.addEventListener("change", updatePreview);
-  });
-
   visibilityButtons.forEach((button) => {
     button.addEventListener("click", () => {
       visibilityButtons.forEach((btn) => btn.classList.remove("active"));
@@ -63,6 +59,7 @@ function bindEvents() {
   createSessionForm.addEventListener("submit", handleCreateSession);
 
   closeInviteModalBtn.addEventListener("click", closeInviteModal);
+
   inviteModal.addEventListener("click", (e) => {
     if (e.target === inviteModal) closeInviteModal();
   });
@@ -71,6 +68,8 @@ function bindEvents() {
 }
 
 function generateTimeOptions() {
+  startTimeSelect.innerHTML = `<option value="">Select a start time</option>`;
+
   const startMinutes = 8 * 60;
   const endMinutes = 21 * 60;
 
@@ -87,8 +86,9 @@ function generateTimeOptions() {
 
 function setMinDate() {
   const today = new Date();
-  sessionDateInput.min = formatDateInput(today);
-  sessionDateInput.value = formatDateInput(today);
+  const formattedToday = formatDateInput(today);
+  sessionDateInput.min = formattedToday;
+  sessionDateInput.value = formattedToday;
 }
 
 function hydrateFromQuery() {
@@ -100,7 +100,7 @@ function hydrateFromQuery() {
     startTimeSelect.value = time;
   }
 
-  if (day && !params.get("date")) {
+  if (day) {
     previewSubtitle.textContent = `Creating a session for ${capitalize(day)}.`;
   }
 }
@@ -112,16 +112,14 @@ function updateParticipantsUI() {
 function updatePreview() {
   const selectedDate = sessionDateInput.value;
   const selectedTime = startTimeSelect.value;
-  const selectedDuration = getSelectedDuration();
   const selectedParticipants = maxParticipantsInput.value;
   const selectedVisibility = visibilityInput.value;
 
   previewVisibility.textContent = capitalize(selectedVisibility);
   previewParticipants.textContent = selectedParticipants;
-
   previewDate.textContent = selectedDate ? formatDateFriendly(selectedDate) : "—";
   previewTime.textContent = selectedTime ? formatTime24To12(selectedTime) : "—";
-  previewDuration.textContent = selectedDuration ? `${selectedDuration} min` : "—";
+  previewDuration.textContent = "60 min";
 
   if (selectedVisibility === "public") {
     previewSubtitle.textContent = "This session will appear in the weekly course schedule.";
@@ -132,13 +130,12 @@ function updatePreview() {
 
 function handleCreateSession(e) {
   e.preventDefault();
-  errorBox.classList.add("hidden");
-  errorBox.textContent = "";
+  clearError();
 
   const formData = new FormData(createSessionForm);
   const sessionDate = formData.get("sessionDate");
   const startTime = formData.get("startTime");
-  const duration = formData.get("duration");
+  const duration = Number(formData.get("duration"));
   const maxParticipants = formData.get("maxParticipants");
   const visibility = formData.get("visibility");
   const hostConsent = formData.get("hostConsent");
@@ -158,15 +155,12 @@ function handleCreateSession(e) {
     return;
   }
 
-  if (hasUserConflict(sessionDate, startTime, Number(duration))) {
+  if (hasUserConflict(sessionDate, startTime, duration)) {
     showError("This time conflicts with another session already created by the same user.");
     return;
   }
 
   statusPill.textContent = "Session created";
-  statusPill.style.background = "rgba(31,143,95,0.10)";
-  statusPill.style.borderColor = "rgba(31,143,95,0.25)";
-  statusPill.style.color = "#1f8f5f";
 
   const sessionId = `session-${Date.now()}`;
 
@@ -175,40 +169,13 @@ function handleCreateSession(e) {
     return;
   }
 
-  const inviteLink = `https://think-up.app/invite/${sessionId}`;
-  inviteLinkBox.textContent = inviteLink;
+  inviteLinkBox.textContent = `https://think-up.app/invite/${sessionId}`;
   inviteModal.classList.remove("hidden");
-}
-
-function closeInviteModal() {
-  inviteModal.classList.add("hidden");
-}
-
-function copyInviteLink() {
-  const text = inviteLinkBox.textContent.trim();
-
-  navigator.clipboard.writeText(text).then(() => {
-    copyInviteBtn.textContent = "Copied";
-    setTimeout(() => {
-      copyInviteBtn.textContent = "Copy Link";
-    }, 1200);
-  });
-}
-
-function showError(message) {
-  errorBox.textContent = message;
-  errorBox.classList.remove("hidden");
-}
-
-function getSelectedDuration() {
-  const selected = document.querySelector('input[name="duration"]:checked');
-  return selected ? selected.value : "";
 }
 
 function isBeforeNow(dateStr, timeStr) {
   const chosen = new Date(`${dateStr}T${timeStr}:00`);
-  const now = new Date();
-  return chosen < now;
+  return chosen < new Date();
 }
 
 function hasUserConflict(dateStr, startTime, durationMinutes) {
@@ -278,4 +245,29 @@ function formatTime24To12(time24) {
 
 function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function showError(message) {
+  errorBox.textContent = message;
+  errorBox.classList.remove("hidden");
+}
+
+function clearError() {
+  errorBox.textContent = "";
+  errorBox.classList.add("hidden");
+}
+
+function closeInviteModal() {
+  inviteModal.classList.add("hidden");
+}
+
+function copyInviteLink() {
+  const text = inviteLinkBox.textContent.trim();
+
+  navigator.clipboard.writeText(text).then(() => {
+    copyInviteBtn.textContent = "Copied";
+    setTimeout(() => {
+      copyInviteBtn.textContent = "Copy Link";
+    }, 1200);
+  });
 }

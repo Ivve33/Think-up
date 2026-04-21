@@ -1,5 +1,3 @@
-// JS/course-details.js
-
 import { db, auth } from "../Core/firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import {
@@ -53,7 +51,6 @@ const typeClass = {
 
 // ===== RENDER COURSE CARD =====
 function renderCourseCard(item, courseData) {
-  // Slot card (elective/free placeholder)
   if (item.isSlot) {
     const label = item.type === "major_elective" ? "⚡ Elective Slot" : "📖 Free Elective Slot";
     return `
@@ -73,7 +70,7 @@ function renderCourseCard(item, courseData) {
   const type = item.type || "major_required";
 
   return `
-    <div class="course-card">
+    <div class="course-card clickable-course" data-code="${code}">
       <div class="course-card-top">
         <div class="course-code">${code}</div>
         <div class="course-type-badge ${typeClass[type] || "type-major"}">
@@ -88,7 +85,8 @@ function renderCourseCard(item, courseData) {
           ${prereqs !== "-" ? `<strong>Pre:</strong> ${prereqs}` : ""}
         </div>
       </div>
-    </div>`;
+    </div>
+  `;
 }
 
 // ===== MAIN FETCH & RENDER =====
@@ -99,7 +97,6 @@ async function init() {
   }
 
   try {
-    // 1. جيب بيانات التخصص (curriculum)
     const majorRef = doc(db, "universities", uniId, "colleges", collegeId, "majors", majorId);
     const majorSnap = await getDoc(majorRef);
 
@@ -111,21 +108,18 @@ async function init() {
     const majorData = majorSnap.data();
     const curriculum = majorData.curriculum || [];
 
-    // اسم التخصص في الهيرو
     majorBadge.textContent = majorData.name_en || majorId;
     heroTitle.textContent = majorData.name_en || "Courses";
     document.title = `Think-Up | ${majorData.name_en || majorId}`;
 
-    // 2. جيب كل المواد من الكتالوج مرة وحدة
     const coursesSnap = await getDocs(collection(db, "universities", uniId, "courses"));
     const coursesMap = {};
     coursesSnap.forEach((d) => {
       coursesMap[d.id] = d.data();
     });
 
-    // 3. قسّم الـ curriculum
-    const levelMap = {}; // level => [items]
-    const electivePool = []; // level === null
+    const levelMap = {};
+    const electivePool = [];
     let summerItem = null;
 
     curriculum.forEach((item) => {
@@ -141,7 +135,8 @@ async function init() {
 
     const sortedLevels = Object.keys(levelMap).map(Number).sort((a, b) => a - b);
 
-    // 4. بنِ الـ Quick Jump
+    quickJump.innerHTML = "";
+
     sortedLevels.forEach((lvl) => {
       const btn = document.createElement("a");
       btn.className = "jump-btn";
@@ -166,7 +161,6 @@ async function init() {
       quickJump.appendChild(btn);
     }
 
-    // 5. ارسم الـ levels
     levelsContainer.innerHTML = "";
 
     sortedLevels.forEach((lvl) => {
@@ -196,7 +190,6 @@ async function init() {
       levelsContainer.appendChild(section);
     });
 
-    // 6. Summer Training
     if (summerItem) {
       const summerData = coursesMap[summerItem.courseCode];
       const div = document.createElement("div");
@@ -212,7 +205,6 @@ async function init() {
       levelsContainer.appendChild(div);
     }
 
-    // 7. Electives Pool
     if (electivePool.length) {
       electivesSection.id = "electives";
       electivesSection.classList.remove("is-hidden");
@@ -221,10 +213,24 @@ async function init() {
         .join("");
     }
 
+    bindCourseCardClicks();
+
   } catch (err) {
     console.error("Error:", err);
     levelsContainer.innerHTML = `<p class="error-msg">Connection Error.</p>`;
   }
+}
+
+// ===== CLICK ON COURSE =====
+function bindCourseCardClicks() {
+  document.querySelectorAll(".clickable-course").forEach((card) => {
+    card.addEventListener("click", () => {
+      const courseCode = card.dataset.code;
+
+      window.location.href =
+        `course-sessions.html?uniId=${uniId}&collegeId=${collegeId}&majorId=${majorId}&courseCode=${encodeURIComponent(courseCode)}`;
+    });
+  });
 }
 
 // ===== SEARCH =====
