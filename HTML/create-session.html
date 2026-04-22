@@ -21,7 +21,7 @@
 
       <div class="nav-right">
         <div class="pill pill-soft">Create Session</div>
-        <a href="course-sessions.html" class="btn btn-outline">Back to Schedule</a>
+        <a href="course-sessions.html" class="btn btn-outline" id="backToScheduleBtn">Back to Schedule</a>
         <div class="profile">
           OA
           <small>3</small>
@@ -40,8 +40,8 @@
 
           <div>
             <div class="hero-tags">
-              <span class="pill pill-live">CCCS 211</span>
-              <span class="pill pill-soft">Java Programming</span>
+              <span class="pill pill-live" id="heroCourseCode">—</span>
+              <span class="pill pill-soft" id="heroCourseName">Loading...</span>
             </div>
 
             <h1>Create a <span>Study Session</span></h1>
@@ -93,6 +93,19 @@
         </div>
 
         <form id="createSessionForm" novalidate>
+          <div class="field">
+            <label for="sessionTitle">Session Title</label>
+            <input
+              type="text"
+              id="sessionTitle"
+              name="sessionTitle"
+              placeholder="e.g., Java Basics Review"
+              required
+              maxlength="60"
+            />
+            <small class="field-hint">A short, clear title for your session (max 60 characters).</small>
+          </div>
+
           <div class="form-grid">
             <div class="field">
               <label for="sessionDate">Date</label>
@@ -158,6 +171,7 @@
               id="topicNotes"
               name="topicNotes"
               rows="4"
+              maxlength="300"
               placeholder="Examples: Lab 4 review, OOP recap, Midterm practice questions..."
             ></textarea>
           </div>
@@ -175,8 +189,8 @@
           <div class="error-box hidden" id="errorBox"></div>
 
           <div class="submit-row">
-            <button type="submit" class="btn btn-solid btn-lg">Create Session</button>
-            <a href="course-sessions.html" class="btn btn-outline">Cancel</a>
+            <button type="submit" class="btn btn-solid btn-lg" id="createBtn">Create Session</button>
+            <a href="course-sessions.html" class="btn btn-outline" id="cancelBtn">Cancel</a>
           </div>
         </form>
       </section>
@@ -187,7 +201,7 @@
           <div class="preview-badge" id="previewVisibility">Public</div>
         </div>
 
-        <h3 id="previewTitle">Java Programming Session</h3>
+        <h3 id="previewTitle">Session Preview</h3>
         <p id="previewSubtitle">Set your session information to preview it here.</p>
 
         <div class="preview-list">
@@ -234,15 +248,16 @@
       </p>
 
       <div class="invite-link-box" id="inviteLinkBox">
-        https://think-up.app/invite/session-demo-001
+        —
       </div>
 
       <div class="modal-actions">
         <button class="btn btn-solid" id="copyInviteBtn">Copy Link</button>
-        <a href="session-room.html?id=session-demo-001" class="btn btn-outline">Go to Lobby</a>
+        <button type="button" class="btn btn-outline" id="goToLobbyBtn">Go to Lobby</button>
       </div>
     </div>
   </div>
 
-<script src="../JS/create-session.js"></script></body>
+  <script type="module" src="../JS/create-session.js"></script>
+</body>
 </html>

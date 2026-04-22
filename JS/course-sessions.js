@@ -51,7 +51,13 @@ const currentDayKey = orderedDays[now.getDay()];
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
+  if (!uniId || !courseCode) {
+    window.location.href = "explore.html";
+    return;
+  }
+
   await loadCourseData();
+  fixCreateSessionLinks();
   activateCurrentDay();
   updateSelectedDayTitle();
   updateCurrentTimeLabel();
@@ -83,11 +89,29 @@ async function loadCourseData() {
 
     if (courseCodeEl) courseCodeEl.textContent = foundCourse.code || courseCode;
     if (courseNameEl) courseNameEl.textContent = foundCourse.name_en || "Course";
-if (heroTitle) {
-  heroTitle.innerHTML = `Find or create <span>study sessions</span>`;
-}  } catch (err) {
+
+    if (heroTitle) {
+      heroTitle.innerHTML = `Find or create <span>study sessions</span>`;
+    }
+  } catch (err) {
     console.error("Error loading course:", err);
   }
+}
+
+function fixCreateSessionLinks() {
+  const createLinks = document.querySelectorAll(".empty-slot");
+
+  createLinks.forEach((link) => {
+    const currentHref = link.getAttribute("href") || "";
+    const queryStart = currentHref.indexOf("?");
+    const existingQuery = queryStart >= 0 ? currentHref.substring(queryStart + 1) : "";
+
+    const newParams = new URLSearchParams(existingQuery);
+    newParams.set("uniId", uniId);
+    newParams.set("courseCode", courseCode);
+
+    link.setAttribute("href", `create-session.html?${newParams.toString()}`);
+  });
 }
 
 function activateCurrentDay() {
