@@ -70,8 +70,8 @@
           </div>
 
           <div class="actions">
-             <a class="action action-full" href="explore.html" id="exploreBtn">
-                <div class="tag" aria-hidden="true">🎓 Explore</div>
+            <a class="action action-full" href="explore.html" id="exploreBtn">
+              <div class="tag" aria-hidden="true">🎓 Explore</div>
               <h3>Explore Universities</h3>
               <p>Browse universities, majors, and courses in your Saudi network.</p>
               <div class="go">Open <span aria-hidden="true">→</span></div>
@@ -82,51 +82,58 @@
         <article class="card">
           <div class="subhead">
             <div>
-              <h2>My Summaries</h2>
-              <p>AI-generated summaries from your study sessions.</p>
+              <h2>My Upcoming Sessions</h2>
+              <p>Your next scheduled study sessions.</p>
             </div>
-            <a class="btn btn-solid" href="session-summary.html">Open Summaries</a>
+            <a class="btn btn-solid" href="session-history.html">View All</a>
           </div>
 
-          <div class="empty">
-            <div class="empty-icon" aria-hidden="true">📝</div>
-            <b>View your summaries</b>
-            <p class="muted">Access key points and discussions from past sessions.</p>
+          <div id="upcomingSessionsList"></div>
+
+          <div class="empty hidden" id="upcomingEmpty">
+            <div class="empty-icon" aria-hidden="true">📚</div>
+            <b>No upcoming sessions</b>
+            <p class="muted">Browse courses and create or join a study session.</p>
+            <a class="btn btn-outline" href="explore.html" style="margin-top:12px;">Explore Courses</a>
           </div>
         </article>
 
         <article class="card">
           <div class="subhead">
             <div>
-              <h2>My Sessions</h2>
-              <p>Your upcoming, past, and hosted sessions in one place.</p>
+              <h2>My Summaries</h2>
+              <p>AI-generated summaries from your completed sessions.</p>
             </div>
-            <a class="btn btn-solid" href="session-history.html">View Sessions</a>
+            <a class="btn btn-solid" href="session-history.html">Open History</a>
           </div>
 
-          <div class="empty">
-            <div class="empty-icon" aria-hidden="true">📚</div>
-            <b>Your session timeline</b>
-            <p class="muted">Track upcoming, past, and hosted sessions.</p>
+          <div class="empty" id="summariesEmpty">
+            <div class="empty-icon" aria-hidden="true">📝</div>
+            <b>No summaries yet</b>
+            <p class="muted">Complete a session to generate your first AI summary.</p>
           </div>
         </article>
 
       </section>
 
-      <aside class="stack" aria-label="AI summary preview">
+      <aside class="stack" aria-label="Recent activity">
 
-        <div class="preview-card" aria-label="AI summary preview">
-          <div class="mock-header">AI Summary Preview</div>
-          <div class="mock-line"></div>
-          <div class="mock-content">
-            <strong>Key Points:</strong>
-            <ul>
-              <li>Time Complexity analysis</li>
-              <li>Linked List vs Arrays</li>
-              <li>Big-O examples in exams</li>
-            </ul>
+        <article class="card">
+          <div class="subhead">
+            <div>
+              <h2>Recent Activity</h2>
+              <p>Your latest sessions.</p>
+            </div>
           </div>
-        </div>
+
+          <div id="recentActivityList"></div>
+
+          <div class="empty hidden" id="recentEmpty">
+            <div class="empty-icon" aria-hidden="true">⏰</div>
+            <b>Nothing here yet</b>
+            <p class="muted">Your session history will appear here.</p>
+          </div>
+        </article>
 
       </aside>
 

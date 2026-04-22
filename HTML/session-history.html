@@ -21,7 +21,7 @@
 
       <div class="nav-right">
         <div class="pill pill-soft">Session History</div>
-        <a href="course-sessions.html" class="btn btn-outline">Browse Sessions</a>
+        <a href="explore.html" class="btn btn-outline">Browse Sessions</a>
         <div class="profile">
           OA
           <small>5</small>
@@ -59,22 +59,22 @@
 
           <div class="stats-row">
             <div class="mini">
-              <b id="totalSessionsStat">12</b>
+              <b id="totalSessionsStat">0</b>
               <span>Total Sessions</span>
             </div>
 
             <div class="mini">
-              <b id="hoursStudiedStat">18.5</b>
+              <b id="hoursStudiedStat">0.0</b>
               <span>Hours Studied</span>
             </div>
 
             <div class="mini">
-              <b id="upcomingCountStat">4</b>
+              <b id="upcomingCountStat">0</b>
               <span>Upcoming</span>
             </div>
 
             <div class="mini">
-              <b id="hostedCountStat">5</b>
+              <b id="hostedCountStat">0</b>
               <span>Hosted</span>
             </div>
           </div>
@@ -97,14 +97,12 @@
           <div class="pill" id="resultsCountPill">0 Results</div>
         </div>
 
-        <!-- Tabs -->
         <div class="tabs-row" id="tabsRow">
           <button class="tab-btn active" data-tab="upcoming">Upcoming</button>
           <button class="tab-btn" data-tab="past">Past</button>
           <button class="tab-btn" data-tab="hosted">Hosted</button>
         </div>
 
-        <!-- Filters -->
         <div class="filters-row">
           <div class="search-wrap">
             <label for="courseSearch">Search by course</label>
@@ -125,9 +123,7 @@
         </div>
       </section>
 
-      <section class="list-stack" id="sessionsList">
-        <!-- cards injected by JS -->
-      </section>
+      <section class="list-stack" id="sessionsList"></section>
 
       <section class="card empty-state hidden" id="emptyState">
         <div class="empty-icon">📭</div>
@@ -153,7 +149,6 @@
     </div>
   </div>
 
-  <script src="../JS/session-history.js"></script>
+  <script type="module" src="../JS/session-history.js"></script>
 </body>
 </html>
-

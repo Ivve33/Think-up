@@ -208,18 +208,188 @@ a{color:inherit;text-decoration:none}
 }
 .empty-icon{font-size:28px;margin-bottom:10px}
 
-/* Preview */
-.preview-card{
+/* ============================================
+   PHASE 4 ADDITIONS — Session Cards & Activity
+   ============================================ */
+
+/* Upcoming Sessions Cards in Dashboard */
+.dashboard-session-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid rgba(33,40,66,0.10);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+  transition: 0.22s;
+}
+
+.dashboard-session-card:last-child {
+  margin-bottom: 0;
+}
+
+.dashboard-session-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(33,40,66,0.20);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+}
+
+.dsc-main {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.dsc-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   background: var(--indigo);
   color: var(--cream);
-  padding: 28px;
-  border-radius: 24px;
-  box-shadow: 30px 30px 0 var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
 }
-.mock-header{font-weight:900;font-size:1.05rem;margin-bottom:12px}
-.mock-line{height:2px;background: var(--accent);width:80px;margin-bottom:16px}
-.mock-content ul{margin-top:10px;padding-left:18px}
-.mock-content li{margin:8px 0}
+
+.dsc-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.dsc-text small {
+  color: rgba(33,40,66,0.65);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.dsc-text h3 {
+  margin: 4px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--indigo);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dsc-text p {
+  margin: 0;
+  color: rgba(33,40,66,0.75);
+  font-size: 13px;
+}
+
+.dsc-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.dsc-badge {
+  font-size: 10px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.dsc-badge.upcoming {
+  background: rgba(212,175,55,0.20);
+  color: #7a6200;
+  border: 1px solid rgba(212,175,55,0.35);
+}
+
+.dsc-badge.live {
+  background: rgba(193,58,43,0.15);
+  color: #c13a2b;
+  border: 1px solid rgba(193,58,43,0.30);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+.dsc-join {
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 10px;
+}
+
+/* Recent Activity Items */
+.activity-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(33,40,66,0.08);
+  align-items: flex-start;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.activity-item:first-child {
+  padding-top: 0;
+}
+
+.activity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+  background: rgba(33,40,66,0.25);
+}
+
+.activity-dot.upcoming { background: var(--accent); }
+.activity-dot.live { background: #c13a2b; animation: pulse 2s infinite; }
+.activity-dot.completed { background: #2d7a4f; }
+.activity-dot.cancelled { background: rgba(33,40,66,0.35); }
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-content b {
+  display: block;
+  font-size: 14px;
+  color: var(--indigo);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+
+.activity-content small {
+  display: block;
+  color: rgba(33,40,66,0.65);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.activity-content p {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(33,40,66,0.75);
+}
 
 /* Footer */
 .footer{padding: 40px 0; opacity:.7; border-top: 1px solid rgba(33,40,66,0.08)}
@@ -232,4 +402,17 @@ a{color:inherit;text-decoration:none}
   .grid{grid-template-columns: 1fr; margin-top: 14px}
   .actions{grid-template-columns: 1fr}
   .hero h1{font-size: 2rem}
+}
+
+@media (max-width: 640px) {
+  .dashboard-session-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dsc-actions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

@@ -1,3 +1,15 @@
+import { auth, db } from "../Core/firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import {
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+// ============================================
+// DOM REFERENCES
+// ============================================
 const tabs = document.querySelectorAll(".tab-btn");
 const courseSearch = document.getElementById("courseSearch");
 const sortOrder = document.getElementById("sortOrder");
@@ -18,94 +30,117 @@ const modalBadge = document.getElementById("modalBadge");
 const modalTitle = document.getElementById("modalTitle");
 const modalText = document.getElementById("modalText");
 
+// ============================================
+// GLOBAL STATE
+// ============================================
 let activeTab = "upcoming";
 let pendingAction = null;
+let currentUser = null;
+let allSessions = [];
 
-const sessions = [
-  {
-    id: "s1",
-    courseName: "Java Programming",
-    courseCode: "CCCS 211",
-    dateISO: "2026-04-22T14:00:00",
-    duration: 60,
-    hostName: "Osama Alghamdi",
-    isHost: true,
-    status: "Upcoming",
-    bucket: "upcoming",
-    note: "Public review session before the weekly lab."
-  },
-  {
-    id: "s2",
-    courseName: "Database Systems",
-    courseCode: "CCCS 305",
-    dateISO: "2026-04-24T18:30:00",
-    duration: 90,
-    hostName: "Faisal Ahmed",
-    isHost: false,
-    status: "Upcoming",
-    bucket: "upcoming",
-    note: "Discussion on SQL joins and query practice."
-  },
-  {
-    id: "s3",
-    courseName: "Software Engineering",
-    courseCode: "SWE 321",
-    dateISO: "2026-04-18T16:00:00",
-    duration: 60,
-    hostName: "Osama Alghamdi",
-    isHost: true,
-    status: "Completed",
-    bucket: "past",
-    note: "Team study session focused on design principles."
-  },
-  {
-    id: "s4",
-    courseName: "Computer Networks",
-    courseCode: "CCCS 371",
-    dateISO: "2026-04-12T13:00:00",
-    duration: 120,
-    hostName: "Amir Khaled",
-    isHost: false,
-    status: "Completed",
-    bucket: "past",
-    note: "Solved protocol and routing practice problems."
-  },
-  {
-    id: "s5",
-    courseName: "Java Programming",
-    courseCode: "CCCS 211",
-    dateISO: "2026-04-26T20:00:00",
-    duration: 60,
-    hostName: "Osama Alghamdi",
-    isHost: true,
-    status: "Upcoming",
-    bucket: "hosted",
-    note: "Hosted session for object-oriented programming review."
-  },
-  {
-    id: "s6",
-    courseName: "Web Development",
-    courseCode: "CCCS 410",
-    dateISO: "2026-04-10T15:00:00",
-    duration: 60,
-    hostName: "Osama Alghamdi",
-    isHost: true,
-    status: "Cancelled",
-    bucket: "hosted",
-    note: "Cancelled due to scheduling conflict."
-  }
-];
+// ============================================
+// ENTRY POINT
+// ============================================
+document.addEventListener("DOMContentLoaded", bootstrap);
 
-init();
+function bootstrap() {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "auth.html";
+      return;
+    }
 
-function init() {
-  updateStats();
-  bindTabs();
-  bindFilters();
-  bindModal();
-  renderSessions();
+    currentUser = user;
+    await loadUserSessions();
+    updateStats();
+    bindTabs();
+    bindFilters();
+    bindModal();
+    renderSessions();
+  });
 }
 
+// ============================================
+// EFFECTIVE STATUS CALCULATION
+// ============================================
+function getEffectiveStatus(startDate, endDate, rawStatus) {
+  // Manual cancellation takes priority
+  if (rawStatus === "cancelled") return "cancelled";
+
+  const now = new Date();
+
+  // Past end time → completed (auto)
+  if (endDate && now > endDate) {
+    return "completed";
+  }
+
+  // Between start and end → live
+  if (startDate && now >= startDate) {
+    return "live";
+  }
+
+  // Before start → upcoming
+  return "upcoming";
+}
+
+function determineBucket(effectiveStatus) {
+  if (effectiveStatus === "upcoming" || effectiveStatus === "live") return "upcoming";
+  return "past"; // completed or cancelled
+}
+
+// ============================================
+// FIREBASE: LOAD USER'S SESSIONS
+// ============================================
+async function loadUserSessions() {
+  try {
+    const sessionsRef = collection(db, "sessions");
+
+    const q = query(
+      sessionsRef,
+      where("participantIds", "array-contains", currentUser.uid)
+    );
+
+    const snap = await getDocs(q);
+    allSessions = [];
+
+    snap.forEach((docItem) => {
+      const data = docItem.data();
+      if (!data.startTime) return;
+
+      const startDate = data.startTime.toDate();
+      const endDate = data.endTime ? data.endTime.toDate() : null;
+      const isHost = data.hostId === currentUser.uid;
+      const effectiveStatus = getEffectiveStatus(startDate, endDate, data.status);
+
+      allSessions.push({
+        id: docItem.id,
+        title: data.title || "Untitled Session",
+        courseCode: data.courseCode || "",
+        courseName: data.courseName || "",
+        startDate: startDate,
+        endDate: endDate,
+        duration: data.duration || 60,
+        hostName: data.hostName || "Host",
+        hostId: data.hostId,
+        isHost: isHost,
+        rawStatus: data.status || "upcoming",
+        status: effectiveStatus,
+        topicNotes: data.topicNotes || "",
+        participantCount: data.participantCount || 0,
+        maxParticipants: data.maxParticipants || 5,
+        visibility: data.visibility || "public",
+        bucket: determineBucket(effectiveStatus)
+      });
+    });
+  } catch (err) {
+    console.error("Error loading user sessions:", err);
+    allSessions = [];
+  }
+}
+
+// ============================================
+// TABS & FILTERS
+// ============================================
 function bindTabs() {
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -122,6 +157,9 @@ function bindFilters() {
   sortOrder.addEventListener("change", renderSessions);
 }
 
+// ============================================
+// MODAL
+// ============================================
 function bindModal() {
   closeModalBtn.addEventListener("click", closeModal);
   closeModalBtn2.addEventListener("click", closeModal);
@@ -145,11 +183,25 @@ function bindModal() {
   });
 }
 
+function openModal(title, text, badge) {
+  modalTitle.textContent = title;
+  modalText.textContent = text;
+  modalBadge.textContent = badge;
+  actionModal.classList.remove("hidden");
+}
+
+function closeModal() {
+  actionModal.classList.add("hidden");
+}
+
+// ============================================
+// STATS
+// ============================================
 function updateStats() {
-  const totalSessions = sessions.length;
-  const totalHours = sessions.reduce((sum, item) => sum + (item.duration / 60), 0);
-  const upcomingCount = sessions.filter((s) => s.bucket === "upcoming").length;
-  const hostedCount = sessions.filter((s) => s.isHost).length;
+  const totalSessions = allSessions.length;
+  const totalHours = allSessions.reduce((sum, item) => sum + (item.duration / 60), 0);
+  const upcomingCount = allSessions.filter((s) => s.bucket === "upcoming").length;
+  const hostedCount = allSessions.filter((s) => s.isHost).length;
 
   totalSessionsStat.textContent = totalSessions;
   hoursStudiedStat.textContent = totalHours.toFixed(1);
@@ -157,11 +209,14 @@ function updateStats() {
   hostedCountStat.textContent = hostedCount;
 }
 
+// ============================================
+// RENDER SESSIONS
+// ============================================
 function renderSessions() {
   const searchValue = courseSearch.value.trim().toLowerCase();
   const orderValue = sortOrder.value;
 
-  let filtered = sessions.filter((session) => {
+  let filtered = allSessions.filter((session) => {
     if (activeTab === "hosted") {
       if (!session.isHost) return false;
     } else if (session.bucket !== activeTab) {
@@ -170,14 +225,15 @@ function renderSessions() {
 
     const matchesSearch =
       session.courseName.toLowerCase().includes(searchValue) ||
-      session.courseCode.toLowerCase().includes(searchValue);
+      session.courseCode.toLowerCase().includes(searchValue) ||
+      session.title.toLowerCase().includes(searchValue);
 
     return matchesSearch;
   });
 
   filtered.sort((a, b) => {
-    const aTime = new Date(a.dateISO).getTime();
-    const bTime = new Date(b.dateISO).getTime();
+    const aTime = a.startDate.getTime();
+    const bTime = b.startDate.getTime();
     return orderValue === "newest" ? bTime - aTime : aTime - bTime;
   });
 
@@ -202,18 +258,18 @@ function renderSessions() {
 
             <div class="course-badge-text">
               <small>${session.courseCode}</small>
-              <h3>${session.courseName}</h3>
-              <div class="course-code">${formatDateTime(session.dateISO)}</div>
+              <h3>${session.title}</h3>
+              <div class="course-code">${session.courseName}</div>
             </div>
           </div>
 
-          <div class="status-badge ${getStatusClass(session.status)}">${session.status}</div>
+          <div class="status-badge ${getStatusClass(session.status)}">${capitalizeStatus(session.status)}</div>
         </div>
 
         <div class="meta-grid">
           <div class="meta-item">
             <span>Date & Time</span>
-            <b>${formatDateTime(session.dateISO)}</b>
+            <b>${formatDateTime(session.startDate)}</b>
           </div>
 
           <div class="meta-item">
@@ -234,7 +290,7 @@ function renderSessions() {
       </div>
 
       <div class="session-actions-wrap">
-        <div class="session-note">${session.note}</div>
+        <div class="session-note">${session.topicNotes || "No additional notes."}</div>
         <div class="session-actions">
           ${renderActions(session)}
         </div>
@@ -248,7 +304,17 @@ function renderSessions() {
 }
 
 function renderActions(session) {
-  if (session.status === "Upcoming" && !session.isHost) {
+  const status = session.status;
+
+  if (status === "live") {
+    return `
+      <button class="small-btn primary action-btn" data-action="openLobby" data-id="${session.id}">
+        Join Live
+      </button>
+    `;
+  }
+
+  if (status === "upcoming" && !session.isHost) {
     return `
       <button class="small-btn primary action-btn" data-action="openLobby" data-id="${session.id}">
         Open Lobby
@@ -259,16 +325,11 @@ function renderActions(session) {
     `;
   }
 
-  if (session.status === "Completed") {
+  if (status === "upcoming" && session.isHost) {
     return `
-      <button class="small-btn primary action-btn" data-action="viewSummary" data-id="${session.id}">
-        View Summary
+      <button class="small-btn primary action-btn" data-action="openLobby" data-id="${session.id}">
+        Open Lobby
       </button>
-    `;
-  }
-
-  if (session.isHost && session.status === "Upcoming") {
-    return `
       <button class="small-btn action-btn" data-action="edit" data-id="${session.id}">
         Edit
       </button>
@@ -278,7 +339,15 @@ function renderActions(session) {
     `;
   }
 
-  if (session.status === "Cancelled") {
+  if (status === "completed") {
+    return `
+      <button class="small-btn primary action-btn" data-action="viewSummary" data-id="${session.id}">
+        View Summary
+      </button>
+    `;
+  }
+
+  if (status === "cancelled") {
     return `
       <button class="small-btn action-btn" data-action="details" data-id="${session.id}">
         View Details
@@ -304,52 +373,52 @@ function bindActionButtons() {
       pendingAction = { type: action, id };
 
       if (action === "openLobby") {
-        openModal("Open Lobby", "Go to the session lobby for this upcoming study room.", "Upcoming Session");
+        openModal("Open Lobby", "Go to the session lobby for this study room.", "Session");
       } else if (action === "viewSummary") {
         openModal("View Summary", "Open the AI summary for this completed session.", "Completed Session");
       } else if (action === "leave") {
-        openModal("Leave Session", "This would remove you from the selected upcoming session.", "Participant Action");
+        openModal("Leave Session", "This will remove you from the session. (Feature coming in Phase 7)", "Participant Action");
       } else if (action === "edit") {
-        openModal("Edit Session", "This would open the hosted session editor.", "Host Action");
+        openModal("Edit Session", "Session editor will be available soon.", "Host Action");
       } else if (action === "cancel") {
-        openModal("Cancel Session", "This would cancel your hosted upcoming session.", "Host Action");
+        openModal("Cancel Session", "Session cancellation will be available soon.", "Host Action");
       } else {
-        openModal("Session Details", "This is a UI preview action for the selected session.", "Preview");
+        openModal("Session Details", "Detailed view coming soon.", "Preview");
       }
     });
   });
 }
 
-function openModal(title, text, badge) {
-  modalTitle.textContent = title;
-  modalText.textContent = text;
-  modalBadge.textContent = badge;
-  actionModal.classList.remove("hidden");
-}
-
-function closeModal() {
-  actionModal.classList.add("hidden");
-}
-
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
 function getStatusClass(status) {
-  if (status === "Upcoming") return "status-upcoming";
-  if (status === "Completed") return "status-completed";
-  if (status === "Cancelled") return "status-cancelled";
+  if (status === "upcoming") return "status-upcoming";
+  if (status === "live") return "status-upcoming";
+  if (status === "completed") return "status-completed";
+  if (status === "cancelled") return "status-cancelled";
   return "";
 }
 
+function capitalizeStatus(status) {
+  if (!status) return "Unknown";
+  return status.charAt(0).toUpperCase() + status.slice(1);
+}
+
 function getCourseIcon(code) {
-  if (code.includes("211")) return "☕";
-  if (code.includes("305")) return "🗄️";
+  if (!code) return "📘";
+  if (code.includes("211") || code.includes("212")) return "☕";
+  if (code.includes("305") || code.includes("306")) return "🗄️";
   if (code.includes("321")) return "🧩";
   if (code.includes("371")) return "🌐";
   if (code.includes("410")) return "💻";
+  if (code.includes("AI")) return "🤖";
+  if (code.includes("BCSC")) return "📘";
   return "📘";
 }
 
-function formatDateTime(dateISO) {
-  const date = new Date(dateISO);
-
+function formatDateTime(date) {
+  if (!date) return "—";
   return date.toLocaleString("en-US", {
     weekday: "short",
     month: "short",
@@ -357,4 +426,4 @@ function formatDateTime(dateISO) {
     hour: "numeric",
     minute: "2-digit"
   });
-}   
+}
