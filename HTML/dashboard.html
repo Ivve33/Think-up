@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Think-Up dashboard — manage your study sessions, summaries, and live subject alerts." />
+  <meta name="description" content="Think-Up dashboard — manage your study sessions and AI summaries." />
   <title>Think-Up | Dashboard</title>
 
   <link rel="stylesheet" href="../CSS/dashboard.css" />
@@ -51,12 +51,6 @@
               <span>My summaries</span>
             </div>
           </div>
-          <div class="stats-row">
-            <div class="mini">
-              <b id="statLive">0</b>
-              <span>Live now</span>
-            </div>
-          </div>
         </div>
       </aside>
     </div>
@@ -88,48 +82,38 @@
         <article class="card">
           <div class="subhead">
             <div>
-              <h2>Upcoming Sessions</h2>
-              <p>Booked sessions with a live countdown.</p>
+              <h2>My Summaries</h2>
+              <p>AI-generated summaries from your study sessions.</p>
             </div>
-            <span class="pill pill-soft">Next in: <b id="nextCountdown">—</b></span>
+            <a class="btn btn-solid" href="session-summary.html">Open Summaries</a>
           </div>
 
-          <div id="upcomingList" class="session-grid"></div>
+          <div class="empty">
+            <div class="empty-icon" aria-hidden="true">📝</div>
+            <b>View your summaries</b>
+            <p class="muted">Access key points and discussions from past sessions.</p>
+          </div>
         </article>
 
         <article class="card">
           <div class="subhead">
             <div>
-              <h2>History / My Summaries</h2>
-              <p>Previously recorded sessions for quick access.</p>
+              <h2>My Sessions</h2>
+              <p>Your upcoming, past, and hosted sessions in one place.</p>
             </div>
-            <button class="btn btn-solid" id="newSummaryBtn" type="button">New Summary</button>
+            <a class="btn btn-solid" href="session-history.html">View Sessions</a>
           </div>
 
-          <div class="history" id="historyList"></div>
+          <div class="empty">
+            <div class="empty-icon" aria-hidden="true">📚</div>
+            <b>Your session timeline</b>
+            <p class="muted">Track upcoming, past, and hosted sessions.</p>
+          </div>
         </article>
 
       </section>
 
-      <aside class="stack" aria-label="Live sessions and AI preview">
-
-        <article class="card live-card">
-          <div class="subhead">
-            <div>
-              <h2>Live Indicator</h2>
-              <p>Live sessions for followed subjects appear here.</p>
-            </div>
-            <span class="pill pill-live" id="liveCountPill">Live: <b id="liveCount">0</b></span>
-          </div>
-
-          <div id="liveList" class="live-list"></div>
-
-          <div class="empty" id="liveEmpty">
-            <div class="empty-icon" aria-hidden="true">📡</div>
-            <b>No live sessions right now</b>
-            <p class="muted">Follow a subject to get live alerts here.</p>
-          </div>
-        </article>
+      <aside class="stack" aria-label="AI summary preview">
 
         <div class="preview-card" aria-label="AI summary preview">
           <div class="mock-header">AI Summary Preview</div>
