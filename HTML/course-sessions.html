@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../CSS/course-sessions.css" />
 </head>
 <body>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
   <nav class="navbar">
     <div class="container nav-wrap">
-      <a href="#" class="logo">Think<span>-Up</span></a>
+      <a href="dashboard.html" class="logo">Think<span>-Up</span></a>
 
       <div class="nav-right">
         <div class="pill pill-soft">Course Sessions</div>
@@ -30,6 +32,7 @@
     </div>
   </nav>
 
+  <!-- ═══════════════ HERO ═══════════════ -->
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-content">
@@ -83,8 +86,27 @@
     </div>
   </section>
 
+  <!-- ═══════════════ MAIN ═══════════════ -->
   <main class="main">
     <div class="container page-stack">
+
+      <!-- ⚡ QUICK START STRIP (NEW) -->
+      <a href="#" class="quick-start-strip" id="quickStartLink">
+        <div class="qs-icon-box" aria-hidden="true">⚡</div>
+        <div class="qs-text">
+          <div class="qs-title">Studying right now? Start a quick session</div>
+          <div class="qs-subtitle">
+            Begins in 5 minutes — invite friends with a link.
+            Works at any time, even 3 AM.
+          </div>
+        </div>
+        <button class="qs-button" type="button">
+          Start Now
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+      </a>
+
+      <!-- ═══ Day selector card ═══ -->
       <section class="card">
         <div class="subhead">
           <div>
@@ -104,23 +126,19 @@
           </div>
         </div>
 
+        <!-- Day selector — buttons are built by JS (rolling 7 days) -->
         <div class="day-selector" id="daySelector">
-          <button class="day-btn" data-day="sat">Sat</button>
-          <button class="day-btn" data-day="sun">Sun</button>
-          <button class="day-btn" data-day="mon">Mon</button>
-          <button class="day-btn" data-day="tue">Tue</button>
-          <button class="day-btn" data-day="wed">Wed</button>
-          <button class="day-btn" data-day="thu">Thu</button>
-          <button class="day-btn" data-day="fri">Fri</button>
+          <!-- Buttons injected by JS -->
         </div>
       </section>
 
+      <!-- ═══ Timeline card ═══ -->
       <section class="card timeline-card">
         <div class="subhead">
           <div>
             <h2 id="selectedDayTitle">Today's Sessions</h2>
-            <p>
-              14 hourly buckets from 8 AM to 9 PM. Each hour supports up to 3 sessions only.
+            <p id="timelineSubtitle">
+              Showing the next 12 hours. Each hour can host up to 3 sessions.
             </p>
           </div>
 
@@ -131,16 +149,35 @@
           </div>
         </div>
 
+        <!-- 🟢 LIVE NOW SECTION (NEW) — populated by JS, hidden by default -->
+        <div class="live-now-section hidden" id="liveNowSection">
+          <div class="live-now-header">
+            <div class="live-pulse" aria-hidden="true"></div>
+            <div class="live-now-title">Live Now</div>
+            <div class="live-now-count" id="liveNowCount">0 sessions</div>
+          </div>
+          <div class="live-cards" id="liveCardsList">
+            <!-- Live cards injected by JS -->
+          </div>
+        </div>
+
+        <!-- Timeline grid — rows built by JS based on selected day -->
         <div class="timeline-wrapper">
           <div class="timeline-grid" id="timelineGrid">
-            <!-- Time rows injected by JS -->
-
             <div class="now-indicator" id="nowIndicator">
               <span class="now-pill">Now</span>
             </div>
           </div>
         </div>
 
+        <!-- Show more (only on Today, hidden by default) -->
+        <div class="timeline-footer hidden" id="timelineFooter">
+          <button class="btn-link" id="showMoreBtn" type="button">
+            Show 6 more hours →
+          </button>
+        </div>
+
+        <!-- Empty state (when day has nothing at all) -->
         <div class="card empty-state hidden" id="emptyState">
           <div class="empty-icon">📭</div>
           <h3>No sessions yet</h3>
@@ -150,9 +187,10 @@
     </div>
   </main>
 
+  <!-- ═══════════════ MODAL ═══════════════ -->
   <div class="modal-backdrop hidden" id="sessionModal">
     <div class="session-modal">
-      <button class="modal-close" id="closeModalBtn">×</button>
+      <button class="modal-close" id="closeModalBtn" aria-label="Close">×</button>
 
       <div class="badge-live" id="modalStatus">Open</div>
 

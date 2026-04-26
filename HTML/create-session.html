@@ -15,12 +15,14 @@
   <link rel="stylesheet" href="../CSS/create-session.css" />
 </head>
 <body>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
   <nav class="navbar">
     <div class="container nav-wrap">
-      <a href="#" class="logo">Think<span>-Up</span></a>
+      <a href="dashboard.html" class="logo">Think<span>-Up</span></a>
 
       <div class="nav-right">
-        <div class="pill pill-soft">Create Session</div>
+        <div class="pill pill-soft" id="modeIndicator">Schedule a session</div>
         <a href="course-sessions.html" class="btn btn-outline" id="backToScheduleBtn">Back to Schedule</a>
         <div class="profile">
           OA
@@ -30,13 +32,14 @@
     </div>
   </nav>
 
+  <!-- ═══════════════ HERO ═══════════════ -->
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <div class="badge">Session Setup</div>
+        <div class="badge" id="heroBadge">Session Setup</div>
 
         <div class="hero-head">
-          <div class="course-icon">☕</div>
+          <div class="course-icon" id="heroIcon">☕</div>
 
           <div>
             <div class="hero-tags">
@@ -44,10 +47,10 @@
               <span class="pill pill-soft" id="heroCourseName">Loading...</span>
             </div>
 
-            <h1>Create a <span>Study Session</span></h1>
-            <p>
-              Set your date, time, duration, and visibility. Public sessions appear in the weekly schedule,
-              while private sessions generate an invite link only.
+            <h1 id="heroTitle">Create a <span>Study Session</span></h1>
+            <p id="heroSubtitle">
+              Set your title, time, and visibility. Public sessions appear in the weekly schedule
+              and also generate an invite link you can share.
             </p>
           </div>
         </div>
@@ -59,18 +62,18 @@
 
           <div class="rules-list">
             <div class="rule-item">
-              <b>Future only</b>
-              <span>You cannot create a session before the current time.</span>
+              <b>60-minute sessions</b>
+              <span>All sessions are 60 minutes — focused and predictable.</span>
             </div>
 
             <div class="rule-item">
-              <b>No overlap</b>
-              <span>The selected time must not conflict with another session by the same user.</span>
+              <b>2 to 6 people</b>
+              <span>Smaller groups stay focused. <b>5 is the sweet spot.</b></span>
             </div>
 
             <div class="rule-item">
-              <b>Visibility</b>
-              <span>Public appears in the course schedule, private uses an invite link.</span>
+              <b>Invite link always works</b>
+              <span>Even on public sessions, you get a link to share with friends.</span>
             </div>
           </div>
         </div>
@@ -78,13 +81,16 @@
     </div>
   </section>
 
+  <!-- ═══════════════ MAIN ═══════════════ -->
   <main class="main">
     <div class="container form-layout">
+
+      <!-- Form -->
       <section class="card form-card">
         <div class="subhead">
           <div>
-            <h2>Session Details</h2>
-            <p>
+            <h2 id="formHeading">Session Details</h2>
+            <p id="formSubheading">
               Fill in the required information below to create your new session room.
             </p>
           </div>
@@ -93,20 +99,35 @@
         </div>
 
         <form id="createSessionForm" novalidate>
+
+          <!-- ⚡ QUICK START BANNER (visible only in quickstart mode) -->
+          <div class="quick-start-banner hidden" id="quickStartBanner">
+            <div class="qsb-icon">⚡</div>
+            <div class="qsb-text">
+              <div class="qsb-title">Quick Start</div>
+              <div class="qsb-sub">
+                Your session will start in 5 minutes — at <b id="qsbTime">9:19 PM</b>.
+                Just give it a title, and you're ready.
+              </div>
+            </div>
+          </div>
+
+          <!-- Title -->
           <div class="field">
             <label for="sessionTitle">Session Title</label>
             <input
               type="text"
               id="sessionTitle"
               name="sessionTitle"
-              placeholder="e.g., Java Basics Review"
+              placeholder="e.g., Final exam review — Chapter 4"
               required
               maxlength="60"
             />
             <small class="field-hint">A short, clear title for your session (max 60 characters).</small>
           </div>
 
-          <div class="form-grid">
+          <!-- Date + Time (hidden in quickstart mode) -->
+          <div class="form-grid" id="dateTimeRow">
             <div class="field">
               <label for="sessionDate">Date</label>
               <input type="date" id="sessionDate" name="sessionDate" required />
@@ -115,67 +136,100 @@
 
             <div class="field">
               <label for="startTime">Start Time</label>
-              <select id="startTime" name="startTime" required>
-                <option value="">Select a start time</option>
-              </select>
-              <small class="field-hint">15-minute intervals.</small>
+              <input type="time" id="startTime" name="startTime" required step="60" />
+              <small class="field-hint">Any time of day — even 4 AM if you want.</small>
             </div>
           </div>
 
+          <!-- Live time display (shows when date+time are set) -->
+          <div class="time-live-box hidden" id="timeLiveBox">
+            <div class="tlb-icon">🚀</div>
+            <div class="tlb-info">
+              <div class="tlb-label">SESSION STARTS</div>
+              <div class="tlb-value" id="tlbValue">—</div>
+              <div class="tlb-hint" id="tlbHint">Choose a date and time to see when your session begins.</div>
+            </div>
+          </div>
+
+          <!-- Duration (locked at 60) -->
           <div class="field">
             <label>Duration</label>
             <div class="single-duration-box">
               <input type="hidden" name="duration" value="60" />
-              <div class="fixed-duration-card">60 min</div>
+              <div class="fixed-duration-card">
+                <span>60 min</span>
+                <small>All sessions are one hour</small>
+              </div>
             </div>
           </div>
 
+          <!-- Max participants (2-6) -->
           <div class="field">
             <div class="slider-head">
               <label for="maxParticipants">Max Participants</label>
-              <div class="slider-value"><span id="participantsValue">3</span> participants</div>
+              <div class="slider-value">
+                <span id="participantsValue">5</span> people
+              </div>
             </div>
 
             <input
               type="range"
               id="maxParticipants"
               name="maxParticipants"
-              min="3"
-              max="5"
+              min="2"
+              max="6"
               step="1"
-              value="3"
+              value="5"
             />
-            <small class="field-hint">Allowed range: 2 to 5.</small>
+
+            <div class="slider-track-labels">
+              <span>2</span>
+              <span>3</span>
+              <span class="recommended">4</span>
+              <span class="recommended">5 ⭐</span>
+              <span>6</span>
+            </div>
+
+            <small class="field-hint" id="participantsHint">
+              💡 <b>5 is the sweet spot</b> — small enough to stay focused, big enough for diverse perspectives.
+            </small>
           </div>
 
+          <!-- Visibility -->
           <div class="field">
             <label>Visibility</label>
             <div class="visibility-switch" id="visibilitySwitch">
               <button type="button" class="visibility-btn active" data-visibility="public">
-                Public
-                <small>Visible in weekly schedule</small>
+                🌐 Public
+                <small>Visible in your major's weekly schedule</small>
               </button>
 
               <button type="button" class="visibility-btn" data-visibility="private">
-                Private
-                <small>Invite link only</small>
+                🔒 Private
+                <small>Hidden from the schedule — invite-only</small>
               </button>
             </div>
 
             <input type="hidden" id="visibility" name="visibility" value="public" />
+
+            <small class="field-hint">
+              💡 You'll always get an invite link to share — even for public sessions.
+            </small>
           </div>
 
+          <!-- Topic / Notes -->
           <div class="field">
             <label for="topicNotes">Topic / Notes <span class="muted">(Optional)</span></label>
             <textarea
               id="topicNotes"
               name="topicNotes"
-              rows="4"
+              rows="3"
               maxlength="300"
               placeholder="Examples: Lab 4 review, OOP recap, Midterm practice questions..."
             ></textarea>
           </div>
 
+          <!-- Consent -->
           <div class="consent-box">
             <label class="consent-label">
               <input type="checkbox" id="hostConsent" name="hostConsent" required />
@@ -189,15 +243,18 @@
           <div class="error-box hidden" id="errorBox"></div>
 
           <div class="submit-row">
-            <button type="submit" class="btn btn-solid btn-lg" id="createBtn">Create Session</button>
+            <button type="submit" class="btn btn-solid btn-lg" id="createBtn">
+              <span id="createBtnText">Create Session</span>
+            </button>
             <a href="course-sessions.html" class="btn btn-outline" id="cancelBtn">Cancel</a>
           </div>
         </form>
       </section>
 
+      <!-- Preview Sidebar -->
       <aside class="card preview-card">
         <div class="preview-top">
-          <div class="preview-label">Preview</div>
+          <div class="preview-label">Live Preview</div>
           <div class="preview-badge" id="previewVisibility">Public</div>
         </div>
 
@@ -217,39 +274,43 @@
 
           <div class="preview-item">
             <span>Duration</span>
-            <b id="previewDuration">—</b>
+            <b id="previewDuration">60 min</b>
           </div>
 
           <div class="preview-item">
             <span>Participants</span>
-            <b id="previewParticipants">3</b>
+            <b id="previewParticipants">5 people</b>
+          </div>
+
+          <div class="preview-item">
+            <span>Visibility</span>
+            <b id="previewVisibilityValue">Public + invite link</b>
           </div>
         </div>
 
         <div class="note">
           <div class="dot"></div>
           <div>
-            Public sessions redirect directly to the room. Private sessions also show an invite link modal.
+            After creating, you'll get an invite link you can share — and your session room will be ready.
           </div>
         </div>
       </aside>
     </div>
   </main>
 
+  <!-- ═══════════════ INVITE MODAL ═══════════════ -->
   <div class="modal-backdrop hidden" id="inviteModal">
     <div class="session-modal invite-modal">
-      <button class="modal-close" id="closeInviteModalBtn">×</button>
+      <button class="modal-close" id="closeInviteModalBtn" aria-label="Close">×</button>
 
-      <div class="badge-live">Private Session Created</div>
+      <div class="badge-live" id="inviteModalBadge">Session Created</div>
 
-      <h3>Invite Link Ready</h3>
-      <p class="modal-sub">
-        Share this invite link with your selected participants.
+      <h3 id="inviteModalTitle">Your invite link is ready</h3>
+      <p class="modal-sub" id="inviteModalSub">
+        Share this link with anyone you'd like to invite. They'll be able to join directly.
       </p>
 
-      <div class="invite-link-box" id="inviteLinkBox">
-        —
-      </div>
+      <div class="invite-link-box" id="inviteLinkBox">—</div>
 
       <div class="modal-actions">
         <button class="btn btn-solid" id="copyInviteBtn">Copy Link</button>

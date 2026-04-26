@@ -1,5 +1,5 @@
-import { auth, db } from "../Core/firebase.js";
-import {
+import { auth, db, functions } from "../Core/firebase.js";
+import { httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-functions.js";import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";

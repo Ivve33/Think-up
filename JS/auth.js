@@ -1,4 +1,3 @@
-// JS/auth.js
 import { auth } from "../Core/firebase.js";
 import {
   signInWithEmailAndPassword,
@@ -6,25 +5,32 @@ import {
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
-/* =======================
-   LOGIN ELEMENTS
-======================= */
 const loginForm = document.getElementById("loginForm");
 const loginEmail = document.getElementById("loginEmail");
 const loginPassword = document.getElementById("loginPassword");
 
-/* =======================
-   SIGN UP ELEMENTS
-======================= */
 const signupForm = document.getElementById("signupForm");
 const firstNameInput = document.getElementById("firstName");
 const lastNameInput = document.getElementById("lastName");
 const signupEmail = document.getElementById("signupEmail");
 const signupPassword = document.getElementById("signupPassword");
 
-/* =======================
-   LOGIN LOGIC
-======================= */
+function getRedirectUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const redirect = params.get("redirect");
+  if (redirect) {
+    try {
+      const url = new URL(decodeURIComponent(redirect));
+      if (url.origin === window.location.origin) {
+        return decodeURIComponent(redirect);
+      }
+    } catch (e) {
+      console.warn("Invalid redirect URL, falling back to dashboard");
+    }
+  }
+  return "../HTML/dashboard.html";
+}
+
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -34,7 +40,7 @@ if (loginForm) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "../HTML/dashboard.html";
+      window.location.href = getRedirectUrl();
     } catch (err) {
       alert(prettyAuthError(err));
       console.error(err);
@@ -42,9 +48,6 @@ if (loginForm) {
   });
 }
 
-/* =======================
-   SIGN UP LOGIC
-======================= */
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -65,7 +68,7 @@ if (signupForm) {
       });
 
       console.log("تم إنشاء الحساب وحفظ الاسم:", fullName);
-      window.location.href = "../HTML/dashboard.html";
+      window.location.href = getRedirectUrl();
 
     } catch (err) {
       alert(prettyAuthError(err));
@@ -74,9 +77,6 @@ if (signupForm) {
   });
 }
 
-/* =======================
-   ERROR HANDLING
-======================= */
 function prettyAuthError(err) {
   const code = err?.code || "";
 

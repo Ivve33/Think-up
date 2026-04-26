@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join Session | Think-Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap"
+  />
+
+  <link rel="stylesheet" href="../CSS/join-session.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="dashboard.html" class="brand">
+      Think-<span class="brand-accent">Up</span>
+    </a>
+  </header>
+
+  <main class="join-wrap">
+
+    <!-- STATE 1: LOADING -->
+    <section id="loadingState" class="state-card">
+      <div class="spinner" aria-hidden="true"></div>
+      <h1 class="state-title">Validating your invite…</h1>
+      <p class="state-sub">One moment while we check the session.</p>
+    </section>
+
+    <!-- STATE 2: SUCCESS (auto-redirect) -->
+    <section id="successState" class="state-card hidden">
+      <div class="icon-badge icon-success" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="32" height="32">
+          <path d="M5 12l4 4L19 7" stroke="currentColor" stroke-width="2.5"
+                fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="state-title">Invite valid</h1>
+      <p class="state-sub">
+        Joining <strong id="successSessionTitle">session</strong>…
+      </p>
+      <div class="inline-progress">
+        <div class="inline-progress-bar"></div>
+      </div>
+    </section>
+
+    <!-- STATE 3: ERROR (one shared container, message swaps) -->
+    <section id="errorState" class="state-card hidden">
+      <div class="icon-badge icon-error" aria-hidden="true">
+        <span id="errorIcon">!</span>
+      </div>
+      <h1 class="state-title" id="errorTitle">Something went wrong</h1>
+      <p class="state-sub" id="errorMessage">
+        We couldn't validate this invite link.
+      </p>
+
+      <div class="action-row">
+        <a
+          href="dashboard.html"
+          id="errorPrimaryBtn"
+          class="btn btn-primary"
+        >
+          Go to dashboard
+        </a>
+        <a
+          href="explore.html"
+          id="errorSecondaryBtn"
+          class="btn btn-ghost hidden"
+        >
+          Browse courses
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Think-Up · Study together, smarter.</p>
+  </footer>
+
+  <script type="module" src="../JS/join-session.js"></script>
+</body>
+</html>
