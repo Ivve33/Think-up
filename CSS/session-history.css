@@ -7,6 +7,8 @@
   --radius: 22px;
   --danger: #d84c4c;
   --success: #1f8f5f;
+  --indigo-dark: #1a1f36;
+
 }
 
 *{
@@ -19,6 +21,13 @@ body{
   font-family:"Lexend", sans-serif;
   background: var(--cream);
   color: var(--indigo);
+}
+.footer {
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 0.875rem;
 }
 
 a{

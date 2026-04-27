@@ -1,6 +1,6 @@
 :root{
   --indigo:#212842;
-  --indigo-dark:#1a1f36;
+  --indigo-dark: #1a1f36;
   --cream:#F0E7D5;
   --cream-soft:#FAF5E8;
   --accent:#D4AF37;
@@ -943,7 +943,13 @@ input{
   padding:5px 9px;
   border-radius:999px;
 }
-
+.footer {
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 0.875rem;
+}
 /* ═══════════════ TIMELINE FOOTER (NEW) ═══════════════ */
 .timeline-footer{
   text-align: center;

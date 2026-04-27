@@ -6,6 +6,8 @@
   --card: rgba(33,40,66,0.03);
   --radius: 22px;
   --danger: #d84c4c;
+  --indigo-dark: #1a1f36;
+
 }
 
 *{
@@ -19,7 +21,13 @@ body{
   background: var(--cream);
   color: var(--indigo);
 }
-
+.footer {
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 0.875rem;
+}
 a{
   color:inherit;
   text-decoration:none;

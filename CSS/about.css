@@ -311,20 +311,18 @@ body {
 /* Photo */
 .team-photo-wrap {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background: rgba(33,40,66,0.06);
 }
-
 .team-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+object-position: center 40%;
     display: block;
     transition: transform 0.4s ease;
 }
-
 .team-card:hover .team-photo {
     transform: scale(1.04);
 }
@@ -471,42 +469,13 @@ body {
     opacity: 0.72;
 }
 
-/* FOOTER */
 .footer {
-    border-top: 1px solid rgba(33,40,66,0.10);
-    padding: 28px 0;
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 0.875rem;
 }
-
-.footer-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.footer p {
-    font-size: 0.85rem;
-    opacity: 0.55;
-}
-
-.footer-links {
-    display: flex;
-    gap: 22px;
-}
-
-    .footer-links a {
-        text-decoration: none;
-        color: var(--indigo);
-        font-size: 0.88rem;
-        font-weight: 500;
-        opacity: 0.65;
-        transition: 0.2s;
-    }
-
-        .footer-links a:hover {
-            opacity: 1;
-            color: var(--accent);
-        }
-
 /* RESPONSIVE */
 @media (max-width: 980px) {
     .about-hero .container {

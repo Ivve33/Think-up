@@ -8,6 +8,8 @@
   --white: #ffffff;
   --text: #212842;
   --text-muted: #64748b;
+    --indigo-dark: #1a1f36;
+
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -232,8 +234,13 @@ body {
 .empty-state p { font-weight: 300; font-size: 1rem; max-width: 400px; margin: 0 auto; line-height: 1.7; }
 
 /* Footer & Loader */
-.footer { text-align: center; padding: 50px 0; opacity: 0.6; margin-top: 60px; }
-.loader {
+.footer {
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 0.875rem;
+}.loader {
   grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);
 }
 .spinner {

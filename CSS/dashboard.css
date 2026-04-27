@@ -7,6 +7,8 @@
   --card: rgba(33,40,66,0.03);
   --shadow: 0 20px 40px rgba(0,0,0,0.08);
   --radius: 22px;
+  --indigo-dark: #1a1f36;
+
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -168,33 +170,38 @@ a{color:inherit;text-decoration:none}
 }
 .action{
   border-radius: 22px;
-  padding: 18px;
-  border: 1px solid rgba(33,40,66,0.10);
-  background: rgba(255,255,255,0.55);
-  transition: .22s;
+  padding: 22px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: var(--indigo);
+  color: var(--cream);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display:flex;flex-direction:column;gap:10px;
   min-height: 140px;
   position: relative;
   overflow: hidden;
 }
-.action:hover{transform: translateY(-2px)}
-.action-full{grid-column: 1 / -1;}
+.action:hover{
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px rgba(33, 40, 66, 0.3);
+  background: linear-gradient(180deg, var(--indigo) 0%, #2a3352 100%);
+}.action-full{grid-column: 1 / -1;}
 .action .tag{
   display:inline-flex;align-items:center;gap:8px;
   font-size:.82rem;
   opacity:.9;
-  padding:6px 10px;border-radius:999px;
-  background: rgba(33,40,66,0.06);
-  border:1px solid rgba(33,40,66,0.10);
+  padding:6px 12px;border-radius:999px;
+  background: rgba(212, 175, 55, 0.15);
+  border:1px solid rgba(212, 175, 55, 0.35);
+  color: var(--accent);
   width: fit-content;
-}
-.action h3{font-size:1.15rem}
+}.action h3{font-size:1.15rem}
 .action p{opacity:.8;font-size:.9rem;line-height:1.5}
 .action .go{
   margin-top:auto;
   display:inline-flex;align-items:center;gap:10px;
   font-weight:900;
-  color: var(--indigo);
+  color: var(--accent);
 }
 .action .go span{font-weight:900}
 
@@ -391,9 +398,13 @@ a{color:inherit;text-decoration:none}
   color: rgba(33,40,66,0.75);
 }
 
-/* Footer */
-.footer{padding: 40px 0; opacity:.7; border-top: 1px solid rgba(33,40,66,0.08)}
-.footer-inner{display:flex;justify-content:center}
+.footer {
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 0.875rem;
+}
 
 /* Responsive */
 @media (max-width: 980px){

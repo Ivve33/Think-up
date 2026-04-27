@@ -10,20 +10,20 @@
 </head>
 <body>
 
- <div class="container nav-wrap">
-      <a class="logo" href="../Home/homePage.html" aria-label="Think-Up home">Think-<span>Up</span></a>
+    <div class="container nav-wrap">
+        <a class="logo" href="../Home/homePage.html" aria-label="Think-Up home">Think-<span>Up</span></a>
 
-      <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="container nav-wrap">
-            <div class="nav-links">
-                <a href="homePage.html">Home</a>
-                <a href="about.html" class="active">About</a>
-                <a href="contact.html">Contact</a>
-                <a href="auth.html" class="btn-solid">Sign Up</a>
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="container nav-wrap">
+                <div class="nav-links">
+                    <a href="homePage.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html" class="active">Contact</a>
+                    <a href="auth.html" class="btn-solid">Sign Up</a>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
     </div>
 
     <!-- HERO -->
@@ -44,41 +44,81 @@
                 <h2>Send a message</h2>
                 <p class="card-sub">Fill out the form and our team will respond within 24 hours.</p>
 
-                <form class="contact-form" onsubmit="handleSubmit(event)">
+                <form class="contact-form" id="contactForm" novalidate>
                     <div class="row-2">
                         <div class="field">
                             <label for="fname">First Name</label>
-                            <input type="text" id="fname" placeholder="Ahmad" required />
+                            <input type="text" id="fname" placeholder="Ahmad" required maxlength="30" pattern="[A-Za-zأ-ي\s]+" />
                         </div>
                         <div class="field">
                             <label for="lname">Last Name</label>
-                            <input type="text" id="lname" placeholder="Al-Harbi" required />
+                            <input type="text" id="lname" placeholder="Al-Harbi" required maxlength="30" pattern="[A-Za-zأ-ي\s]+" />
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" placeholder="you@example.com" required />
+                    <div class="row-2">
+                        <div class="field">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="you@example.com" required />
+                        </div>
+                        <div class="field">
+                            <label for="mobile">Mobile Number</label>
+                            <input type="tel" id="mobile" placeholder="05XXXXXXXX" pattern="^(05|\+9665)[0-9]{8}$" required />
+                        </div>
                     </div>
 
-                    <div class="field">
-                        <label for="subject">Subject</label>
-                        <div class="select-wrap">
-                            <select id="subject" required>
-                                <option value="" disabled selected>Select a topic…</option>
-                                <option>General Inquiry</option>
-                                <option>Technical Support</option>
-                                <option>Partnership & Collaboration</option>
-                                <option>Feedback & Suggestions</option>
-                                <option>Report an Issue</option>
-                            </select>
-                            <span class="select-arrow">▾</span>
+                    <div class="row-2">
+                        <div class="field">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" required />
+                        </div>
+                        <div class="field">
+                            <label>Gender</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Male" required />
+                                    <span>Male</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="Female" />
+                                    <span>Female</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-2">
+                        <div class="field">
+                            <label for="language">Preferred Language</label>
+                            <div class="select-wrap">
+                                <select id="language" required>
+                                    <option value="" disabled selected>Select language…</option>
+                                    <option value="Arabic">Arabic</option>
+                                    <option value="English">English</option>
+                                    <option value="French">French</option>
+                                </select>
+                                <span class="select-arrow">▾</span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="subject">Subject</label>
+                            <div class="select-wrap">
+                                <select id="subject" required>
+                                    <option value="" disabled selected>Select a topic…</option>
+                                    <option>General Inquiry</option>
+                                    <option>Technical Support</option>
+                                    <option>Partnership & Collaboration</option>
+                                    <option>Feedback & Suggestions</option>
+                                    <option>Report an Issue</option>
+                                </select>
+                                <span class="select-arrow">▾</span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="field">
                         <label for="message">Message</label>
-                        <textarea id="message" rows="5" placeholder="Write your message here…" required></textarea>
+                        <textarea id="message" rows="5" placeholder="Write your message here…" required maxlength="1000"></textarea>
                     </div>
 
                     <button type="submit" class="btn-primary">Send Message</button>
@@ -89,7 +129,7 @@
                     <div class="success-icon">✓</div>
                     <h3>Message sent!</h3>
                     <p>Thanks for reaching out. We'll get back to you within 24 hours.</p>
-                    <button class="btn-ghost" onclick="resetForm()">Send another</button>
+                    <button type="button" class="btn-ghost" id="sendAnotherBtn">Send another</button>
                 </div>
             </div>
 
@@ -107,7 +147,7 @@
                     <div class="info-icon">📧</div>
                     <div>
                         <h4>Email</h4>
-                        <p>thinkup.platform@uj.edu.sa</p>
+                        <p>alahmadia313@gmail.com</p>
                         <span class="info-note">We reply within 24 hours</span>
                     </div>
                 </div>
@@ -128,7 +168,7 @@
 
                     <div class="faq-list">
                         <div class="faq-item">
-                            <button class="faq-q" onclick="toggleFaq(this)">
+                            <button type="button" class="faq-q">
                                 Is Think-Up free to use?
                                 <span class="faq-arrow">+</span>
                             </button>
@@ -136,7 +176,7 @@
                         </div>
 
                         <div class="faq-item">
-                            <button class="faq-q" onclick="toggleFaq(this)">
+                            <button type="button" class="faq-q">
                                 Which universities are supported?
                                 <span class="faq-arrow">+</span>
                             </button>
@@ -144,7 +184,7 @@
                         </div>
 
                         <div class="faq-item">
-                            <button class="faq-q" onclick="toggleFaq(this)">
+                            <button type="button" class="faq-q">
                                 How does the AI summary work?
                                 <span class="faq-arrow">+</span>
                             </button>
@@ -157,38 +197,10 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
-        <div class="container footer-inner">
-            <a href="index.html" class="logo">Think<span>.</span>Up</a>
-            <p>© 2024 Think-Up · University of Jeddah</p>
-            <div class="footer-links">
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-            </div>
-        </div>
+        <p>&copy; 2026 Think-Up. Proudly serving Saudi students.</p>
     </footer>
 
-    <script>
-    function handleSubmit(e) {
-      e.preventDefault();
-      document.querySelector('.contact-form').style.display = 'none';
-      document.getElementById('successState').style.display = 'flex';
-    }
-
-    function resetForm() {
-      document.querySelector('.contact-form').style.display = 'block';
-      document.getElementById('successState').style.display = 'none';
-      document.querySelector('.contact-form').reset();
-    }
-
-    function toggleFaq(btn) {
-      const item = btn.parentElement;
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    }
-    </script>
-
+    <script type="module" src="../JS/contact.js"></script>
 </body>
 </html>

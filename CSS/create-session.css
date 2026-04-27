@@ -1,6 +1,6 @@
 :root{
   --indigo:#212842;
-  --indigo-dark:#1a1f36;
+  --indigo-dark: #1a1f36;
   --cream:#F0E7D5;
   --accent:#D4AF37;
   --white-soft: rgba(255,255,255,0.06);
@@ -875,7 +875,13 @@ input[type="range"]{
     grid-template-columns:1fr;
   }
 }
-
+.footer {
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 0.875rem;
+}
 @media (max-width: 640px){
   .container{
     padding:0 16px;
