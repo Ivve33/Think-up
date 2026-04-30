@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,28 +12,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <a class="language-switch" data-lang-switch="true" href="homePage-ar.html" lang="ar" dir="rtl">العربية</a>
-<header class="navbar">
-  <div class="container nav-wrap">
-    <a class="logo" href="homePage.html" aria-label="Think-Up home">
-      Think-<span>Up</span>
-    </a>
+  <a class="language-switch" data-lang-switch="true" href="homePage.html" lang="en" dir="ltr">English</a>
 
-    <nav class="nav-links">
-      <a href="homePage.html" class="active">Home</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-
-      <!-- يظهر فقط إذا المستخدم غير مسجل -->
-      <a href="auth.html" class="btn-solid" id="authLink">Sign Up</a>
-
-      <!-- مخفي افتراضيًا ولا يظهر إلا بعد تسجيل الدخول -->
-      <a href="dashboard.html" class="profile-link hidden" id="profileLink" aria-label="Profile">
-        <span class="profile-icon">👤</span>
-      </a>
+  <header class="navbar">
+    <div class="container">
+      <a class="logo" href="homePage-ar.html" aria-label="Think-Up home">Think-<span>Up</span></a>
+       <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-wrap">
+            <div class="nav-links">
+                <a href="homePage-ar.html">Home</a>
+                <a href="about-ar.html" class="active">About</a>
+                <a href="contact-ar.html">Contact</a>
+                <a href="auth-ar.html" class="btn-solid">Sign Up</a>
+            </div>
+        </div>
     </nav>
-  </div>
-</header>
+    </div>
+  </header>
 
   <main>
     <section class="hero-dark">
@@ -42,8 +38,8 @@
         <h1>Study Smarter, <span>Together</span></h1>
         <p>The first AI-powered platform designed specifically for the Saudi academic journey.</p>
         <div class="hero-actions">
-          <a href="auth.html" class="btn-cream">Get Started</a>
-          <a href="explore.html" class="btn-outline-cream">Explore Universities</a>
+          <a href="auth-ar.html" class="btn-cream">Get Started</a>
+          <a href="explore-ar.html" class="btn-outline-cream">Explore Universities</a>
         </div>
       </div>
     </section>
@@ -106,6 +102,7 @@
     <p>&copy; 2026 Think-Up. Proudly serving Saudi students.</p>
   </footer>
   <script type="module" src="../JS/navbar.js"></script>
+  <script src="../JS/i18n-ar.js"></script>
 </body>
  
 

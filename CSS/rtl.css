@@ -1,0 +1,112 @@
+html[dir="rtl"] {
+  direction: rtl;
+}
+
+html[dir="rtl"] body {
+  font-family: "Lexend", "Tahoma", "Arial", sans-serif;
+}
+
+.language-switch {
+  position: fixed;
+  top: 18px;
+  inset-inline-end: 18px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  min-height: 38px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #212842;
+  color: #f8f2e8;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 30px rgba(33, 40, 66, 0.18);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.language-switch:hover {
+  transform: translateY(-1px);
+}
+
+html[dir="rtl"] .nav-wrap,
+html[dir="rtl"] .nav-container,
+html[dir="rtl"] .hero-grid,
+html[dir="rtl"] .preview-grid,
+html[dir="rtl"] .mission-grid,
+html[dir="rtl"] .contact-grid,
+html[dir="rtl"] .form-layout,
+html[dir="rtl"] .summary-layout,
+html[dir="rtl"] .history-layout,
+html[dir="rtl"] .live-topbar,
+html[dir="rtl"] .live-body,
+html[dir="rtl"] .card-head,
+html[dir="rtl"] .subhead,
+html[dir="rtl"] .section-title-row,
+html[dir="rtl"] .modal-actions,
+html[dir="rtl"] .hero-actions,
+html[dir="rtl"] .action-row,
+html[dir="rtl"] .submit-row,
+html[dir="rtl"] .tools-wrap,
+html[dir="rtl"] .legend,
+html[dir="rtl"] .hero-tags,
+html[dir="rtl"] .course-tags,
+html[dir="rtl"] .stats-row,
+html[dir="rtl"] .tabs-row,
+html[dir="rtl"] .filters-row,
+html[dir="rtl"] .row-2,
+html[dir="rtl"] .grid-2 {
+  direction: rtl;
+}
+
+html[dir="rtl"] .search-input {
+  padding-inline-start: 25px;
+  padding-inline-end: 50px;
+  text-align: right;
+}
+
+html[dir="rtl"] .search-icon,
+html[dir="rtl"] .select-arrow {
+  left: 20px;
+  right: auto;
+}
+
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+  text-align: right;
+}
+
+html[dir="rtl"] .modal-close,
+html[dir="rtl"] .close-modal {
+  left: 14px;
+  right: auto;
+}
+
+html[dir="rtl"] .now-indicator {
+  left: 0;
+  right: 146px;
+}
+
+html[dir="rtl"] .live-sidebar {
+  border-left: 0;
+  border-right: 1px solid var(--live-border, rgba(255, 255, 255, 0.12));
+}
+
+html[dir="rtl"] .sidebar-menu {
+  left: 0;
+  right: auto;
+}
+
+@media (max-width: 720px) {
+  .language-switch {
+    top: 12px;
+    inset-inline-end: 12px;
+    min-width: 72px;
+    min-height: 34px;
+    font-size: 0.82rem;
+  }
+}

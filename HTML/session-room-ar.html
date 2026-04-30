@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +16,7 @@
 </head></head>
 
 <body>
-  <a class="language-switch" data-lang-switch="true" href="session-room-ar.html" lang="ar" dir="rtl">العربية</a>
+  <a class="language-switch" data-lang-switch="true" href="session-room.html" lang="en" dir="ltr">English</a>
   <!-- ═══════════════════════════════════════════════════════
        LOADING SCREEN (default visible)
        ═══════════════════════════════════════════════════════ -->
@@ -31,10 +31,10 @@
        ═══════════════════════════════════════════════════════ -->
   <header class="navbar" id="mainNavbar" hidden>
     <div class="container nav-wrap">
-      <a class="logo" href="homePage.html" aria-label="Think-Up home">Think-<span>Up</span></a>
+      <a class="logo" href="homePage-ar.html" aria-label="Think-Up home">Think-<span>Up</span></a>
       <div class="nav-right">
         <span class="pill" id="navPill" hidden>Session</span>
-        <a class="btn btn-outline" href="dashboard.html">Dashboard</a>
+        <a class="btn btn-outline" href="dashboard-ar.html">Dashboard</a>
         <button class="profile" aria-label="Profile">
           <span aria-hidden="true">👤</span>
         </button>
@@ -232,7 +232,7 @@
             <a class="btn btn-solid btn-lg" id="viewSummaryBtn" href="#">
               View Summary
             </a>
-            <a class="btn btn-outline btn-lg" href="dashboard.html">
+            <a class="btn btn-outline btn-lg" href="dashboard-ar.html">
               Back to Dashboard
             </a>
           </div>
@@ -256,7 +256,7 @@
             This session was cancelled by the host.
           </p>
           <div class="error-actions">
-            <a class="btn btn-solid" href="dashboard.html">Back to Dashboard</a>
+            <a class="btn btn-solid" href="dashboard-ar.html">Back to Dashboard</a>
           </div>
         </div>
       </div>
@@ -278,10 +278,10 @@
           <p class="error-text" id="errorText">—</p>
 
           <div class="error-actions" id="errorActions">
-            <a class="btn btn-solid" id="errorPrimaryBtn" href="dashboard.html">
+            <a class="btn btn-solid" id="errorPrimaryBtn" href="dashboard-ar.html">
               Back to Dashboard
             </a>
-            <a class="btn btn-outline" id="errorSecondaryBtn" href="dashboard.html" hidden>
+            <a class="btn btn-outline" id="errorSecondaryBtn" href="dashboard-ar.html" hidden>
               Back to Dashboard
             </a>
           </div>
@@ -380,7 +380,7 @@
       <h2 id="kickedHeading">Removed from Session</h2>
       <p>The host has removed you from this session.</p>
       <div class="modal-actions">
-        <a class="btn btn-solid" href="dashboard.html">Back to Dashboard</a>
+        <a class="btn btn-solid" href="dashboard-ar.html">Back to Dashboard</a>
       </div>
     </div>
   </div>
@@ -388,5 +388,6 @@
 
   <script type="module" src="../JS/session-room.js"></script>
   <script type="module" src="../JS/navbar.js"></script>
+  <script src="../JS/i18n-ar.js"></script>
 </body>
 </html>
