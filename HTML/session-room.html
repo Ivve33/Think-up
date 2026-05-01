@@ -13,7 +13,7 @@
 
   <!-- Daily.co SDK (Phase 9) -->
   <script src="https://unpkg.com/@daily-co/daily-js"></script>
-</head></head>
+</head>
 
 <body>
   <a class="language-switch" data-lang-switch="true" href="session-room-ar.html" lang="ar" dir="rtl">العربية</a>
@@ -122,9 +122,8 @@
         </div>
       </div>
 
-      <div class="live-topbar-right">
+     <div class="live-topbar-right">
         <button class="btn-ghost" id="liveLeaveBtn">Leave</button>
-        <button class="btn-danger" id="endSessionBtn" hidden>End Session</button>
         <button class="btn-ghost sidebar-toggle" id="sidebarToggleBtn"
                 aria-label="Toggle participants">☰</button>
       </div>
@@ -342,32 +341,16 @@
     </div>
   </div>
 
-  <!-- Host Leaving Alone (ends session) -->
+<!-- Host Leaving Alone (ends session) -->
   <div id="hostLeaveAloneModal" class="modal" hidden role="dialog"
        aria-modal="true" aria-labelledby="hostAloneHeading">
     <div class="modal-content">
       <div class="modal-icon warn" aria-hidden="true">👤</div>
       <h2 id="hostAloneHeading">You're alone in this session</h2>
-      <p>Leaving now will end the session for good. No summary will be generated.</p>
+      <p>Leaving now will end the session and the AI summary will be generated.</p>
       <div class="modal-actions">
         <button class="btn btn-outline" id="hostAloneCancelBtn">Stay</button>
         <button class="btn btn-danger" id="hostAloneConfirmBtn">End &amp; Leave</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- End Session Confirmation -->
-  <div id="endModal" class="modal" hidden role="dialog"
-       aria-modal="true" aria-labelledby="endHeading">
-    <div class="modal-content">
-      <div class="modal-icon warn" aria-hidden="true">⏹️</div>
-      <h2 id="endHeading">End Session?</h2>
-      <p>This will end the session for everyone. The recording and AI summary
-         will be generated automatically.</p>
-      <p class="modal-hint muted">This action cannot be undone.</p>
-      <div class="modal-actions">
-        <button class="btn btn-outline" id="endCancelBtn">Cancel</button>
-        <button class="btn btn-danger" id="endConfirmBtn">Yes, End Session</button>
       </div>
     </div>
   </div>

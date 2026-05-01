@@ -103,14 +103,16 @@ exports.createDailyRoom = onCall(FUNCTION_CONFIG, async (request) => {
   //       on the Daily plan tier. Add them back later when needed.
 const roomConfig = {
     name: roomName,
-    privacy: "public", // Tokens are still required to join
+    privacy: "public",
     properties: {
       exp: expirationSeconds,
       enable_screenshare: true,
       enable_knocking: false,
       max_participants: maxParticipants,
-      start_video_off: true,    // 📹 camera off by default
-      start_audio_off: false,   // 🎤 mic on by default
+      start_video_off: true,
+      start_audio_off: false,
+      // 🎙️ Transcription settings
+      enable_transcription_storage: true,
     },
   };
   logger.info(`Creating Daily room with config:`, roomConfig);
@@ -228,12 +230,15 @@ exports.getDailyToken = onCall(FUNCTION_CONFIG, async (request) => {
       user_id: userId,
       user_name: userName,
       is_owner: isHost,
-      // Removed enable_recording — not on free tier
       exp: Math.floor(Date.now() / 1000) + (3 * 60 * 60),
-      start_video_off: true,        // 📹 camera off by default
-      start_audio_off: false,       // 🎤 mic on by default
-      enable_prejoin_ui: false,     // ⭐ skip "Are you ready?" screen
-    },
+      start_video_off: true,
+      start_audio_off: false,
+      enable_prejoin_ui: false,
+// 🎙️ Auto-start transcription when host joins
+      ...(isHost && {
+        auto_start_transcription: true,
+      }),
+        },
   };
   // 7. Request token from Daily
   try {
@@ -342,18 +347,95 @@ exports.endDailyRoom = onCall(FUNCTION_CONFIG, async (request) => {
     // Non-fatal — Daily auto-expires unused rooms
   }
 
-  // 7. Save recording URL to Firestore (frontend will set status/endedAt separately)
-  if (recordingUrl) {
-    await sessionRef.update({
-      recordingUrl: recordingUrl,
-    });
+  // 7. Fetch transcript (best-effort, runs in parallel with recording fetch)
+  let transcriptText = null;
+  let transcriptId = null;
+
+  try {
+    // Get list of transcripts for this room
+    const transcriptListResp = await fetch(
+      `${DAILY_API_URL}/transcript?room_name=${encodeURIComponent(sessionData.dailyRoomName)}&limit=1`,
+      { headers: { "Authorization": `Bearer ${apiKey}` } }
+    );
+    const transcriptListData = await transcriptListResp.json();
+
+    if (transcriptListResp.ok && transcriptListData.data && transcriptListData.data.length > 0) {
+      const transcript = transcriptListData.data[0];
+      transcriptId = transcript.transcriptId;
+
+// Only fetch if transcript is finished
+      if (transcript.status === "t_finished" || transcript.status === "finished") {        // Get download link for the WebVTT file
+        const linkResp = await fetch(
+          `${DAILY_API_URL}/transcript/${transcriptId}/access-link`,
+          { headers: { "Authorization": `Bearer ${apiKey}` } }
+        );
+        const linkData = await linkResp.json();
+
+        if (linkResp.ok && linkData.link) {
+          // Download the VTT file content
+          const vttResp = await fetch(linkData.link);
+          const vttText = await vttResp.text();
+
+          // Convert WebVTT to clean text (strip timestamps and metadata)
+          transcriptText = vttText
+            .split("\n")
+            .filter((line) => {
+              const t = line.trim();
+              return t &&
+                     t !== "WEBVTT" &&
+                     !t.includes("-->") &&
+                     !/^\d+$/.test(t) &&
+                     !t.startsWith("NOTE");
+            })
+            .join(" ")
+            .trim();
+
+          logger.info(`Fetched transcript for session ${sessionId}: ${transcriptText.length} chars`);
+        }
+      } else {
+        logger.warn(`Transcript ${transcriptId} status is "${transcript.status}", not "finished" yet.`);
+      }
+    } else {
+      logger.info(`No transcripts found for room ${sessionData.dailyRoomName}.`);
+    }
+  } catch (err) {
+    logger.warn(`Could not fetch transcript for ${sessionData.dailyRoomName}:`, err);
+    // Non-fatal — session ends anyway
   }
 
-  logger.info(`Ended Daily room for session ${sessionId}. Recording: ${!!recordingUrl}`);
+  // 8. Save everything to Firestore
+  const updates = {};
+  if (recordingUrl) {
+    updates.recordingUrl = recordingUrl;
+  }
+  if (transcriptText) {
+    updates.transcript = {
+      text: transcriptText,
+      transcriptId: transcriptId,
+      fetchedAt: admin.firestore.FieldValue.serverTimestamp(),
+      status: "ready",
+    };
+  } else if (transcriptId) {
+    // Transcript exists but wasn't ready — mark as pending
+    updates.transcript = {
+      transcriptId: transcriptId,
+      status: "pending",
+    };
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await sessionRef.update(updates);
+  }
+
+  logger.info(
+    `Ended Daily room for session ${sessionId}. ` +
+    `Recording: ${!!recordingUrl}, Transcript: ${!!transcriptText}`
+  );
 
   return {
     success: true,
     recordingUrl: recordingUrl,
+    transcript: transcriptText ? { status: "ready", length: transcriptText.length } : null,
     skipped: false,
   };
 });

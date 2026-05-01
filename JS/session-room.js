@@ -73,9 +73,7 @@ const liveCourse = document.getElementById("liveCourse");
 const liveElapsed = document.getElementById("liveElapsed");
 const liveTotal = document.getElementById("liveTotal");
 const liveLeaveBtn = document.getElementById("liveLeaveBtn");
-const endSessionBtn = document.getElementById("endSessionBtn");
-const sidebarToggleBtn = document.getElementById("sidebarToggleBtn");
-const videoGrid = document.getElementById("videoGrid");
+const sidebarToggleBtn = document.getElementById("sidebarToggleBtn");const videoGrid = document.getElementById("videoGrid");
 const shareScreenBtn = document.getElementById("shareScreenBtn");
 const liveSidebar = document.getElementById("liveSidebar");
 const liveCount = document.getElementById("liveCount");
@@ -121,12 +119,7 @@ const hostLeaveAloneModal = document.getElementById("hostLeaveAloneModal");
 const hostAloneCancelBtn = document.getElementById("hostAloneCancelBtn");
 const hostAloneConfirmBtn = document.getElementById("hostAloneConfirmBtn");
 
-const endModal = document.getElementById("endModal");
-const endCancelBtn = document.getElementById("endCancelBtn");
-const endConfirmBtn = document.getElementById("endConfirmBtn");
-
 const kickedOverlay = document.getElementById("kickedOverlay");
-
 // ══════════════════════════════════════════════════════════
 // GLOBAL STATE
 // ══════════════════════════════════════════════════════════
@@ -569,12 +562,10 @@ function updateLobbyDynamic() {
     countdownScheduled.textContent = `Scheduled for ${formatDateTimeReadable(sessionData.startTime.toDate())}`;
   }
 
-  // Show/hide host vs participant UI
+// Show/hide host vs participant UI
   startSessionBtn.hidden = !isHost;
-  endSessionBtn.hidden = !isHost;
   lobbyHostNote.hidden = !isHost;
   lobbyParticipantNote.hidden = isHost;
-
   // Render participants grid
   renderParticipantsGrid();
 }
@@ -629,11 +620,8 @@ function renderLive() {
 function updateLiveDynamic() {
   if (!sessionData) return;
 
-  const isHost = sessionData.hostId === currentUser.uid;
-  endSessionBtn.hidden = !isHost;
-
   liveCount.textContent = sessionData.participantCount || 0;
-  liveMax.textContent = sessionData.maxParticipants || 5;
+    liveMax.textContent = sessionData.maxParticipants || 5;
 
   renderVideoGrid();
   renderSidebarList();
@@ -1013,37 +1001,6 @@ async function startSession() {
     if (startBtnText) startBtnText.textContent = "Start Session";
   }
 }
-/** Host: end the live session */
-async function endSession() {
-  if (sessionData.hostId !== currentUser.uid) return;
-
-  try {
-    // 1. Leave the Daily call locally first (smoother UX).
-    if (isCallActive()) {
-      await leaveDailyCall();
-    }
-
-    // 2. Mark session as completed in Firestore.
-    //    Other participants' onSnapshot will fire → they leave the call too.
-    await updateDoc(sessionRef, {
-      status: "completed",
-      endedAt: serverTimestamp()
-    });
-
-    // 3. 🎥 Cleanup on Daily side: stop recording, delete room, save URL.
-    //    Best-effort — we don't block on this. Even if it fails, the session
-    //    is properly marked completed in Firestore.
-    try {
-      const endRoom = getEndRoomCallable();
-      await endRoom({ sessionId: sessionId });
-    } catch (cleanupErr) {
-      console.warn("Daily room cleanup failed (non-fatal):", cleanupErr);
-    }
-  } catch (err) {
-    console.error("End session failed:", err);
-    alert("Could not end the session. Please try again.");
-  }
-}
 /** Remove current user from participants (and promote successor if host) */
 async function leaveSession() {
   // Stop listener before write to avoid "kicked" false positive
@@ -1092,8 +1049,8 @@ async function leaveSession() {
         participantCount: increment(-1),
         participantHistory: arrayUnion(historyEntry)
       });
-    } else if (isHost) {
-      // Host alone — end the session (endedAt captures the actual end)
+} else if (isHost) {
+      // Host alone — end the session for everyone
       await updateDoc(sessionRef, {
         status: "completed",
         endedAt: serverTimestamp(),
@@ -1101,16 +1058,47 @@ async function leaveSession() {
         [`participants.${currentUser.uid}`]: deleteField(),
         participantCount: increment(-1)
       });
+
+      // 🎙️ Fetch transcript and cleanup Daily room
+      try {
+        const endRoom = getEndRoomCallable();
+        await endRoom({ sessionId: sessionId });
+      } catch (cleanupErr) {
+        console.warn("Daily room cleanup failed (non-fatal):", cleanupErr);
+      }
     } else {
-      // Regular participant
-      await updateDoc(sessionRef, {
-        participantIds: arrayRemove(currentUser.uid),
-        [`participants.${currentUser.uid}`]: deleteField(),
-        participantCount: increment(-1),
-        participantHistory: arrayUnion(historyEntry)
-      });
+      // Regular participant — check if last person leaving
+      const remainingCount = (sessionData.participantCount || 1) - 1;
+
+      if (remainingCount <= 0) {
+        // Last person — end the session
+        await updateDoc(sessionRef, {
+          status: "completed",
+          endedAt: serverTimestamp(),
+          participantIds: arrayRemove(currentUser.uid),
+          [`participants.${currentUser.uid}`]: deleteField(),
+          participantCount: increment(-1),
+          participantHistory: arrayUnion(historyEntry)
+        });
+
+        // 🎙️ Fetch transcript and cleanup Daily room
+        try {
+          const endRoom = getEndRoomCallable();
+          await endRoom({ sessionId: sessionId });
+        } catch (cleanupErr) {
+          console.warn("Daily room cleanup failed (non-fatal):", cleanupErr);
+        }
+      } else {
+        // Others still there — just leave
+        await updateDoc(sessionRef, {
+          participantIds: arrayRemove(currentUser.uid),
+          [`participants.${currentUser.uid}`]: deleteField(),
+          participantCount: increment(-1),
+          participantHistory: arrayUnion(historyEntry)
+        });
+      }
     }
-  } catch (err) {
+    } catch (err) {
     console.error("Leave session failed:", err);
   }
 
@@ -1157,35 +1145,24 @@ function bindEventHandlers() {
   lobbyLeaveBtn.addEventListener("click", handleLobbyLeave);
   startSessionBtn.addEventListener("click", startSession);
 
-  // Live
+// Live
   liveLeaveBtn.addEventListener("click", handleLiveLeave);
-  endSessionBtn.addEventListener("click", openEndModal);
   sidebarToggleBtn.addEventListener("click", toggleSidebar);
-
   // 🎥 Phase 9 — Video controls (Mic / Camera / Share)
   const micBtn    = document.getElementById("micBtn");
   const cameraBtn = document.getElementById("cameraBtn");
   const shareBtn  = document.getElementById("shareBtn");
-  if (micBtn)    micBtn.addEventListener("click", toggleMic);
+if (micBtn)    micBtn.addEventListener("click", toggleMic);
   if (cameraBtn) cameraBtn.addEventListener("click", toggleCamera);
   if (shareBtn)  shareBtn.addEventListener("click", toggleScreenShare);
-  // End modal
-  endCancelBtn.addEventListener("click", () => { endModal.hidden = true; });
-  endConfirmBtn.addEventListener("click", async () => {
-    endModal.hidden = true;
-    await endSession();
-  });
-  endModal.addEventListener("click", (e) => {
-    if (e.target === endModal) endModal.hidden = true;
-  });
 
-  // Kick modal
+// Kick modal
   kickCancelBtn.addEventListener("click", () => {
     kickModal.hidden = true;
     pendingKickTarget = null;
   });
   kickConfirmBtn.addEventListener("click", async () => {
-    const target = pendingKickTarget;
+        const target = pendingKickTarget;
     kickModal.hidden = true;
     pendingKickTarget = null;
     if (target) await kickParticipant(target);
@@ -1261,12 +1238,7 @@ function openKickModal(targetUid, targetName) {
   kickModal.hidden = false;
 }
 
-function openEndModal() {
-  endModal.hidden = false;
-}
-
-function toggleSidebar() {
-  liveSidebar.classList.toggle("open");
+function toggleSidebar() {  liveSidebar.classList.toggle("open");
 }
 
 // ══════════════════════════════════════════════════════════

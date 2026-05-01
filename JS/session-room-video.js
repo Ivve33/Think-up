@@ -91,9 +91,12 @@ export async function initDailyCall(roomUrl, userName, token, onError) {
       showParticipantsBar: true,
     });
 
-    // Wire up event listeners
+// Wire up event listeners
     callFrame
       .on("joined-meeting", handleJoined)
+      .on("transcription-started", handleTranscriptionStarted)
+      .on("transcription-stopped", handleTranscriptionStopped)
+      .on("transcription-error", handleTranscriptionError)
       .on("participant-joined", handleParticipantChange)
       .on("participant-left", handleParticipantChange)
       .on("participant-updated", handleParticipantUpdate)
@@ -101,7 +104,6 @@ export async function initDailyCall(roomUrl, userName, token, onError) {
       .on("recording-stopped", handleRecordingStopped)
       .on("error", handleDailyError)
       .on("camera-error", handleCameraError);
-
     // Join the call
     // 🎤 Default: mic ON, camera OFF (study session — voice is the priority)
     console.log("[daily] Calling join with URL:", roomUrl);
@@ -228,8 +230,24 @@ function handleJoined(event) {
   updateMicButton();
   updateCameraButton();
   updateShareButton();
-}
 
+  // 🎙️ If we're the host (owner), start transcription manually
+  const localParticipant = callFrame.participants()?.local;
+  if (localParticipant?.owner) {
+    console.log("[daily] Host detected — starting transcription...");
+    callFrame.startTranscription({
+      language: "multi",
+      model: "nova-2",
+      punctuate: true,
+    }).then(() => {
+      console.log("[daily] startTranscription() called successfully");
+    }).catch((err) => {
+      console.error("[daily] startTranscription() failed:", err);
+    });
+  } else {
+    console.log("[daily] Not host — transcription not started by us");
+  }
+}
 function handleParticipantChange(event) {
   // Daily Prebuilt updates its own UI — we just log
   console.log("[daily] Participant change:", event?.action || event);
@@ -312,6 +330,21 @@ function updateShareButton() {
   } else {
     shareBtn.classList.remove("active");
   }
+}
+
+// ══════════════════════════════════════════════════════════
+// INTERNAL: Transcription event handlers
+// ══════════════════════════════════════════════════════════
+function handleTranscriptionStarted(event) {
+  console.log("[daily] ✅ Transcription started:", event);
+}
+
+function handleTranscriptionStopped(event) {
+  console.log("[daily] Transcription stopped:", event);
+}
+
+function handleTranscriptionError(event) {
+  console.error("[daily] ❌ Transcription error:", event);
 }
 
 // ══════════════════════════════════════════════════════════
