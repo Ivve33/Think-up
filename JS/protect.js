@@ -2,8 +2,7 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/f
 import { auth } from "../Core/firebase.js";
 
 const currentFile = window.location.pathname.split("/").pop();
-const isArabic = currentFile.endsWith("-ar.html");
-const authPage = isArabic ? "auth-ar.html" : "auth.html";
+const authPage = "auth.html";
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {

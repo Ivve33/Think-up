@@ -23,8 +23,8 @@ const pages = new Set([
 ]);
 
 const currentFile = window.location.pathname.split("/").pop() || "homePage.html";
-const isArabic = currentFile.endsWith("-ar.html");
-const suffix = isArabic ? "-ar" : "";
+const isArabic = localStorage.getItem('thinkup-lang') === 'ar';
+const suffix = "";
 const labels = isArabic
   ? {
       home: "\u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629",
@@ -52,7 +52,7 @@ function pageHref(page) {
 }
 
 function currentPageName() {
-  return currentFile.replace("-ar.html", "").replace(".html", "");
+  return currentFile.replace(".html", "");
 }
 
 function activeClass(page) {

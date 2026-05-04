@@ -1,3 +1,6 @@
+document.documentElement.setAttribute('lang', 'ar');
+document.documentElement.setAttribute('dir', 'rtl');
+
 const htmlPages = [
   "about",
   "auth",
@@ -222,7 +225,7 @@ const partialMap = [
   ["Preferred Language", "اللغة المفضلة"],
   ["Select language…", "اختر اللغة..."],
   ["Arabic", "العربية"],
-  ["English", "الإنجليزية"],
+  ["English", "English"],
   ["French", "الفرنسية"],
   ["Subject", "الموضوع"],
   ["Select a topic…", "اختر موضوعا..."],
@@ -470,7 +473,6 @@ function localizeInternalLinks(root = document) {
 function applyArabicUi(root = document.body) {
   translateTextNodes(root);
   translateAttributes(root);
-  localizeInternalLinks(root);
 }
 
 applyArabicUi();

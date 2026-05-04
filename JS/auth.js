@@ -18,7 +18,6 @@ const signupPassword = document.getElementById("signupPassword");
 function getRedirectUrl() {
   const params = new URLSearchParams(window.location.search);
   const redirect = params.get("redirect");
-  const isArabic = window.location.pathname.endsWith("-ar.html");
   if (redirect) {
     try {
       const url = new URL(decodeURIComponent(redirect));
@@ -29,7 +28,7 @@ function getRedirectUrl() {
       console.warn("Invalid redirect URL, falling back to dashboard");
     }
   }
-  return isArabic ? "../HTML/dashboard-ar.html" : "../HTML/dashboard.html";
+  return "../HTML/dashboard.html";
 }
 
 if (loginForm) {
