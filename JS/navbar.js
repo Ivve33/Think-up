@@ -62,6 +62,7 @@ function activeClass(page) {
 function createNavbarShell(existingMainNavbar) {
   const header = existingMainNavbar || document.createElement("header");
   const preservedNavPill = existingMainNavbar?.querySelector("#navPill") || document.createElement("span");
+  const switcher = document.querySelector("[data-lang-switch='true']");
 
   header.className = "site-navbar navbar";
   if (existingMainNavbar?.id) header.id = existingMainNavbar.id;
@@ -98,7 +99,12 @@ function createNavbarShell(existingMainNavbar) {
   if (!preservedNavPill.textContent.trim()) preservedNavPill.textContent = "Session";
   preservedNavPill.hidden = true;
 
-  container.append(logo, nav, preservedNavPill);
+  if (switcher) {
+    switcher.classList.add("navbar-language-switch");
+    container.append(logo, switcher, nav, preservedNavPill);
+  } else {
+    container.append(logo, nav, preservedNavPill);
+  }
   header.replaceChildren(container);
 
   return header;
@@ -132,13 +138,7 @@ function removeOldNavbars() {
 }
 
 function insertNavbar(header) {
-  const switcher = document.querySelector("[data-lang-switch='true']");
   if (header.parentElement) return;
-
-  if (switcher?.parentElement === document.body) {
-    switcher.insertAdjacentElement("afterend", header);
-    return;
-  }
 
   document.body.prepend(header);
 }

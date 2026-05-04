@@ -5,6 +5,7 @@
   --indigo-dark: #1a1f36;
 }
 
+/* Hide old profile */
 .navbar:not(.site-navbar) .profile,
 .topbar:not(.site-navbar) .profile {
   display: none !important;
@@ -22,9 +23,7 @@
   z-index: 1000;
   width: 100%;
 }
-.is-hidden {
-  display: none !important;
-}
+
 .site-navbar .container,
 .site-navbar .nav-wrap {
   max-width: 1200px;
@@ -47,6 +46,31 @@
 
 .site-navbar .logo span {
   color: var(--accent);
+}
+
+.site-navbar .language-switch {
+  position: static;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  min-height: 38px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--indigo);
+  color: #f8f2e8;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 30px rgba(33, 40, 66, 0.18);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-navbar .language-switch:hover {
+  transform: translateY(-1px);
 }
 
 .site-navbar .nav-links {
@@ -78,10 +102,6 @@
   box-shadow: 0 10px 20px rgba(33, 40, 66, 0.12);
 }
 
-.site-navbar .btn-solid:hover {
-  transform: translateY(-1px);
-}
-
 .site-navbar .profile-link {
   width: 46px;
   height: 46px;
@@ -93,74 +113,46 @@
   font-size: 1.05rem;
   margin-left: 25px;
   border: 0;
-  cursor: pointer;
-}
-
-.site-navbar .profile-link.is-hidden {
-  display: none !important;
 }
 
 .site-navbar .navbar-profile-menu {
   position: relative;
-  display: inline-flex;
-  align-items: center;
 }
 
 .site-navbar .profile-dropdown {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 10px);
   right: 0;
-  min-width: 170px;
-  padding: 8px;
-  border-radius: 12px;
+  min-width: 160px;
   background: var(--cream);
-  border: 1px solid rgba(33, 40, 66, 0.14);
-  box-shadow: 0 18px 38px rgba(33, 40, 66, 0.18);
-  z-index: 1200;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  z-index: 2000;
 }
 
 .site-navbar .profile-dropdown a,
 .site-navbar .profile-dropdown button {
+  display: block;
   width: 100%;
-  margin: 0;
-  padding: 10px 12px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: left;
   background: transparent;
-  border: 0;
-  color: var(--indigo);
-  font: inherit;
-  font-weight: 600;
-  text-decoration: none;
+  border: none;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 .site-navbar .profile-dropdown a:hover,
 .site-navbar .profile-dropdown button:hover {
-  background: rgba(33, 40, 66, 0.08);
-  color: var(--accent);
-}
-
-.site-navbar .navbar-logout {
-  text-align: start;
-}
-
-.site-navbar .navbar-logout:hover:not(:disabled) {
-  color: var(--accent);
-}
-
-.site-navbar .navbar-logout:disabled {
-  cursor: wait;
-  opacity: 0.65;
+  background: rgba(0,0,0,0.05);
 }
 
 .site-navbar .nav-pill {
   display: none !important;
 }
 
+/* RTL */
 html[dir="rtl"] .site-navbar .nav-links {
   justify-content: flex-start;
 }
@@ -176,22 +168,51 @@ html[dir="rtl"] .site-navbar .profile-dropdown {
   right: auto;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .site-navbar .container,
   .site-navbar .nav-wrap {
     flex-direction: column;
-    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px;
+  }
+
+  .site-navbar .logo {
+    order: 1;
+    text-align: center;
+  }
+
+  .site-navbar .language-switch {
+    order: 2;
+    min-width: 72px;
+    min-height: 34px;
+    font-size: 0.82rem;
+    box-shadow: 0 10px 20px rgba(33, 40, 66, 0.14);
   }
 
   .site-navbar .nav-links {
+    order: 3;
     justify-content: center;
+    gap: 10px 12px;
   }
 
   .site-navbar .nav-links a,
   html[dir="rtl"] .site-navbar .nav-links a,
   .site-navbar .profile-link,
   html[dir="rtl"] .site-navbar .profile-link {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+
+  .site-navbar .btn-solid {
+    padding: 10px 14px;
+  }
+
+  .site-navbar .profile-dropdown,
+  html[dir="rtl"] .site-navbar .profile-dropdown {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 }

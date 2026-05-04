@@ -7,10 +7,6 @@ html[dir="rtl"] body {
 }
 
 .language-switch {
-  position: fixed;
-  top: 18px;
-  inset-inline-end: 18px;
-  z-index: 9999;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -99,14 +95,4 @@ html[dir="rtl"] .live-sidebar {
 html[dir="rtl"] .sidebar-menu {
   left: 0;
   right: auto;
-}
-
-@media (max-width: 720px) {
-  .language-switch {
-    top: 12px;
-    inset-inline-end: 12px;
-    min-width: 72px;
-    min-height: 34px;
-    font-size: 0.82rem;
-  }
 }
