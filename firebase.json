@@ -1,7 +1,7 @@
 {
   "functions": [
     {
-      "source": "functions",
+      "source": "Backend",
       "codebase": "default",
       "disallowLegacyRuntimeConfig": true,
       "ignore": [

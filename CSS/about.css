@@ -425,7 +425,242 @@ object-position: center 40%;
     font-style: normal;
     font-family: serif;
 }
+/* TEAM TABLE */
+.team-table-wrap {
+    overflow-x: auto;
+    border: 1px solid rgba(33, 40, 66, 0.10);
+    border-radius: var(--radius);
+    background: rgba(33, 40, 66, 0.03);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
+}
 
+.team-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    font-family: "Lexend", sans-serif;
+}
+
+.team-table caption {
+    text-align: left;
+    padding: 22px 28px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--indigo);
+    background: rgba(33, 40, 66, 0.04);
+    border-bottom: 1px solid rgba(33, 40, 66, 0.08);
+    letter-spacing: 0.2px;
+    caption-side: top;
+}
+
+.team-table thead {
+    background: var(--indigo);
+    color: var(--cream);
+}
+
+.team-table thead th {
+    padding: 18px 22px;
+    text-align: left;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.team-table tbody tr {
+    background: rgba(255, 255, 255, 0.4);
+    transition: background 0.25s ease;
+}
+
+.team-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid rgba(33, 40, 66, 0.08);
+}
+
+.team-table tbody tr:hover {
+    background: rgba(212, 175, 55, 0.08);
+}
+
+.team-table tbody td,
+.team-table tbody th {
+    padding: 24px 22px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 400;
+}
+
+/* Photo cell */
+.cell-photo {
+    width: 96px;
+}
+
+.tt-photo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 30%;
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    display: block;
+}
+
+/* Member name + role */
+.cell-member {
+    min-width: 160px;
+}
+
+.tt-name {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--indigo);
+    letter-spacing: -0.2px;
+    margin-bottom: 6px;
+}
+
+.tt-role {
+    display: inline-block;
+    padding: 4px 11px;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--indigo);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+/* ID cell */
+.cell-id {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--indigo);
+    opacity: 0.7;
+    width: 110px;
+}
+
+/* Bio cell */
+.cell-bio {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--indigo);
+    opacity: 0.75;
+    max-width: 320px;
+}
+
+/* Connect cell */
+.cell-connect {
+    width: 170px;
+}
+
+.tt-links {
+    list-style: none;
+    display: flex;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+.tt-link {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: var(--indigo);
+    color: var(--cream);
+    font-size: 0.95rem;
+    font-weight: 800;
+    transition: 0.25s;
+}
+
+.tt-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(33, 40, 66, 0.25);
+}
+
+.tt-linkedin {
+    background: #0A66C2;
+    font-style: normal;
+    font-family: serif;
+}
+
+/* TABLE RESPONSIVE — Stack as cards on mobile */
+@media (max-width: 768px) {
+    .team-table-wrap {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .team-table {
+        min-width: 0;
+    }
+
+    .team-table caption {
+        border-radius: 14px 14px 0 0;
+        font-size: 0.8rem;
+        padding: 16px 20px;
+    }
+
+    .team-table thead {
+        display: none;
+    }
+
+    .team-table tbody tr {
+        display: block;
+        padding: 22px;
+        margin-bottom: 18px;
+        border-radius: var(--radius);
+        background: rgba(33, 40, 66, 0.03);
+        border: 1px solid rgba(33, 40, 66, 0.10);
+    }
+
+    .team-table tbody tr:not(:last-child) {
+        border-bottom: 1px solid rgba(33, 40, 66, 0.10);
+    }
+
+    .team-table tbody td,
+    .team-table tbody th {
+        display: block;
+        padding: 8px 0;
+        max-width: none;
+        width: auto;
+        text-align: left;
+    }
+
+    .team-table tbody td::before,
+    .team-table tbody th::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--indigo);
+        opacity: 0.55;
+        margin-bottom: 4px;
+    }
+
+    .cell-photo {
+        text-align: center;
+        padding-bottom: 14px;
+    }
+
+    .cell-photo::before {
+        display: none;
+    }
+
+    .tt-photo {
+        margin: 0 auto;
+        width: 80px;
+        height: 80px;
+        border-width: 3px;
+    }
+}
 /* VALUES */
 .values-section {
     padding: 70px 0 90px;

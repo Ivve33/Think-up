@@ -439,3 +439,7 @@ exports.endDailyRoom = onCall(FUNCTION_CONFIG, async (request) => {
     skipped: false,
   };
 });
+// ════════════════════════════════════════════════════════════
+// 📩 CONTACT FORM HANDLER
+// ════════════════════════════════════════════════════════════
+exports.submitContactMessage = require("./contact").submitContactMessage;
